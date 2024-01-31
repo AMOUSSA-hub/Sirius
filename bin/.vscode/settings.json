@@ -1,0 +1,30 @@
+{
+    "java.project.sourcePaths": [
+      "images",
+      "lib",
+      "src"
+    ],
+    "java.project.outputPath": "bin",
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar", 
+        ".\\mysql-connector-j-8.1.0\\mysql-connector-j-8.1.0.jar",
+        "./repository/**/*.jar"
+    ],
+    "java.configuration.updateBuildConfiguration": "interactive",
+    "java.configuration.runtimes": [
+
+      ],
+      "mssql.connections": [
+        {
+          "authenticationType": "SqlLogin",
+          "server": "localhost,8080",
+          "database": "playerssirius",
+          "user": "williams",
+          "password": "", 
+          "savePassword": true,
+          "encrypt": "Mandatory"
+        }
+      ],
+      "java.compile.nullAnalysis.mode": "disabled"
+    
+}
