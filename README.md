@@ -1,1 +1,1 @@
-membre du groupe: AMOUSSA Rayan BEN BOUBAKER Younes ANTHONY Williams
+membres du groupe: AMOUSSA Rayan / BEN BOUBAKER Younes / ANTHONY Williams
