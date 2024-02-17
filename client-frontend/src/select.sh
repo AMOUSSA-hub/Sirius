@@ -1,0 +1,2 @@
+cd ../../prototype/xmart-select-client/
+java -jar target/xmart-select-client-1.0-SNAPSHOT-jar-with-dependencies.jar
