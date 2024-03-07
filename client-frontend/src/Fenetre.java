@@ -9,7 +9,7 @@ public class Fenetre extends JFrame {
 
     static JFrame f = new JFrame();
     Page p = new Page();
-    Effectif effectif = new Effectif();
+    static Effectif effectif = new Effectif();
     static CardLayout cardLayout = new CardLayout();
     static Container container;
 
@@ -30,7 +30,7 @@ public class Fenetre extends JFrame {
         container.add("Page",p);
         container.add("Effectif",effectif);
         cardLayout.show(container, "Page");
-        //p.chargeBarre();
+        p.chargeBarre();
         p.enter();
     }
 }

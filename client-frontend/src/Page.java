@@ -26,7 +26,6 @@ public class Page extends JPanel implements ActionListener {
     static final Color bg = Color.GRAY;//new Color(18, 18, 18);
     FontMetrics fontMetrics = getFontMetrics(LabelTxt.font);
     DefaultListCellRenderer listRenderer = new DefaultListCellRenderer();
-
     
     //static Font font = new Font("Audiowide",Font.BOLD, 18);
 
@@ -82,7 +81,7 @@ public class Page extends JPanel implements ActionListener {
     public void chargeBarre()
     {
       int i=0; 
-      while(i <= 100)
+      while(i <= 80)
       {
         // remplit la barre
         progressBar.setValue(i);  
@@ -94,6 +93,8 @@ public class Page extends JPanel implements ActionListener {
         }
         catch(Exception e){}
       }
+      Fenetre.effectif.selectBDD();
+      progressBar.setValue(100);
     }
 
     public void enter() { //Entrer dans l'appli, cause la disparition de la barre de chargement 

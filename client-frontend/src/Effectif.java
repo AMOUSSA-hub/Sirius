@@ -70,9 +70,8 @@ public class Effectif extends Page {
             //listeInfosJoueurs.add(new InfosJoueurs("Kylian","Mbappe",20,"",Date.valueOf(LocalDate.now()),100000000,"BU",177,10,75));
             //listeInfosJoueurs.add(new InfosJoueurs("Thiago","Silva",37,"",Date.valueOf(LocalDate.now()),500000,"DC",188,2,85));
         }
-        selectBDD();
-        ensembleJoueurs(listeInfosJoueurs, box);
-
+        //selectBDD();
+        
         ordre = new Bouton(tri.getHeight(), tri.getHeight(),upArrow,bg);
         ordre.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
         ordre.addActionListener(new ActionListener() {
@@ -245,6 +244,7 @@ public class Effectif extends Page {
         } catch (Exception e) {
             System.err.println(e);
         }
+        ensembleJoueurs(listeInfosJoueurs, box);
     }
 
 
