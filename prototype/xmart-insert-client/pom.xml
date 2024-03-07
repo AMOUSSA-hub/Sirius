@@ -14,9 +14,9 @@
 
     <build>
         <plugins>
+            <!-- maven assembly plugin -->
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
-                <version>3.3.0</version> <!-- Utilisez la dernière version du plugin -->
                 <configuration>
                     <archive>
                         <manifest>
@@ -27,15 +27,23 @@
                         <descriptorRef>jar-with-dependencies</descriptorRef>
                     </descriptorRefs>
                 </configuration>
+            </plugin>
+
+            <!-- exec maven plugin -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>3.1.1</version>
                 <executions>
-                    <execution>
-                        <id>make-assembly</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                    </execution>
+                  <execution>
+                    <goals>
+                      <goal>java</goal>
+                    </goals>
+                  </execution>
                 </executions>
+                <configuration>
+                    <mainClass>edu.ezip.ing1.pds.client.MainInsertClient</mainClass>
+                </configuration>
             </plugin>
         </plugins>
     </build>

@@ -22,9 +22,9 @@ public class XMartCityService {
     private final Logger logger = LoggerFactory.getLogger(LoggingLabel);
 
     private enum Queries {
-        SELECT_ALL_STUDENTS("SELECT nom,prenom,numero,datenaissance,poste,pied,taille,poids from joueurs"),
+        SELECT_ALL_STUDENTS("SELECT nom,prenom,numero,datenaissance,nationalite,poste,pied,taille,poids from joueurs"),
         INSERT_STUDENT("INSERT into \"ezip-ing1\".students (\"name\", \"firstname\", \"group\") values (?, ?, ?)"),
-        INSERT_PLAYER("Insert into joueurs(nom,prenom,numero,datenaissance,poste,pied,taille,poids) values(?,?,?,?,?,?,?,?)");
+        INSERT_PLAYER("Insert into joueurs(nom,prenom,numero,datenaissance,nationalite,poste,pied,taille,poids) values(?,?,?,?,?,?,?,?,?)");
         private final String query;
         
         private Queries(final String query) {

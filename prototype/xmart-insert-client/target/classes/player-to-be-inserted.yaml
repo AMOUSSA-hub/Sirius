@@ -1,0 +1,10 @@
+students:
+  - nom : "HELLO "
+    prenom : "dzadzd"
+    numero : 1
+    naissance : "2024-03-07"
+    poste : "G"
+    pied : "G"
+    taille : 160
+    poids : 60
+    nationalite : "dazdzad"

@@ -16,12 +16,6 @@
         <plugins>
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
                 <configuration>
                     <archive>
                         <manifest>
@@ -32,8 +26,23 @@
                         <descriptorRef>jar-with-dependencies</descriptorRef>
                     </descriptorRefs>
                 </configuration>
-                </execution>
-            </executions>
+            </plugin>
+
+            <!-- exec maven plugin -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>3.1.1</version>
+                <executions>
+                  <execution>
+                    <goals>
+                      <goal>java</goal>
+                    </goals>
+                  </execution>
+                </executions>
+                <configuration>
+                    <mainClass>edu.ezip.ing1.pds.backend.MainBackendServer</mainClass>
+                </configuration>
             </plugin>
         </plugins>
     </build>

@@ -28,7 +28,7 @@ public class Menuhome extends JPanel implements ActionListener  {
     }
     
 
-    public int addBouton(Bouton b){
+    private int addBouton(Bouton b){
         add(b).setBounds(x,0, b.width, HEIGHT_Bouton);
         return (x+b.width);
     }

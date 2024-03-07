@@ -207,6 +207,7 @@ public class Effectif extends Page {
             writeStringYaml(bufferedWriter,"nationalite",j.nationalite);
             bufferedWriter.close();
             fileWriter.close();
+            System.out.println("dujfezjuzefjuifze");
             ProcessBuilder processBuilder = new ProcessBuilder("./test.sh");
             processBuilder.redirectOutput(ProcessBuilder.Redirect.INHERIT);
             Process process = processBuilder.start();
@@ -219,12 +220,12 @@ public class Effectif extends Page {
 
     public void selectBDD(){
         try {
-           /*  ProcessBuilder processBuilder = new ProcessBuilder("./select.sh");
+           ProcessBuilder processBuilder = new ProcessBuilder("./select.sh");
             processBuilder.redirectOutput(ProcessBuilder.Redirect.INHERIT);
             Process process = processBuilder.start();
             int exitCode = process.waitFor();
-            System.out.println("La commande s'est terminée avec le code de sortie : " + exitCode); */
-            FileReader fileReader = new FileReader("./prototype/xmart-select-client/Select.txt");
+            System.out.println("La commande s'est terminée avec le code de sortie : " + exitCode);
+            FileReader fileReader = new FileReader("../../prototype/xmart-select-client/Select.txt");
             BufferedReader bufferedReader = new BufferedReader(fileReader);
             int nbJoueurs = Integer.parseInt(bufferedReader.readLine());
             for (int i = 0; i < nbJoueurs; i++) {

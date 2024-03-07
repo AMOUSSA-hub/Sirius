@@ -1,6 +1,0 @@
-databaseName: "sirius"
-host: "172.31.253.218"
-port: 5432
-username : "toto"
-password: "toto"
-poolSize: 1

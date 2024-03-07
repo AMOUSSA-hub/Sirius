@@ -140,10 +140,11 @@ public class RequestHandler implements Runnable {
                     int numero = (resultSet.getInt(3));
                     Date date = resultSet.getDate(4);
                     String poste = resultSet.getString(5);
-                    String pied = resultSet.getString(6);
-                    int taille = resultSet.getInt(7);
-                    int poids = resultSet.getInt(8);
-                    students.add(new Student(nom, prenom, date, numero, poste, pied, taille, poids));
+                    String nation = resultSet.getString(6);
+                    String pied = resultSet.getString(7);
+                    int taille = resultSet.getInt(8);
+                    int poids = resultSet.getInt(9);
+                    students.add(new Student(nom, prenom, date, numero, poste, pied, taille, poids,nation));
                 }
                 ObjectMapper objectMapper = new ObjectMapper();
                 String data = objectMapper.writeValueAsString(students);
@@ -198,7 +199,7 @@ public class RequestHandler implements Runnable {
                 String pied = jsonNode.get("pied").asText();
                 int taille = jsonNode.get("taille").asInt();
                 int poids = jsonNode.get("poids").asInt();
-
+                String nation = jsonNode.get("nationalite").asText();
 
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
                 java.sql.Date sqlDate = new java.sql.Date(dateText);
@@ -207,10 +208,11 @@ public class RequestHandler implements Runnable {
                 preparedStatement.setString(2, prenom);
                 preparedStatement.setInt(3, numero);
                 preparedStatement.setDate(4, sqlDate);
-                preparedStatement.setString(5, poste);
-                preparedStatement.setString(6, pied);
-                preparedStatement.setInt(7, taille);
-                preparedStatement.setInt(8, poids);
+                preparedStatement.setString(5, nation);
+                preparedStatement.setString(6, poste);
+                preparedStatement.setString(7, pied);
+                preparedStatement.setInt(8, taille);
+                preparedStatement.setInt(9, poids);
 
                 int resultat = preparedStatement.executeUpdate();
                 objectMapper = new ObjectMapper();
