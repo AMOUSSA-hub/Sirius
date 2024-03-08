@@ -1,6 +1,6 @@
-/mnt/c/Users/Williams/OneDrive/Bureau/Cours_Ing1/SiriusGit/Sirius/prototype/xmart-city-backend/src/main/java/edu/ezip/ing1/pds/backend/config/CoreBackendServerConfiguration.java
-/mnt/c/Users/Williams/OneDrive/Bureau/Cours_Ing1/SiriusGit/Sirius/prototype/xmart-city-backend/src/main/java/edu/ezip/ing1/pds/backend/CoreBackendServer.java
-/mnt/c/Users/Williams/OneDrive/Bureau/Cours_Ing1/SiriusGit/Sirius/prototype/xmart-city-backend/src/main/java/edu/ezip/ing1/pds/backend/MainBackendServer.java
-/mnt/c/Users/Williams/OneDrive/Bureau/Cours_Ing1/SiriusGit/Sirius/prototype/xmart-city-backend/src/main/java/edu/ezip/ing1/pds/business/server/XMartCityService.java
-/mnt/c/Users/Williams/OneDrive/Bureau/Cours_Ing1/SiriusGit/Sirius/prototype/xmart-city-backend/src/main/java/edu/ezip/ing1/pds/business/server/RequestOrderAnnotation.java
-/mnt/c/Users/Williams/OneDrive/Bureau/Cours_Ing1/SiriusGit/Sirius/prototype/xmart-city-backend/src/main/java/edu/ezip/ing1/pds/backend/RequestHandler.java
+/home/server/Sirius/prototype/xmart-city-backend/src/main/java/edu/ezip/ing1/pds/business/server/RequestOrderAnnotation.java
+/home/server/Sirius/prototype/xmart-city-backend/src/main/java/edu/ezip/ing1/pds/backend/CoreBackendServer.java
+/home/server/Sirius/prototype/xmart-city-backend/src/main/java/edu/ezip/ing1/pds/backend/config/CoreBackendServerConfiguration.java
+/home/server/Sirius/prototype/xmart-city-backend/src/main/java/edu/ezip/ing1/pds/backend/MainBackendServer.java
+/home/server/Sirius/prototype/xmart-city-backend/src/main/java/edu/ezip/ing1/pds/business/server/XMartCityService.java
+/home/server/Sirius/prototype/xmart-city-backend/src/main/java/edu/ezip/ing1/pds/backend/RequestHandler.java
