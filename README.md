@@ -1,2 +1,0 @@
-membres du groupe: AMOUSSA Rayan / BEN BOUBAKER Younes / ANTHONY Williams 
-Voici le lien : https://www.figma.com/file/kDZgDfXYvgyRQ9yWmLURRq/SIRIUS%3A-Club-Manager?type=design&node-id=0%3A1&mode=design&t=bHl5DsGhMNtuNu7l-1
