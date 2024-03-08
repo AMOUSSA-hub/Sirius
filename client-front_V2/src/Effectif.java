@@ -20,11 +20,11 @@ public class Effectif extends JPanel{
     
     static final Color fondTitre = new Color(96,96,96);
     ImageIcon upArrow = new ImageIcon(new ImageIcon("client-front_V2/images/upArrow.png").getImage().getScaledInstance(20, 20, Image.SCALE_DEFAULT)) ;
-    ImageIcon downArrow = new ImageIcon("client-front_V2/images/downArrow.png");
+    ImageIcon downArrow = new ImageIcon(new ImageIcon("client-front_V2/images/downArrow.png").getImage().getScaledInstance(20, 20, Image.SCALE_DEFAULT));
     ImageIcon swap = downArrow;
     JComboBox<String> tri = new JComboBox<>(); 
     Bouton ordre;
-    Boolean ascending_order = true;
+    boolean ascending_order = true;
     String attribut = "";
     JScrollPane scrollPane = new JScrollPane();
     List<InfosJoueurs> listeInfosJoueurs = new ArrayList<>();
@@ -120,22 +120,27 @@ public class Effectif extends JPanel{
 
 
    
-        selectBDD();
+        //selectBDD();
 
         for(InfosJoueurs joueur : listeInfosJoueurs){
            gs.addRow(joueur);
         }
         
-        ordre = new Bouton(tri.getHeight(), tri.getHeight(),upArrow,Color.GRAY);
 
-        ordre.addActionListener(new ActionListener() {
+        order.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e){
-                Icon tmp = ordre.getIcon();
-                ordre.setIcon(swap);
-                swap = (ImageIcon)tmp;
-                croissant = !croissant;
-                Collections.sort(listeInfosJoueurs,new JoueursCompare(attribut, croissant));
+                if(!ascending_order){
+                    order.setIcon(upArrow);
+                    ascending_order = true;
+                 }
+                
+                else{
+                    order.setIcon(downArrow);
+                    ascending_order = false;
+                 };
+                
+                Collections.sort(listeInfosJoueurs,new JoueursCompare(attribut,ascending_order));
                 ensembleJoueurs(listeInfosJoueurs, box);
             }
         });
@@ -154,7 +159,7 @@ public class Effectif extends JPanel{
                 if (e.getItem() == "Par numero") attribut = "Numero";
                 if (e.getItem() == "Par poids") attribut = "Poids";
                 if (e.getItem() == "Par poste") attribut = "Poste";
-                Collections.sort(listeInfosJoueurs,new JoueursCompare(attribut,croissant));
+                Collections.sort(listeInfosJoueurs,new JoueursCompare(attribut,ascending_order));
                 ensembleJoueurs(listeInfosJoueurs, box);
                 }
             
@@ -179,7 +184,7 @@ public class Effectif extends JPanel{
                     InfosJoueurs j = new InfosJoueurs(joueur.prenom.getText(),joueur.nom.getText(),dateNaiss,joueur.nationalite.getText(),sqlDate,Integer.parseInt(joueur.salaire.getText()),(String)joueur.poste.getSelectedItem(),(int)joueur.tailleSpinner.getValue(),(int)joueur.numeroSpinner.getValue(),(int)joueur.poidsSpinner.getValue(),joueur.pied.getSelectedItem().toString());
                     listeInfosJoueurs.add(j);
                     insereBDD(j);
-                    Collections.sort(listeInfosJoueurs,new JoueursCompare(attribut,croissant));
+                    Collections.sort(listeInfosJoueurs,new JoueursCompare(attribut,ascending_order));
                     ensembleJoueurs(listeInfosJoueurs, box);
                     //System.out.println(j.toString());
                 }
