@@ -41,7 +41,7 @@ public class MainInsertClient {
     private static final String user = "toto";
     private static final String password = "toto";
     private static final int port = 5432;
-    public static final String ipServeur = "127.0.0.1";
+    public static final String ipServeur = "172.31.252.86";
     private static Socket socket;
     public static void main(String[] args) throws IOException, InterruptedException, SQLException, ClassNotFoundException {
 
