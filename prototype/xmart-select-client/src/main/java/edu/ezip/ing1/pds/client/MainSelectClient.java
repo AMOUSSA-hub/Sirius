@@ -49,7 +49,7 @@ public class MainSelectClient {
     private static final String threadName = "inserter-client";
     private static final String requestOrder = "SELECT_ALL_STUDENTS";
     private static final Deque<ClientRequest> clientRequests = new ArrayDeque<ClientRequest>();
-    public static final String ipServeur = "127.0.0.1";
+    public static final String ipServeur = "172.31.252.86";
     private static Socket socket;
 
     public static void main(String[] args) throws IOException, InterruptedException, SQLException, Exception {

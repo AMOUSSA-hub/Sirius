@@ -219,7 +219,7 @@ public class Effectif extends Page {
 
     public void selectBDD(){
         try {
-           ProcessBuilder processBuilder = new ProcessBuilder("./select.sh");
+            ProcessBuilder processBuilder = new ProcessBuilder("./select.sh");
             processBuilder.redirectOutput(ProcessBuilder.Redirect.INHERIT);
             Process process = processBuilder.start();
             int exitCode = process.waitFor();
