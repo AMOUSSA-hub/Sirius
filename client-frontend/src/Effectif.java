@@ -44,6 +44,9 @@ public class Effectif extends Page {
     Box boxTest = new Box(BoxLayout.Y_AXIS);
     Box titre;
     int hauteur_effectif = InfosJoueurs.HeightBox_Y + 3;
+    String insereLinux = "./test.sh";
+    String insereWin = ".\\test.bat";
+    String os = Fenetre.os;
     Effectif() {
         removeAllExecptedMenuhome();
         tri.setRenderer(listRenderer);
@@ -124,7 +127,10 @@ public class Effectif extends Page {
                 if(!joueur.nom.getText().isBlank() && !joueur.prenom.getText().isEmpty() /*&& !joueur.nationalite.getText().isEmpty()*/) {
                     InfosJoueurs j = new InfosJoueurs(joueur.prenom.getText(),joueur.nom.getText(),dateNaiss,joueur.nationalite.getText(),sqlDate,Integer.parseInt(joueur.salaire.getText()),(String)joueur.poste.getSelectedItem(),(int)joueur.tailleSpinner.getValue(),(int)joueur.numeroSpinner.getValue(),(int)joueur.poidsSpinner.getValue(),joueur.pied.getSelectedItem().toString());
                     listeInfosJoueurs.add(j);
-                    insereBDD(j);
+                    String scp = "";
+                    if (Fenetre.os.contains("win")) {scp = insereWin;}
+                    if (Fenetre.os.contains("nix")|| Fenetre.os.contains("nux") || Fenetre.os.contains("aix")) {scp = insereLinux;} 
+                    insereBDD(j,scp);
                     Collections.sort(listeInfosJoueurs,new JoueursCompare(attribut,croissant));
                     ensembleJoueurs(listeInfosJoueurs, box);
                     //System.out.println(j.toString());
@@ -188,7 +194,7 @@ public class Effectif extends Page {
  
     }   
 
-    public void insereBDD(InfosJoueurs j){
+    public void insereBDD(InfosJoueurs j,String script){
         try {
             FileWriter fileWriter = new FileWriter("../../prototype/xmart-insert-client/target/classes/player-to-be-inserted.yaml", false);
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
@@ -207,7 +213,7 @@ public class Effectif extends Page {
             bufferedWriter.close();
             fileWriter.close();
             System.out.println("dujfezjuzefjuifze");
-            ProcessBuilder processBuilder = new ProcessBuilder("./test.sh");
+            ProcessBuilder processBuilder = new ProcessBuilder(script);
             processBuilder.redirectOutput(ProcessBuilder.Redirect.INHERIT);
             Process process = processBuilder.start();
             int exitCode = process.waitFor();
@@ -217,9 +223,9 @@ public class Effectif extends Page {
         }
     }
 
-    public void selectBDD(){
+    public void selectBDD(String script){
         try {
-            ProcessBuilder processBuilder = new ProcessBuilder("./select.sh");
+            ProcessBuilder processBuilder = new ProcessBuilder(script);
             processBuilder.redirectOutput(ProcessBuilder.Redirect.INHERIT);
             Process process = processBuilder.start();
             int exitCode = process.waitFor();

@@ -39,7 +39,8 @@ public class Page extends JPanel implements ActionListener {
     
     JProgressBar progressBar = new JProgressBar();
 
-    
+    String selectLinux = "./select.sh";
+    String selectWin = ".\\select.bat";
 
     Page(){
 
@@ -93,7 +94,10 @@ public class Page extends JPanel implements ActionListener {
         }
         catch(Exception e){}
       }
-      Fenetre.effectif.selectBDD();
+      String scp = "";
+      if (Fenetre.os.contains("win")) {scp = selectWin;}
+      if (Fenetre.os.contains("nix") || Fenetre.os.contains("nux") || Fenetre.os.contains("aix")) {scp = selectLinux;}
+      Fenetre.effectif.selectBDD(scp);
       progressBar.setValue(100);
     }
 

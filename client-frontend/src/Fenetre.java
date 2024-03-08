@@ -12,6 +12,7 @@ public class Fenetre extends JFrame {
     static Effectif effectif = new Effectif();
     static CardLayout cardLayout = new CardLayout();
     static Container container;
+    public static String os = System.getProperty("os.name").toLowerCase();
 
     Fenetre() {
         

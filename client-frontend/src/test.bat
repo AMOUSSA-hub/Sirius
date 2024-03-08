@@ -1,0 +1,1 @@
+cd ..\..\prototype\xmart-insert-client\ && mvn install && mvn exec:java
