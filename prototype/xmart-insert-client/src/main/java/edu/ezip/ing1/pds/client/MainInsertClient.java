@@ -25,7 +25,7 @@ import java.io.OutputStream;
 import java.net.Socket;
 import java.io.ByteArrayOutputStream;
 import com.fasterxml.jackson.databind.JsonNode;
-
+import client.frontend.InfosJoueurs;
 
 public class MainInsertClient {
 
@@ -72,7 +72,7 @@ public class MainInsertClient {
             clientRequests.push(clientRequest);
 
             String jsonRequest = objectMapper.writeValueAsString(request);
-        
+            
         try  {
             socket = new Socket(ipServeur, 45065);
             OutputStream outputStream = socket.getOutputStream();
@@ -121,5 +121,22 @@ public class MainInsertClient {
             System.err.println(e);
         }
         return null;
+    }
+
+    public static void sendInfosJoueurs(InfosJoueurs j) {
+        try  {
+            
+            socket = new Socket(ipServeur, 45065);
+            OutputStream outputStream = socket.getOutputStream();
+            outputStream.write(jsonRequest.getBytes());
+            outputStream.flush(); 
+            String str = getReponseServeur(socket);
+            ObjectMapper mapper = new ObjectMapper();
+            JsonNode jsonResponse = mapper.readTree(str);
+            JsonNode responseBody = jsonResponse.get("response_body");
+            //clientRequest.setResponse(responseBody.asText());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

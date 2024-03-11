@@ -35,7 +35,7 @@ public class DatabaseConnectionBasicConfiguration {
         final InputStream nptStrm = this.getClass().getClassLoader().getResourceAsStream(dbConfigDefaultFileName);
         logger.debug("Load config file : {}", dbConfigDefaultFileName);
         inst = yaml.load(nptStrm);
-        inst.setHost("172.31.253.218"); //CODE DANS LE DUR PCK CA BUG SMR 
+        inst.setHost("172.31.253.218"); 
         logger.debug("Configuration loaded : {}", inst.toString());
     }
     private DatabaseConnectionBasicConfiguration() {
