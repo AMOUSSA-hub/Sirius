@@ -124,8 +124,29 @@ public class MainInsertClient {
     }
 
     public static void sendInfosJoueurs(InfosJoueurs j) {
-        try  {
+        int birthdate = 0;
+        
+        
             
+            final ObjectMapper objectMapper = new ObjectMapper();
+            final String jsonifiedGuy = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(guy);
+            logger.trace("Student with its JSON face : {}", jsonifiedGuy);
+            final String requestId = UUID.randomUUID().toString();
+            final Request request = new Request();
+            request.setRequestId(requestId);
+            request.setRequestOrder(requestOrder);
+            request.setRequestContent(jsonifiedGuy);
+            objectMapper.enable(SerializationFeature.WRAP_ROOT_VALUE);
+            final byte []  requestBytes = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsBytes(request);
+
+            final InsertStudentsClientRequest clientRequest = new InsertStudentsClientRequest (
+                                                                        networkConfig,
+                                                                        birthdate++, request, guy, requestBytes);
+            clientRequests.push(clientRequest);
+
+            String jsonRequest = objectMapper.writeValueAsString(request);
+        
+        try  {
             socket = new Socket(ipServeur, 45065);
             OutputStream outputStream = socket.getOutputStream();
             outputStream.write(jsonRequest.getBytes());
@@ -134,7 +155,7 @@ public class MainInsertClient {
             ObjectMapper mapper = new ObjectMapper();
             JsonNode jsonResponse = mapper.readTree(str);
             JsonNode responseBody = jsonResponse.get("response_body");
-            //clientRequest.setResponse(responseBody.asText());
+            clientRequest.setResponse(responseBody.asText());
         } catch (IOException e) {
             e.printStackTrace();
         }
