@@ -5,8 +5,6 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import edu.ezip.commons.LoggingUtils;
-import edu.ezip.ing1.pds.business.dto.Player;
-import edu.ezip.ing1.pds.business.dto.Players;
 import edu.ezip.ing1.pds.business.dto.Student;
 import edu.ezip.ing1.pds.business.dto.Students;
 import edu.ezip.ing1.pds.business.server.XMartCityService;
@@ -52,7 +50,7 @@ public class RequestHandler implements Runnable {
     private static final int timeStepMs = 300;
     private final BlockingDeque<Integer> waitArtifact = new LinkedBlockingDeque<Integer>(1);
 
-    public Players players;
+    public Students students;
 
     protected RequestHandler(final Socket socket,
                              final Connection connection,
@@ -132,7 +130,7 @@ public class RequestHandler implements Runnable {
         String requestOrder = request.getRequestOrder();
         String requestBody;
         String sql = XMartCityService.getQuery(requestOrder);
-        players = new Players();
+        students = new Students();
         if (requestOrder.equals("SELECT_ALL_STUDENTS")) {
             try {
                 PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -147,10 +145,10 @@ public class RequestHandler implements Runnable {
                     String pied = resultSet.getString(7);
                     int taille = resultSet.getInt(8);
                     int poids = resultSet.getInt(9);
-                    players.add(new Player(prenom, nom, date, nation, Date.valueOf(LocalDate.now()), 0, poste, taille,numero,poids,pied));
+                    students.add(new Student(nom, prenom, date, numero, poste, pied, taille, poids,nation));
                 }
                 ObjectMapper objectMapper = new ObjectMapper();
-                String data = objectMapper.writeValueAsString(players);
+                String data = objectMapper.writeValueAsString(students);
                 Response response = new Response();
                 response.setRequestId(request.getRequestId());
                 response.setResponseBody(data);
