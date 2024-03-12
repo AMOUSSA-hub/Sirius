@@ -1,3 +1,5 @@
+package client.frontend;
+
 import javax.swing.JPanel;
 
 import java.awt.event.ActionEvent;

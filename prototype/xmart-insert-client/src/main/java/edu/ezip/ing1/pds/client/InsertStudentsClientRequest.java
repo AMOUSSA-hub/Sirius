@@ -1,6 +1,9 @@
 package edu.ezip.ing1.pds.client;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import client.frontend.InfosJoueurs;
+import client.frontend.Player;
 import edu.ezip.ing1.pds.business.dto.Student;
 import edu.ezip.ing1.pds.business.dto.Students;
 import edu.ezip.ing1.pds.client.commons.ClientRequest;
@@ -10,11 +13,11 @@ import edu.ezip.ing1.pds.commons.Request;
 import java.io.IOException;
 import java.util.Map;
 
-public class InsertStudentsClientRequest extends ClientRequest<Student, String> {
+public class InsertStudentsClientRequest extends ClientRequest<Player, String> {
 
     
     public InsertStudentsClientRequest(
-            NetworkConfig networkConfig, int myBirthDate, Request request, Student info, byte[] bytes)
+            NetworkConfig networkConfig, int myBirthDate, Request request, Player info, byte[] bytes)
             throws IOException {
         super(networkConfig, myBirthDate, request, info, bytes);
         

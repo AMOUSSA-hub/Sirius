@@ -1,3 +1,4 @@
+package client.frontend;
 
 import java.awt.Component;
 import java.awt.Graphics;

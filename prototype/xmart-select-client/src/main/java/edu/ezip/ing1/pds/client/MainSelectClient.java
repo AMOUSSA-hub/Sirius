@@ -2,12 +2,8 @@ package edu.ezip.ing1.pds.client;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-
-import de.vandermeer.asciitable.AsciiTable;
+import client.frontend.InfosJoueurs;
 import edu.ezip.commons.LoggingUtils;
-import edu.ezip.ing1.pds.business.dto.Student;
-import edu.ezip.ing1.pds.business.dto.Students;
 import edu.ezip.ing1.pds.client.commons.ClientRequest;
 import edu.ezip.ing1.pds.client.commons.ConfigLoader;
 import edu.ezip.ing1.pds.client.commons.NetworkConfig;
@@ -15,15 +11,13 @@ import edu.ezip.ing1.pds.commons.Request;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.event.Level;
-import org.yaml.snakeyaml.Yaml;
-import org.yaml.snakeyaml.constructor.Constructor;
-
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayDeque;
 import java.util.Deque;
+import java.util.List;
 import java.util.UUID;
 import java.io.OutputStream;
 import java.net.Socket;
@@ -31,13 +25,7 @@ import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
 import com.fasterxml.jackson.databind.JsonNode;
 
-import java.io.BufferedWriter;
 import java.io.FileWriter;
-import java.io.IOException;
-
-import java.time.LocalDate;
-import java.time.ZoneId;
-
 import java.sql.Date;
 
 public class MainSelectClient {
@@ -54,6 +42,10 @@ public class MainSelectClient {
 
     public static void main(String[] args) throws IOException, InterruptedException, SQLException, Exception {
 
+        
+    }
+
+    public static void selectAllPlayers(List<InfosJoueurs> list) throws Exception{
         final NetworkConfig networkConfig = ConfigLoader.loadConfig(NetworkConfig.class, networkConfigFile);
         networkConfig.setIpaddress("172.31.253.218");
         networkConfig.setTcpport(5432);
@@ -102,32 +94,20 @@ public class MainSelectClient {
             System.out.println("Nombre de joueurs selectionnés : " + nbJoueurs + "\n");
             FileWriter fileWriter = new FileWriter(fileName, false);
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-            writeString(bufferedWriter,String.valueOf(nbJoueurs));
+            //writeString(bufferedWriter,String.valueOf(nbJoueurs));
             for (JsonNode studentNode : studentsNode) {
                 String nom = studentNode.get("nom").asText();
                 String prenom = studentNode.get("prenom").asText();
-                String numero = studentNode.get("numero").asText();
+                int numero = studentNode.get("numero").asInt();
                 Long date = (studentNode.get("naissance").asLong());
                 Date date2 = new Date(date);
-                String date3 = date2.toString();
+                //String date3 = date2.toString();
                 String nationalite = studentNode.get("nationalite").asText();
                 String poste = studentNode.get("poste").asText();
                 String pied = studentNode.get("pied").asText();
-                String taille = studentNode.get("taille").asText();
-                String poids = studentNode.get("poids").asText();
-                writeString(bufferedWriter,nom);
-                writeString(bufferedWriter,prenom);
-                writeString(bufferedWriter,numero);
-                writeString(bufferedWriter,date3);
-                writeString(bufferedWriter,nationalite);
-                writeString(bufferedWriter,poste);
-                writeString(bufferedWriter,pied);
-                writeString(bufferedWriter,taille);
-                writeString(bufferedWriter,poids);
-                writeString(bufferedWriter,"");
-                
-
-
+                int taille = studentNode.get("taille").asInt();
+                int poids = studentNode.get("poids").asInt();
+                list.add(new InfosJoueurs(prenom, nom, date2, nationalite, Date.valueOf(LocalDate.now()), 0, poste, taille, numero, poids, pied));
             }
             bufferedWriter.close();
         } catch (IOException e) {

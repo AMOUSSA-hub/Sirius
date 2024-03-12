@@ -1,3 +1,5 @@
+package client.frontend;
+
 import java.awt.CardLayout;
 import java.awt.Container;
 

@@ -1,5 +1,6 @@
 package edu.ezip.ing1.pds.client;
 
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import edu.ezip.ing1.pds.business.dto.Student;
@@ -26,6 +27,7 @@ import java.net.Socket;
 import java.io.ByteArrayOutputStream;
 import com.fasterxml.jackson.databind.JsonNode;
 import client.frontend.InfosJoueurs;
+import client.frontend.Player;
 
 public class MainInsertClient {
 
@@ -53,7 +55,7 @@ public class MainInsertClient {
         
         int birthdate = 0;
         
-        for(final Student guy : guys.getStudents()) {
+/*         for(final Student guy : guys.getStudents()) {
             
             final ObjectMapper objectMapper = new ObjectMapper();
             final String jsonifiedGuy = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(guy);
@@ -97,7 +99,7 @@ public class MainInsertClient {
                                     guy.getNom(), guy.getPrenom(), guy.getNumero(),
                                     clientRequest.getResponse());
             
-        }
+        } */
     }
 
     public static String getReponseServeur(Socket socket) {
@@ -123,13 +125,14 @@ public class MainInsertClient {
         return null;
     }
 
-    public static void sendInfosJoueurs(InfosJoueurs j) {
+    public static void sendInfosJoueurs(Player j) throws Exception {
+        final NetworkConfig networkConfig =  ConfigLoader.loadConfig(NetworkConfig.class, networkConfigFile);
+        logger.trace("Students loaded : {}", j.toString());
+        networkConfig.setIpaddress(ipBDD);
+        networkConfig.setTcpport(port);
         int birthdate = 0;
-        
-        
-            
             final ObjectMapper objectMapper = new ObjectMapper();
-            final String jsonifiedGuy = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(guy);
+            final String jsonifiedGuy = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(j);
             logger.trace("Student with its JSON face : {}", jsonifiedGuy);
             final String requestId = UUID.randomUUID().toString();
             final Request request = new Request();
@@ -141,7 +144,7 @@ public class MainInsertClient {
 
             final InsertStudentsClientRequest clientRequest = new InsertStudentsClientRequest (
                                                                         networkConfig,
-                                                                        birthdate++, request, guy, requestBytes);
+                                                                        birthdate++, request, j, requestBytes);
             clientRequests.push(clientRequest);
 
             String jsonRequest = objectMapper.writeValueAsString(request);
@@ -159,5 +162,17 @@ public class MainInsertClient {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        
+
+        while (!clientRequests.isEmpty()) {
+            final ClientRequest clientRequest2 = clientRequests.pop();
+            //clientRequest.join();
+            final Player guy = (Player)clientRequest2.getInfo();
+            logger.debug("Thread {} complete : {} {} {} --> {}",
+                                    clientRequest2.getThreadName(),
+                                    guy.getNom(), guy.getPrenom(), guy.getNumero(),
+                                    clientRequest2.getResponse());
     }
 }
+}
+

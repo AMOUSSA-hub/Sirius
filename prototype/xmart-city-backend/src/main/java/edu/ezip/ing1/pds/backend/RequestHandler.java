@@ -195,7 +195,7 @@ public class RequestHandler implements Runnable {
                 String prenom = jsonNode.get("prenom").asText();
                 int numero = jsonNode.get("numero").asInt();
                 long dateText = jsonNode.get("naissance").asLong();
-                String poste = jsonNode.get("poste").asText();
+                String poste = jsonNode.get("position").asText();
                 String pied = jsonNode.get("pied").asText();
                 int taille = jsonNode.get("taille").asInt();
                 int poids = jsonNode.get("poids").asInt();

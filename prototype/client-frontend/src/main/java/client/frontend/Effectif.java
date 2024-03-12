@@ -1,3 +1,5 @@
+package client.frontend;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -24,9 +26,8 @@ import javax.swing.JComboBox;
 import javax.swing.JScrollPane;
 import javax.swing.UIManager;
 import javax.swing.plaf.basic.BasicScrollBarUI;
-
-import org.jdatepicker.UtilDateModel;
-
+import edu.ezip.ing1.pds.client.MainInsertClient;
+import edu.ezip.ing1.pds.client.MainSelectClient;
 public class Effectif extends Page {
     
     static final Color fondTitre = new Color(96,96,96);
@@ -68,13 +69,8 @@ public class Effectif extends Page {
         repaint();
         titre = new Box(BoxLayout.X_AXIS);
         titreBox();
-        for (int i = 0; i < 1; i++){
-            //  listeInfosJoueurs.add(new InfosJoueurs("Williams","Anthony",Date.valueOf(LocalDate.of(2004, 7, 26)),"",Date.valueOf(LocalDate.now()),0,"AG",170,7,70,"D"));//.setBounds(0, addPlayer.getY() + addPlayer.height, WIDTH, 100);
-            //listeInfosJoueurs.add(new InfosJoueurs("Kylian","Mbappe",20,"",Date.valueOf(LocalDate.now()),100000000,"BU",177,10,75));
-            //listeInfosJoueurs.add(new InfosJoueurs("Thiago","Silva",37,"",Date.valueOf(LocalDate.now()),500000,"DC",188,2,85));
-        }
-        //selectBDD();
         
+        selectBDD();
         ordre = new Bouton(tri.getHeight(), tri.getHeight(),upArrow,bg);
         ordre.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
         ordre.addActionListener(new ActionListener() {
@@ -117,23 +113,28 @@ public class Effectif extends Page {
             public void actionPerformed(ActionEvent e) {
                 AddPlayer joueur = new AddPlayer(null, "Ajouter un joueur ", true);
                 joueur.showAddPlayer(); 
-                UtilDateModel model = (UtilDateModel)joueur.dateContrat.getModel();
-                java.util.Date date = model.getValue();
+                //UtilDateModel model = (UtilDateModel)joueur.dateContrat.getModel();
+                java.util.Date date = (java.util.Date)joueur.dateContratSpinner.getValue();
                 java.sql.Date sqlDate = new java.sql.Date(date.getTime());
-                UtilDateModel model2 = (UtilDateModel)joueur.dateNaissance.getModel();
-                java.util.Date age = model2.getValue();
+                //UtilDateModel model2 = (UtilDateModel)joueur.dateNaissance.getModel();
+                java.util.Date age = (java.util.Date)joueur.dateNaissanceSpinner.getValue();
                 java.sql.Date dateNaiss = new java.sql.Date(age.getTime());
                 
                 if(!joueur.nom.getText().isBlank() && !joueur.prenom.getText().isEmpty() /*&& !joueur.nationalite.getText().isEmpty()*/) {
-                    InfosJoueurs j = new InfosJoueurs(joueur.prenom.getText(),joueur.nom.getText(),dateNaiss,joueur.nationalite.getText(),sqlDate,Integer.parseInt(joueur.salaire.getText()),(String)joueur.poste.getSelectedItem(),(int)joueur.tailleSpinner.getValue(),(int)joueur.numeroSpinner.getValue(),(int)joueur.poidsSpinner.getValue(),joueur.pied.getSelectedItem().toString());
-                    listeInfosJoueurs.add(j);
-                    String scp = "";
+                    Player j = new Player(joueur.prenom.getText(),joueur.nom.getText(),dateNaiss,joueur.nationalite.getText(),sqlDate,Integer.parseInt(joueur.salaire.getText()),(String)joueur.poste.getSelectedItem(),(int)joueur.tailleSpinner.getValue(),(int)joueur.numeroSpinner.getValue(),(int)joueur.poidsSpinner.getValue(),joueur.pied.getSelectedItem().toString());
+                    listeInfosJoueurs.add(j.toInfosJoueurs());
+                    try {
+                        MainInsertClient.sendInfosJoueurs(j);
+                    }catch(Exception exp) {
+                        System.err.println(exp);
+                    }
+/*                     String scp = "";
                     if (Fenetre.os.contains("win")) {scp = insereWin;}
                     if (Fenetre.os.contains("nix")|| Fenetre.os.contains("nux") || Fenetre.os.contains("aix")) {scp = insereLinux;} 
                     insereBDD(j,scp);
                     Collections.sort(listeInfosJoueurs,new JoueursCompare(attribut,croissant));
                     ensembleJoueurs(listeInfosJoueurs, box);
-                    //System.out.println(j.toString());
+                    //System.out.println(j.toString()); */
                 }
                 
             }
@@ -205,7 +206,7 @@ public class Effectif extends Page {
             writeStringYaml(bufferedWriter, "prenom", j.prenom);
             writeIntYaml(bufferedWriter, "numero",j.numero);
             writeDateYaml(bufferedWriter, "naissance", j.naissance);
-            writeStringYaml(bufferedWriter, "poste", j.postion);
+            writeStringYaml(bufferedWriter, "poste", j.position);
             writeStringYaml(bufferedWriter, "pied", j.pied);
             writeIntYaml(bufferedWriter, "taille", j.taille);
             writeIntYaml(bufferedWriter, "poids", j.poids);
@@ -223,34 +224,14 @@ public class Effectif extends Page {
         }
     }
 
-    public void selectBDD(String script){
+    public void selectBDD(){
         try {
-            ProcessBuilder processBuilder = new ProcessBuilder(script);
-            processBuilder.redirectOutput(ProcessBuilder.Redirect.INHERIT);
-            Process process = processBuilder.start();
-            int exitCode = process.waitFor();
-            System.out.println("La commande s'est terminée avec le code de sortie : " + exitCode);
-            FileReader fileReader = new FileReader("../../prototype/xmart-select-client/Select.txt");
-            BufferedReader bufferedReader = new BufferedReader(fileReader);
-            int nbJoueurs = Integer.parseInt(bufferedReader.readLine());
-            for (int i = 0; i < nbJoueurs; i++) {
-                String nom = (bufferedReader.readLine());
-                String prenom = bufferedReader.readLine();
-                int numero = Integer.parseInt(bufferedReader.readLine());
-                Date naissance = Date.valueOf(bufferedReader.readLine());
-                String nationalite = bufferedReader.readLine();
-                String poste = bufferedReader.readLine();
-                String pied = bufferedReader.readLine();
-                int taille = Integer.parseInt(bufferedReader.readLine());
-                int poids = Integer.parseInt(bufferedReader.readLine());
-                String finDuJoueur = bufferedReader.readLine(); //C'est juste une ligne vide pour separer chaque joueur 
-                listeInfosJoueurs.add(new InfosJoueurs(prenom, nom, naissance, nationalite, Date.valueOf(LocalDate.now()), 0, poste, taille, numero, poids, pied));
-                //System.out.println(nom + " " + prenom + " " + numero + " " + naissance + " " + nationalite + " " + poste + " " + pied + " " +taille + " " + poids);
-            }
-        } catch (Exception e) {
-            System.err.println(e);
+            MainSelectClient.selectAllPlayers(listeInfosJoueurs);
+            ensembleJoueurs(listeInfosJoueurs, box);
+        }catch(Exception execp) {
+            System.err.println(execp);
         }
-        ensembleJoueurs(listeInfosJoueurs, box);
+        
     }
 
 

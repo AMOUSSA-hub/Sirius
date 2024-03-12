@@ -1,3 +1,5 @@
+package client.frontend;
+
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -94,10 +96,6 @@ public class Page extends JPanel implements ActionListener {
         }
         catch(Exception e){}
       }
-      String scp = "";
-      if (Fenetre.os.contains("win")) {scp = selectWin;}
-      if (Fenetre.os.contains("nix") || Fenetre.os.contains("nux") || Fenetre.os.contains("aix")) {scp = selectLinux;}
-      Fenetre.effectif.selectBDD(scp);
       progressBar.setValue(100);
     }
 

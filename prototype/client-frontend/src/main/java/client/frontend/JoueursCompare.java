@@ -1,3 +1,5 @@
+package client.frontend;
+
 import java.util.Comparator;
 
 public class JoueursCompare implements Comparator<InfosJoueurs> {
@@ -49,7 +51,7 @@ public class JoueursCompare implements Comparator<InfosJoueurs> {
 
 
     private int posteToInt(InfosJoueurs j){
-        String poste = j.postion;
+        String poste = j.position;
         if (poste.startsWith("G")) return 1;
         if (poste.startsWith("D")) return 2;
         if (poste.startsWith("M")) return 3;

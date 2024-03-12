@@ -1,3 +1,4 @@
+package client.frontend;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -33,6 +34,9 @@ import javax.swing.text.NumberFormatter;
 import org.jdatepicker.JDatePicker;
 import org.jdatepicker.impl.UtilDateModel;
 
+import javax.swing.SpinnerDateModel;
+import java.util.Calendar;
+
 public class AddPlayer extends JDialog {
   ImageIcon imageJoueur;
   JLabel nomLabel,prenomLabel, posteLabel, tailleLabel,contratLabel,salaireLabel,poidsLabel;
@@ -41,9 +45,11 @@ public class AddPlayer extends JDialog {
    JSpinner tailleSpinner = new JSpinner(new SpinnerNumberModel(160, 140, 220, 1));
    JSpinner numeroSpinner = new JSpinner(new SpinnerNumberModel(1,1,99,1));
    JSpinner poidsSpinner = new JSpinner(new SpinnerNumberModel(60, 40, 200, 1));
+   JSpinner dateContratSpinner,dateNaissanceSpinner;
    JComboBox<String> pied, poste;
   JTextField nom, prenom, taille,poids,salaire,nationalite;
   JDatePicker dateContrat,dateNaissance;
+
   public AddPlayer(JFrame parent, String title, boolean modal){
     super(parent, title, modal);
     this.setSize(Page.WIDTH*3/5, Page.HEIGHT/2);
@@ -94,19 +100,10 @@ public class AddPlayer extends JDialog {
 
     //L'âge 
     JPanel panAge = createPanelAttributs("Age", 220, 60);
-    UtilDateModel modelAge = new UtilDateModel();
-    Date max = java.sql.Date.valueOf(LocalDate.now());
-    //Date mini = new Date(0);
-    modelAge.setValue(max);
-    modelAge.setSelected(true);
-    modelAge.addChangeListener(e -> {
-      Date selectedDate = (Date) modelAge.getValue();
-      if (selectedDate != null && selectedDate.after(max) /*&& selectedDate.before(mini)*/) {
-          modelAge.setValue(max); // Réinitialiser la date si elle dépasse la borne superieure ou inferieure
-      }
-    });
-    dateNaissance = new JDatePicker(modelAge);
-    panAge.add(dateNaissance);
+    SpinnerDateModel modelNaissance = new SpinnerDateModel();
+    modelNaissance.setCalendarField(Calendar.DAY_OF_MONTH);
+    dateNaissanceSpinner = new JSpinner(modelNaissance);
+    panAge.add(dateNaissanceSpinner);
 
     //La taille
     JPanel panTaille = createPanelAttributs("La taille du Joueur ", 220, 60);
@@ -145,18 +142,10 @@ public class AddPlayer extends JDialog {
 
     //Le contrat
     JPanel panContrat = createPanelAttributs("Date Fin de Contrat", 220, 60);
-    UtilDateModel model = new UtilDateModel();
-    Date min = java.sql.Date.valueOf(LocalDate.now());
-    model.setValue(min);
-    model.setSelected(true);
-    model.addChangeListener(e -> {
-      Date selectedDate = (Date) model.getValue();
-      if (selectedDate != null && selectedDate.before(min)) {
-          model.setValue(min); // Réinitialiser la date si elle dépasse la borne inferieure
-      }
-    });
-    dateContrat = new JDatePicker(model);
-    panContrat.add(dateContrat);
+    SpinnerDateModel modelContrat = new SpinnerDateModel();
+    modelContrat.setCalendarField(Calendar.DAY_OF_MONTH);
+    dateContratSpinner = new JSpinner(modelContrat);
+    panContrat.add(dateContratSpinner);
 
 
     //Le salaire
