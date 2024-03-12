@@ -171,12 +171,12 @@ public class Effectif extends Page {
         InfosJoueurs.addInfosBox("PHOTO", null, new Box(BoxLayout.Y_AXIS), titre);
         InfosJoueurs.addInfosBox("JOUEUR", null, new Box(BoxLayout.Y_AXIS), titre);
         InfosJoueurs.addInfosBox("AGE", null, new Box(BoxLayout.Y_AXIS), titre);
-        InfosJoueurs.addInfosBox("NAT", null, new Box(BoxLayout.Y_AXIS), titre);
+        InfosJoueurs.addInfosBox("NATIONALITE", null, new Box(BoxLayout.Y_AXIS), titre);
         InfosJoueurs.addInfosBox("CONTRAT", null, new Box(BoxLayout.Y_AXIS), titre);
         InfosJoueurs.addInfosBox("SALAIRE", null, new Box(BoxLayout.Y_AXIS), titre);
-        InfosJoueurs.addInfosBox("POS", null, new Box(BoxLayout.Y_AXIS), titre);
+        InfosJoueurs.addInfosBox("POSTE", null, new Box(BoxLayout.Y_AXIS), titre);
         InfosJoueurs.addInfosBox("TAILLE", "(en cm)", new Box(BoxLayout.Y_AXIS), titre);
-        InfosJoueurs.addInfosBox("N°", null, new Box(BoxLayout.Y_AXIS), titre);
+        InfosJoueurs.addInfosBox("NUMERO", null, new Box(BoxLayout.Y_AXIS), titre);
         InfosJoueurs.addInfosBox("POIDS", "(en Kg)", new Box(BoxLayout.Y_AXIS), titre);
         //add(titre).setBounds(0, addPlayer.getY() + addPlayer.height, WIDTH + 100, 100);
         //titre.setBorder(BorderFactory.createLineBorder(Color.WHITE, 3));
