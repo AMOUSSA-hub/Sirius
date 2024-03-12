@@ -112,7 +112,7 @@ public class MainSelectClient {
             bufferedWriter.close();
         } catch (IOException e) {
             System.err.println("Erreur lors de la création ou de l'écriture dans le fichier : " + e.getMessage());
-        }
+        }     
     
         
 

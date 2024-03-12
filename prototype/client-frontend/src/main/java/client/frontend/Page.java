@@ -13,6 +13,12 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
+import java.io.InputStream;
+import java.awt.Image;
+import javax.imageio.ImageIO;
+
+import java.io.IOException;
+
 
 public class Page extends JPanel implements ActionListener {
     
@@ -35,16 +41,28 @@ public class Page extends JPanel implements ActionListener {
     Bouton b = new Bouton("Insert");
     Bouton b2 = new Bouton("Select");
     Bouton entrer = new Bouton("Entrer");
-
-    ImageIcon clubManager = (new ImageIcon("../images/clubManagerTransparent.png"));
-    JLabel clubManagerLabel = new JLabel(clubManager);
     
     JProgressBar progressBar = new JProgressBar();
 
     String selectLinux = "./select.sh";
     String selectWin = ".\\select.bat";
-
+    JLabel clubManagerLabel;
+    ImageIcon clubManager;
     Page(){
+
+      try {
+        // Charger l'image depuis les ressources
+        InputStream inputStream = getClass().getResourceAsStream("/clubManagerTransparent.png");
+        Image image = ImageIO.read(inputStream);
+
+        // Créer l'objet ImageIcon à partir de l'objet Image
+        clubManager = new ImageIcon(image);
+        clubManagerLabel = new JLabel(clubManager);
+
+        // Utiliser clubManagerLabel ici...
+    } catch (IOException ex) {
+        ex.printStackTrace();
+    }
 
         this.setLayout(null);
         this.setPreferredSize(new Dimension(WIDTH, HEIGHT));

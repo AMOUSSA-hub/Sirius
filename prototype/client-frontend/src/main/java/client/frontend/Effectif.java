@@ -28,11 +28,17 @@ import javax.swing.UIManager;
 import javax.swing.plaf.basic.BasicScrollBarUI;
 import edu.ezip.ing1.pds.client.MainInsertClient;
 import edu.ezip.ing1.pds.client.MainSelectClient;
+
+import java.io.InputStream;
+import java.awt.Image;
+import javax.imageio.ImageIO;
+
+import java.io.IOException;
+
 public class Effectif extends Page {
     
     static final Color fondTitre = new Color(96,96,96);
-    ImageIcon upArrow = new ImageIcon("../images/upArrow.png");
-    ImageIcon downArrow = new ImageIcon("../images/downArrow.png");
+    ImageIcon upArrow,downArrow;
     ImageIcon swap = downArrow;
     JComboBox<String> tri = new JComboBox<>(); 
     Bouton ordre;
@@ -50,6 +56,25 @@ public class Effectif extends Page {
     String os = Fenetre.os;
     Effectif() {
         removeAllExecptedMenuhome();
+
+        try {
+            // Charger l'image depuis les ressources
+            InputStream inputStream = getClass().getResourceAsStream("/upArrow.png");
+            InputStream inputStream2 = getClass().getResourceAsStream("/downArrow.png");
+            Image image = ImageIO.read(inputStream);
+            Image image2 = ImageIO.read(inputStream2);
+            // Créer l'objet ImageIcon à partir de l'objet Image
+            upArrow = new ImageIcon(image);
+            downArrow = new ImageIcon(image2);
+            swap = downArrow;
+            // Utiliser clubManagerLabel ici...
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+
+
+
+
         tri.setRenderer(listRenderer);
         tri.setFont(LabelTxt.font);
         tri.addItem("Trier par");

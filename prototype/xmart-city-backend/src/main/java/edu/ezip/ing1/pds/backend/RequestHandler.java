@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import edu.ezip.commons.LoggingUtils;
+import edu.ezip.ing1.pds.business.dto.Player;
+import edu.ezip.ing1.pds.business.dto.Players;
 import edu.ezip.ing1.pds.business.dto.Student;
 import edu.ezip.ing1.pds.business.dto.Students;
 import edu.ezip.ing1.pds.business.server.XMartCityService;
@@ -23,6 +25,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.concurrent.BlockingDeque;
 import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.TimeUnit;
@@ -49,7 +52,7 @@ public class RequestHandler implements Runnable {
     private static final int timeStepMs = 300;
     private final BlockingDeque<Integer> waitArtifact = new LinkedBlockingDeque<Integer>(1);
 
-    public Students students;
+    public Players players;
 
     protected RequestHandler(final Socket socket,
                              final Connection connection,
@@ -129,7 +132,7 @@ public class RequestHandler implements Runnable {
         String requestOrder = request.getRequestOrder();
         String requestBody;
         String sql = XMartCityService.getQuery(requestOrder);
-        students = new Students();
+        players = new Players();
         if (requestOrder.equals("SELECT_ALL_STUDENTS")) {
             try {
                 PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -144,10 +147,10 @@ public class RequestHandler implements Runnable {
                     String pied = resultSet.getString(7);
                     int taille = resultSet.getInt(8);
                     int poids = resultSet.getInt(9);
-                    students.add(new Student(nom, prenom, date, numero, poste, pied, taille, poids,nation));
+                    players.add(new Player(prenom, nom, date, nation, Date.valueOf(LocalDate.now()), 0, poste, taille,numero,poids,pied));
                 }
                 ObjectMapper objectMapper = new ObjectMapper();
-                String data = objectMapper.writeValueAsString(students);
+                String data = objectMapper.writeValueAsString(players);
                 Response response = new Response();
                 response.setRequestId(request.getRequestId());
                 response.setResponseBody(data);
