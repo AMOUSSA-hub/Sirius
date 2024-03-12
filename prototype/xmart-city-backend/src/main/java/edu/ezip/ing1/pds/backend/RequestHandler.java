@@ -139,8 +139,8 @@ public class RequestHandler implements Runnable {
                     String prenom = (resultSet.getString(2));                
                     int numero = (resultSet.getInt(3));
                     Date date = resultSet.getDate(4);
-                    String poste = resultSet.getString(5);
-                    String nation = resultSet.getString(6);
+                    String nation = resultSet.getString(5);
+                    String poste = resultSet.getString(6);
                     String pied = resultSet.getString(7);
                     int taille = resultSet.getInt(8);
                     int poids = resultSet.getInt(9);
@@ -195,7 +195,7 @@ public class RequestHandler implements Runnable {
                 String prenom = jsonNode.get("prenom").asText();
                 int numero = jsonNode.get("numero").asInt();
                 long dateText = jsonNode.get("naissance").asLong();
-                String poste = jsonNode.get("poste").asText();
+                String poste = jsonNode.get("position").asText();
                 String pied = jsonNode.get("pied").asText();
                 int taille = jsonNode.get("taille").asInt();
                 int poids = jsonNode.get("poids").asInt();
