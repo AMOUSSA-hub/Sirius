@@ -9,7 +9,6 @@
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
     <modules>
-        <module>xmart-city-backend</module>
         <module>xmart-city-commons</module>
         <module>xmart-city-business-dto</module>
         <module>xmart-insert-client</module>
@@ -26,8 +25,44 @@
     <!-- Ajoutez le type (packaging) si nécessaire -->
 </dependency>
 
+<dependency>
+    <groupId>client.frontend</groupId>
+    <artifactId>client-frontend</artifactId>
+    <version>1.0-SNAPSHOT</version>
+</dependency>
+
+
 </dependencies>
 
+
+
+<build>
+    <plugins>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-assembly-plugin</artifactId>
+            <version>3.3.0</version> <!-- Assurez-vous de spécifier la dernière version -->
+            <executions>
+                <execution>
+                    <phase>package</phase>
+                    <goals>
+                        <goal>single</goal>
+                    </goals>
+                    <configuration>
+                        <descriptorRefs>
+                            <descriptorRef>jar-with-dependencies</descriptorRef>
+                        </descriptorRefs>
+                        <archive>
+                            <manifest>
+                                <mainClass>client.frontend.App</mainClass>
+                            </manifest>
+                        </archive>
+                    </configuration>
+                </execution>
+            </executions>
+        </plugin>
+    </plugins>
+</build>
 
 
 </project>
