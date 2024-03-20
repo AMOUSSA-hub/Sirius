@@ -35,7 +35,7 @@ public class MainSelectClient {
     private final static String studentsToBeInserted = "students-to-be-inserted.yaml";
     private final static String networkConfigFile = "network.yaml";
     private static final String threadName = "inserter-client";
-    private static final String requestOrder = "SELECT_ALL_STUDENTS";
+    private static final String requestOrder = "SELECT_ALL_PLAYERS";
     private static final Deque<ClientRequest> clientRequests = new ArrayDeque<ClientRequest>();
     public static final String ipServeur = "172.31.252.86";
     private static Socket socket;

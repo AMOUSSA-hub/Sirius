@@ -149,7 +149,7 @@ public class Effectif extends Page {
                     Player j = new Player(joueur.prenom.getText(),joueur.nom.getText(),dateNaiss,joueur.nationalite.getText(),sqlDate,Integer.parseInt(joueur.salaire.getText()),(String)joueur.poste.getSelectedItem(),(int)joueur.tailleSpinner.getValue(),(int)joueur.numeroSpinner.getValue(),(int)joueur.poidsSpinner.getValue(),joueur.pied.getSelectedItem().toString());
                     listeInfosJoueurs.add(j.toInfosJoueurs());
                     try {
-                        MainInsertClient.sendInfosJoueurs(j);
+                        MainInsertClient.sendPlayer(j);
                     }catch(Exception exp) {
                         System.err.println(exp);
                     }

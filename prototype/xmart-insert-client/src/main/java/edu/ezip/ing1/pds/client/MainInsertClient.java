@@ -31,12 +31,12 @@ import client.frontend.Player;
 
 public class MainInsertClient {
 
-    private final static String LoggingLabel = "I n s e r t e r - C l i e n t";
-    private final static Logger logger = LoggerFactory.getLogger(LoggingLabel);
+    private static String LoggingLabel = "I n s e r t e r - C l i e n t";
+    private static Logger logger = LoggerFactory.getLogger(LoggingLabel);
     private final static String studentsToBeInserted = "player-to-be-inserted.yaml";
     private final static String networkConfigFile = "network.yaml";
-    private static final String threadName = "inserter-client";
-    private static final String requestOrder = "INSERT_PLAYER";
+    private static String threadName = "inserter-client";
+    private static  String requestOrder = "INSERT_PLAYER";
     private static final Deque<ClientRequest> clientRequests = new ArrayDeque<ClientRequest>();
     private static final String ipBDD = "172.31.253.218";
     private static final String bdd = "test";
@@ -125,7 +125,10 @@ public class MainInsertClient {
         return null;
     }
 
-    public static void sendInfosJoueurs(Player j) throws Exception {
+    public static void sendPlayer(Player j) throws Exception {
+        LoggingLabel = "I n s e r t e r - C l i e n t";
+        logger = LoggerFactory.getLogger(LoggingLabel);
+        requestOrder = "INSERT_PLAYER";
         final NetworkConfig networkConfig =  ConfigLoader.loadConfig(NetworkConfig.class, networkConfigFile);
         logger.trace("Students loaded : {}", j.toString());
         networkConfig.setIpaddress(ipBDD);
@@ -173,6 +176,59 @@ public class MainInsertClient {
                                     guy.getNom(), guy.getPrenom(), guy.getNumero(),
                                     clientRequest2.getResponse());
     }
+}
+    public static void updatePlayer(Player j) throws Exception {
+        LoggingLabel = "U P D A T E R - C l i e n t";
+        logger = LoggerFactory.getLogger(LoggingLabel);
+        requestOrder = "UPDATE_PLAYER";
+        final NetworkConfig networkConfig =  ConfigLoader.loadConfig(NetworkConfig.class, networkConfigFile);
+        logger.trace("Students loaded : {}", j.toString());
+        networkConfig.setIpaddress(ipBDD);
+        networkConfig.setTcpport(port);
+        int birthdate = 0;
+            final ObjectMapper objectMapper = new ObjectMapper();
+            final String jsonifiedGuy = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(j);
+            logger.trace("Student with its JSON face : {}", jsonifiedGuy);
+            final String requestId = UUID.randomUUID().toString();
+            final Request request = new Request();
+            request.setRequestId(requestId);
+            request.setRequestOrder(requestOrder);
+            request.setRequestContent(jsonifiedGuy);
+            objectMapper.enable(SerializationFeature.WRAP_ROOT_VALUE);
+            final byte []  requestBytes = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsBytes(request);
+
+            final InsertStudentsClientRequest clientRequest = new InsertStudentsClientRequest (
+                                                                        networkConfig,
+                                                                        birthdate++, request, j, requestBytes);
+            clientRequests.push(clientRequest);
+
+            String jsonRequest = objectMapper.writeValueAsString(request);
+        
+        try  {
+            socket = new Socket(ipServeur, 45065);
+            OutputStream outputStream = socket.getOutputStream();
+            outputStream.write(jsonRequest.getBytes());
+            outputStream.flush(); 
+            String str = getReponseServeur(socket);
+            ObjectMapper mapper = new ObjectMapper();
+            JsonNode jsonResponse = mapper.readTree(str);
+            JsonNode responseBody = jsonResponse.get("response_body");
+            clientRequest.setResponse(responseBody.asText());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        
+
+        while (!clientRequests.isEmpty()) {
+            final ClientRequest clientRequest2 = clientRequests.pop();
+            //clientRequest.join();
+            final Player guy = (Player)clientRequest2.getInfo();
+            logger.debug("Thread {} complete : {} {} {} --> {}",
+                                    clientRequest2.getThreadName(),
+                                    guy.getNom(), guy.getPrenom(), guy.getNumero(),
+                                    clientRequest2.getResponse());
+    }
+    
 }
 }
 
