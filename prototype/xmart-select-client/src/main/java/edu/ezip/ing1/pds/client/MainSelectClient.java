@@ -2,7 +2,6 @@ package edu.ezip.ing1.pds.client;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import client.frontend.InfosJoueurs;
 import edu.ezip.commons.LoggingUtils;
 import edu.ezip.ing1.pds.client.commons.ClientRequest;
 import edu.ezip.ing1.pds.client.commons.ConfigLoader;
@@ -16,6 +15,7 @@ import java.io.InputStream;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.Deque;
 import java.util.List;
 import java.util.UUID;
@@ -45,7 +45,8 @@ public class MainSelectClient {
         
     }
 
-    public static void selectAllPlayers(List<InfosJoueurs> list) throws Exception{
+    public static List<List<Object>> selectAllPlayers() throws Exception{
+        List<List<Object>> listOfPlayersInformations = new ArrayList<>();
         final NetworkConfig networkConfig = ConfigLoader.loadConfig(NetworkConfig.class, networkConfigFile);
         networkConfig.setIpaddress("172.31.253.218");
         networkConfig.setTcpport(5432);
@@ -109,9 +110,23 @@ public class MainSelectClient {
                 int poids = studentNode.get("poids").asInt();
                 int id = studentNode.get("id").asInt();
                 lastIdValue = studentNode.get("last_value").asInt();
-                list.add(new InfosJoueurs(prenom, nom, date2, nationalite, Date.valueOf(LocalDate.now()), 0, poste, taille, numero, poids, pied,id));
-            }
+                List<Object> liste = new ArrayList<Object>();
+                liste.add(prenom);//new InfosJoueurs(prenom, nom, date2, nationalite, Date.valueOf(LocalDate.now()), 0, poste, taille, numero, poids, pied,id));
+                liste.add(nom);
+                liste.add(date2);
+                liste.add(nationalite);
+                liste.add(Date.valueOf(LocalDate.now()));
+                liste.add(0);
+                liste.add(poste);
+                liste.add(taille);
+                liste.add(numero);
+                liste.add(poids);
+                liste.add(pied);
+                liste.add(id);
+                listOfPlayersInformations.add(liste);
+            }   
             bufferedWriter.close();
+            return listOfPlayersInformations;
         } catch (IOException e) {
             System.err.println("Erreur lors de la création ou de l'écriture dans le fichier : " + e.getMessage());
         }     
@@ -121,6 +136,7 @@ public class MainSelectClient {
 
             logger.debug("Thread {} complete.", joinedClientRequest.getThreadName());
         }
+        return null;
     }
 
     public static String getReponseServeur(Socket socket) {

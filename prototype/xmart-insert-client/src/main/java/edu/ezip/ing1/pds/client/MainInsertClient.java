@@ -134,7 +134,7 @@ public class MainInsertClient {
                                     clientRequest2.getResponse());
     }
 }
-    public static void updatePlayer(Player j) throws Exception {
+    public static void updatePlayer(Player j,Object attributToReplace) throws Exception {
         LoggingLabel = "U P D A T E R - C l i e n t";
         logger = LoggerFactory.getLogger(LoggingLabel);
         requestOrder = "UPDATE_PLAYER";
@@ -144,7 +144,7 @@ public class MainInsertClient {
         networkConfig.setTcpport(port);
         int birthdate = 0;
             final ObjectMapper objectMapper = new ObjectMapper();
-            final String jsonifiedGuy = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(j);
+            final String jsonifiedGuy = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(attributToReplace);
             logger.trace("Student with its JSON face : {}", jsonifiedGuy);
             final String requestId = UUID.randomUUID().toString();
             final Request request = new Request();
@@ -156,7 +156,7 @@ public class MainInsertClient {
 
             final InsertStudentsClientRequest clientRequest = new InsertStudentsClientRequest (
                                                                         networkConfig,
-                                                                        birthdate++, request, j, requestBytes);
+                                                                        birthdate++, request, attributToReplace, requestBytes);
             clientRequests.push(clientRequest);
 
             String jsonRequest = objectMapper.writeValueAsString(request);

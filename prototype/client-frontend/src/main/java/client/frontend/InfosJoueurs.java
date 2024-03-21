@@ -18,14 +18,18 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonRootName;
 import edu.ezip.ing1.pds.business.dto.Player;
+import edu.ezip.ing1.pds.client.*;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
 
 @JsonRootName(value = "student")
-public class InfosJoueurs extends JScrollPane {
+public class InfosJoueurs extends JScrollPane implements ActionListener {
 
     Date contrat,naissance;
     String prenom,nom,nationalite,position,pied;
     int age,salaire,taille,numero,poids,id;
-
+    Bouton btn = new Bouton(20,20,"Modif");
 
     Box box = new Box(BoxLayout.X_AXIS);
     Box imageJoueur = new Box(BoxLayout.Y_AXIS);
@@ -83,6 +87,7 @@ public class InfosJoueurs extends JScrollPane {
         this.age = age;
         int tailleContrat = str.length();
         int startAnnee = tailleContrat - 4;
+        imageJoueur.add(btn);
         addInfosBox("Inserer", "Photo", imageJoueur, box);
         addInfosBox(nom.toUpperCase(), prenom, identite, box);
         addInfosBox(Integer.toString(age) + " ans", null, ageBox, box);
@@ -95,6 +100,7 @@ public class InfosJoueurs extends JScrollPane {
         addInfosBox(Integer.toString(poids), null, poidsBox, box);
         setViewportView(box);
         getViewport().setBackground(Page.bg);
+        btn.addActionListener(this);
     }
 
 
@@ -107,6 +113,18 @@ public class InfosJoueurs extends JScrollPane {
         box_X.add(box_Y);
         box_Y.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
         box_X.add(Box.createGlue());
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == btn) {
+            try {
+                Player player = this.toPlayer();
+                MainInsertClient.updatePlayer(player);
+            }catch(Exception ex) {
+                System.err.println(ex);
+            }
+        }
     }
 
 
@@ -200,5 +218,9 @@ public class InfosJoueurs extends JScrollPane {
     public static InfosJoueurs playerToInfosJoueurs(Player p) {
         InfosJoueurs j = new InfosJoueurs(p.nom,p.prenom,p.naissance,p.nationalite,p.contrat,p.salaire,p.position,p.taille,p.numero,p.poids,p.pied,p.id);
         return j;
+    }
+
+    public Player toPlayer(){
+        return (new Player(nom,prenom,naissance,nationalite,contrat,salaire,position,taille,numero,poids,pied,id)); 
     }
 }

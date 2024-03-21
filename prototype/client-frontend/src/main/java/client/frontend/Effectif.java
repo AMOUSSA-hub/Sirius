@@ -259,7 +259,10 @@ public class Effectif extends Page {
 
     public void selectBDD(){
         try {
-            MainSelectClient.selectAllPlayers(listeInfosJoueurs);
+            List<List<Object>> listOfPlayersInformations = MainSelectClient.selectAllPlayers();
+            for (List<Object> playerInformation : listOfPlayersInformations) {
+                listeInfosJoueurs.add(new InfosJoueurs((String)playerInformation.get(0),(String)playerInformation.get(1),(Date)playerInformation.get(2),(String)playerInformation.get(3),(Date)playerInformation.get(4),(int)playerInformation.get(5),(String)playerInformation.get(6),(int)playerInformation.get(7),(int)playerInformation.get(8),(int)playerInformation.get(9),(String)playerInformation.get(10),(int)playerInformation.get(11)));
+            }
             ensembleJoueurs(listeInfosJoueurs, box);
         }catch(Exception execp) {
             System.err.println(execp);
@@ -282,8 +285,6 @@ public class Effectif extends Page {
         bufferedWriter.write("    "+name+" : \"" + attribut +"\"");
         bufferedWriter.newLine();
     }
-
-
 
 
 

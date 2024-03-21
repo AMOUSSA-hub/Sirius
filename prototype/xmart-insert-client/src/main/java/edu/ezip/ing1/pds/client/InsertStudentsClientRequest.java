@@ -12,11 +12,11 @@ import edu.ezip.ing1.pds.commons.Request;
 import java.io.IOException;
 import java.util.Map;
 
-public class InsertStudentsClientRequest extends ClientRequest<Player, String> {
+public class InsertStudentsClientRequest extends ClientRequest<Object, String> {
 
     
     public InsertStudentsClientRequest(
-            NetworkConfig networkConfig, int myBirthDate, Request request, Player info, byte[] bytes)
+            NetworkConfig networkConfig, int myBirthDate, Request request, Object info, byte[] bytes)
             throws IOException {
         super(networkConfig, myBirthDate, request, info, bytes);
         
