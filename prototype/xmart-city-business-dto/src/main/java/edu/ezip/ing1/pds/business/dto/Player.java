@@ -17,16 +17,15 @@ import javax.swing.JScrollPane;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonRootName;
-
 @JsonRootName(value = "student")
 public class Player {
     
-    Date contrat,naissance;
-    String prenom,nom,nationalite,position,pied;
-    int age,salaire,taille,numero,poids;
+    public Date contrat,naissance;
+    public String prenom,nom,nationalite,position,pied;
+    public int age,salaire,taille,numero,poids,id;
 
-    public Player(String prenom,String nom,Date naissance,String nat,Date contrat,int salaire, String pos, int taille, int numero, int poids,String pied){
-
+    public Player(String prenom,String nom,Date naissance,String nat,Date contrat,int salaire, String pos, int taille, int numero, int poids,String pied,int id){
+        this.id = id;   
         this.prenom = prenom;
         this.naissance = naissance;
         this.nationalite = nat;
@@ -85,6 +84,10 @@ public class Player {
         return nationalite;
     }
 
+    public int getId(){
+        return id;
+    }
+
     @JsonProperty("nom")
     public void setNom(String nom) {
         this.nom = nom;
@@ -130,9 +133,18 @@ public class Player {
         this.nationalite = nationalite;
     }
 
+    @JsonProperty("id")
+    public void setId(int id) {
+        this.id = id;
+    }
 
 
     public String toString(){
         return("Le joueur " + nom + " " + prenom + " de " + age + " ans de nationalite " + nationalite + " evoluant au poste " + position + " et ayant un contrat allant jusque le " + contrat + " avec un salaire de " + salaire + "euros mesure " + taille + " cm et fait " + poids + " Kg et porte le numero " + numero );
     }
+
+/*     public InfosJoueurs toInfosJoueurs(){
+        InfosJoueurs j = new InfosJoueurs(nom,prenom,naissance,nationalite,contrat,salaire,position,taille,numero,poids,pied,id);
+        return j;
+    } */
 }

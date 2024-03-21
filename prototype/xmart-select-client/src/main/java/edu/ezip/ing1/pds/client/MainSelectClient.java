@@ -29,7 +29,7 @@ import java.io.FileWriter;
 import java.sql.Date;
 
 public class MainSelectClient {
-
+    public static int lastIdValue = 0;
     private final static String LoggingLabel = "S e l e c t - C l i e n t";
     private final static Logger logger = LoggerFactory.getLogger(LoggingLabel);
     private final static String studentsToBeInserted = "students-to-be-inserted.yaml";
@@ -107,7 +107,9 @@ public class MainSelectClient {
                 String pied = studentNode.get("pied").asText();
                 int taille = studentNode.get("taille").asInt();
                 int poids = studentNode.get("poids").asInt();
-                list.add(new InfosJoueurs(prenom, nom, date2, nationalite, Date.valueOf(LocalDate.now()), 0, poste, taille, numero, poids, pied));
+                int id = studentNode.get("id").asInt();
+                lastIdValue = studentNode.get("last_value").asInt();
+                list.add(new InfosJoueurs(prenom, nom, date2, nationalite, Date.valueOf(LocalDate.now()), 0, poste, taille, numero, poids, pied,id));
             }
             bufferedWriter.close();
         } catch (IOException e) {

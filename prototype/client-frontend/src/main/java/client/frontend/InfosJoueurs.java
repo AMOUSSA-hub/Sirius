@@ -17,13 +17,14 @@ import javax.swing.JScrollPane;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonRootName;
+import edu.ezip.ing1.pds.business.dto.Player;
 
 @JsonRootName(value = "student")
 public class InfosJoueurs extends JScrollPane {
 
     Date contrat,naissance;
     String prenom,nom,nationalite,position,pied;
-    int age,salaire,taille,numero,poids;
+    int age,salaire,taille,numero,poids,id;
 
 
     Box box = new Box(BoxLayout.X_AXIS);
@@ -60,8 +61,8 @@ public class InfosJoueurs extends JScrollPane {
 
     
 
-    public InfosJoueurs(String prenom,String nom,Date naissance,String nat,Date contrat,int salaire, String pos, int taille, int numero, int poids,String pied){
-
+    public InfosJoueurs(String prenom,String nom,Date naissance,String nat,Date contrat,int salaire, String pos, int taille, int numero, int poids,String pied,int id){
+        this.id = id;
         this.prenom = prenom;
         this.naissance = naissance;
         this.nationalite = nat;
@@ -196,4 +197,8 @@ public class InfosJoueurs extends JScrollPane {
         return("Le joueur " + nom + " " + prenom + " de " + age + " ans de nationalite " + nationalite + " evoluant au poste " + position + " et ayant un contrat allant jusque le " + contrat + " avec un salaire de " + salaire + "euros mesure " + taille + " cm et fait " + poids + " Kg et porte le numero " + numero );
     }
 
+    public static InfosJoueurs playerToInfosJoueurs(Player p) {
+        InfosJoueurs j = new InfosJoueurs(p.nom,p.prenom,p.naissance,p.nationalite,p.contrat,p.salaire,p.position,p.taille,p.numero,p.poids,p.pied,p.id);
+        return j;
+    }
 }

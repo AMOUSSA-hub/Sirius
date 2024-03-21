@@ -2,8 +2,7 @@ package edu.ezip.ing1.pds.client;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import client.frontend.InfosJoueurs;
-import client.frontend.Player;
+import edu.ezip.ing1.pds.business.dto.Player;
 import edu.ezip.ing1.pds.business.dto.Student;
 import edu.ezip.ing1.pds.business.dto.Students;
 import edu.ezip.ing1.pds.client.commons.ClientRequest;

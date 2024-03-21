@@ -34,9 +34,11 @@ import java.awt.Image;
 import javax.imageio.ImageIO;
 
 import java.io.IOException;
+import edu.ezip.ing1.pds.business.dto.Player;
 
 public class Effectif extends Page {
     
+    public int lastIdValue = MainSelectClient.lastIdValue;
     static final Color fondTitre = new Color(96,96,96);
     ImageIcon upArrow,downArrow;
     ImageIcon swap = downArrow;
@@ -56,7 +58,6 @@ public class Effectif extends Page {
     String os = Fenetre.os;
     Effectif() {
         removeAllExecptedMenuhome();
-
         try {
             // Charger l'image depuis les ressources
             InputStream inputStream = getClass().getResourceAsStream("/upArrow.png");
@@ -146,10 +147,17 @@ public class Effectif extends Page {
                 java.sql.Date dateNaiss = new java.sql.Date(age.getTime());
                 
                 if(!joueur.nom.getText().isBlank() && !joueur.prenom.getText().isEmpty() /*&& !joueur.nationalite.getText().isEmpty()*/) {
-                    Player j = new Player(joueur.prenom.getText(),joueur.nom.getText(),dateNaiss,joueur.nationalite.getText(),sqlDate,Integer.parseInt(joueur.salaire.getText()),(String)joueur.poste.getSelectedItem(),(int)joueur.tailleSpinner.getValue(),(int)joueur.numeroSpinner.getValue(),(int)joueur.poidsSpinner.getValue(),joueur.pied.getSelectedItem().toString());
-                    listeInfosJoueurs.add(j.toInfosJoueurs());
+                    MainSelectClient.lastIdValue++;
+                    lastIdValue = MainSelectClient.lastIdValue;  
+                    System.out.println("test");
+                    Player j = new Player(joueur.prenom.getText(),joueur.nom.getText(),dateNaiss,joueur.nationalite.getText(),sqlDate,Integer.parseInt(joueur.salaire.getText()),(String)joueur.poste.getSelectedItem(),(int)joueur.tailleSpinner.getValue(),(int)joueur.numeroSpinner.getValue(),(int)joueur.poidsSpinner.getValue(),joueur.pied.getSelectedItem().toString(),lastIdValue);
+                    listeInfosJoueurs.add(InfosJoueurs.playerToInfosJoueurs(j));
                     try {
                         MainInsertClient.sendPlayer(j);
+                        System.out.println("val : " + lastIdValue);
+                        Collections.sort(listeInfosJoueurs,new JoueursCompare(attribut,croissant));
+                        ensembleJoueurs(listeInfosJoueurs, box);
+
                     }catch(Exception exp) {
                         System.err.println(exp);
                     }

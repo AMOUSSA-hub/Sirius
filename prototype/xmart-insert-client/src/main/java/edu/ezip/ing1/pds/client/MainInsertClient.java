@@ -3,6 +3,8 @@ package edu.ezip.ing1.pds.client;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+
+import edu.ezip.ing1.pds.business.dto.Player;
 import edu.ezip.ing1.pds.business.dto.Student;
 import edu.ezip.ing1.pds.business.dto.Students;
 import edu.ezip.ing1.pds.client.commons.ClientRequest;
@@ -26,8 +28,8 @@ import java.io.OutputStream;
 import java.net.Socket;
 import java.io.ByteArrayOutputStream;
 import com.fasterxml.jackson.databind.JsonNode;
-import client.frontend.InfosJoueurs;
-import client.frontend.Player;
+//import client.frontend.Player;
+
 
 public class MainInsertClient {
 
@@ -55,51 +57,6 @@ public class MainInsertClient {
         
         int birthdate = 0;
         
-/*         for(final Student guy : guys.getStudents()) {
-            
-            final ObjectMapper objectMapper = new ObjectMapper();
-            final String jsonifiedGuy = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(guy);
-            logger.trace("Student with its JSON face : {}", jsonifiedGuy);
-            final String requestId = UUID.randomUUID().toString();
-            final Request request = new Request();
-            request.setRequestId(requestId);
-            request.setRequestOrder(requestOrder);
-            request.setRequestContent(jsonifiedGuy);
-            objectMapper.enable(SerializationFeature.WRAP_ROOT_VALUE);
-            final byte []  requestBytes = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsBytes(request);
-
-            final InsertStudentsClientRequest clientRequest = new InsertStudentsClientRequest (
-                                                                        networkConfig,
-                                                                        birthdate++, request, guy, requestBytes);
-            clientRequests.push(clientRequest);
-
-            String jsonRequest = objectMapper.writeValueAsString(request);
-            
-        try  {
-            socket = new Socket(ipServeur, 45065);
-            OutputStream outputStream = socket.getOutputStream();
-            outputStream.write(jsonRequest.getBytes());
-            outputStream.flush(); 
-            String str = getReponseServeur(socket);
-            ObjectMapper mapper = new ObjectMapper();
-            JsonNode jsonResponse = mapper.readTree(str);
-            JsonNode responseBody = jsonResponse.get("response_body");
-            clientRequest.setResponse(responseBody.asText());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        }
-
-        while (!clientRequests.isEmpty()) {
-            final ClientRequest clientRequest = clientRequests.pop();
-            //clientRequest.join();
-            final Student guy = (Student)clientRequest.getInfo();
-            logger.debug("Thread {} complete : {} {} {} --> {}",
-                                    clientRequest.getThreadName(),
-                                    guy.getNom(), guy.getPrenom(), guy.getNumero(),
-                                    clientRequest.getResponse());
-            
-        } */
     }
 
     public static String getReponseServeur(Socket socket) {
