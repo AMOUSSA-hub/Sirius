@@ -48,8 +48,8 @@ public class MainSelectClient {
     public static List<List<Object>> selectAllPlayers() throws Exception{
         List<List<Object>> listOfPlayersInformations = new ArrayList<>();
         final NetworkConfig networkConfig = ConfigLoader.loadConfig(NetworkConfig.class, networkConfigFile);
-        networkConfig.setIpaddress("172.31.253.218");
-        networkConfig.setTcpport(5432);
+/*         networkConfig.setIpaddress("172.31.253.218");
+        networkConfig.setTcpport(5432); */
         logger.debug("Load Network config file : {}", networkConfig.toString());
     
         int birthdate = 0;

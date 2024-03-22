@@ -1,5 +1,6 @@
 package edu.ezip.ing1.pds.client.commons;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.ezip.commons.LoggingUtils;
 import edu.ezip.ing1.pds.business.dto.Students;
@@ -9,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.event.Level;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -82,9 +84,10 @@ public abstract class ClientRequest<N,S> implements Runnable {
             logger.debug("Response = {}", response.toString());
 
             result = readResult(response.responseBody);
+            setResponse(result.toString());
 
         } catch (IOException e) {
-            logger.error("Connection fails, exception tells {} — {}", e.getMessage(), e.getClass());
+            //logger.error("Connection fails, exception tells {} — {}", e.getMessage(), e.getClass());
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -111,5 +114,32 @@ public abstract class ClientRequest<N,S> implements Runnable {
     }
     public String getResponse(){
         return this.response;
+    }
+
+    public Socket getSocket(){
+        return socket;
+    }
+
+       public static String getReponseServeur(Socket socket) {
+        try {
+            if (socket.isConnected() && !socket.isClosed()) {
+                InputStream inputStream = socket.getInputStream();
+                ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                byte[] buffer = new byte[1024];
+                int bytesRead;
+                while ((bytesRead = inputStream.read(buffer)) != -1) {
+                    outputStream.write(buffer, 0, bytesRead);
+                }
+                String response = outputStream.toString("UTF-8");
+                outputStream.close();
+                inputStream.close();
+                return response;
+            } else {
+                System.err.println("Le client n'est pas joignable");            
+            }
+        } catch (IOException e) {
+            System.err.println(e);
+        }
+        return null;
     }
 }

@@ -40,20 +40,15 @@ public class MainInsertClient {
     private static String threadName = "inserter-client";
     private static  String requestOrder = "INSERT_PLAYER";
     private static final Deque<ClientRequest> clientRequests = new ArrayDeque<ClientRequest>();
-    private static final String ipBDD = "172.31.253.218";
-    private static final String bdd = "test";
-    private static final String user = "toto";
-    private static final String password = "toto";
-    private static final int port = 5432;
-    public static final String ipServeur = "172.31.252.86";
+    final NetworkConfig networkConfig =  ConfigLoader.loadConfig(NetworkConfig.class, networkConfigFile);
+    //public static final String ipServeur = "172.31.252.86";
     private static Socket socket;
     public static void main(String[] args) throws IOException, InterruptedException, SQLException, ClassNotFoundException {
 
         final Students guys = ConfigLoader.loadConfig(Students.class, studentsToBeInserted);
-        final NetworkConfig networkConfig =  ConfigLoader.loadConfig(NetworkConfig.class, networkConfigFile);
         logger.trace("Students loaded : {}", guys.toString());
-        networkConfig.setIpaddress(ipBDD);
-        networkConfig.setTcpport(port);
+        //networkConfig.setIpaddress(ipBDD);
+        //networkConfig.setTcpport(port);
         
         int birthdate = 0;
         
@@ -88,8 +83,9 @@ public class MainInsertClient {
         requestOrder = "INSERT_PLAYER";
         final NetworkConfig networkConfig =  ConfigLoader.loadConfig(NetworkConfig.class, networkConfigFile);
         logger.trace("Students loaded : {}", j.toString());
-        networkConfig.setIpaddress(ipBDD);
-        networkConfig.setTcpport(port);
+        //networkConfig.setIpaddress(ipBDD);
+        //networkConfig.setTcpport(port);
+        System.out.println(networkConfig.getIpaddress() + " " + networkConfig.getTcpport() + "   CDCDCDCD");
         int birthdate = 0;
             final ObjectMapper objectMapper = new ObjectMapper();
             final String jsonifiedGuy = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(j);
@@ -107,10 +103,9 @@ public class MainInsertClient {
                                                                         birthdate++, request, j, requestBytes);
             clientRequests.push(clientRequest);
 
-            String jsonRequest = objectMapper.writeValueAsString(request);
         
-        try  {
-            socket = new Socket(ipServeur, 45065);
+/*         try  {
+            socket = new Socket(networkConfig.getIpaddress(), networkConfig.getTcpport());
             OutputStream outputStream = socket.getOutputStream();
             outputStream.write(jsonRequest.getBytes());
             outputStream.flush(); 
@@ -122,17 +117,18 @@ public class MainInsertClient {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        
+         */
 
-        while (!clientRequests.isEmpty()) {
+/*         while (!clientRequests.isEmpty()) {
             final ClientRequest clientRequest2 = clientRequests.pop();
             //clientRequest.join();
             final Player guy = (Player)clientRequest2.getInfo();
+
             logger.debug("Thread {} complete : {} {} {} --> {}",
                                     clientRequest2.getThreadName(),
                                     guy.getNom(), guy.getPrenom(), guy.getNumero(),
                                     clientRequest2.getResponse());
-    }
+    } */
 }
     public static void updatePlayer(Player j,Object attributToReplace) throws Exception {
         LoggingLabel = "U P D A T E R - C l i e n t";
@@ -140,8 +136,8 @@ public class MainInsertClient {
         requestOrder = "UPDATE_PLAYER";
         final NetworkConfig networkConfig =  ConfigLoader.loadConfig(NetworkConfig.class, networkConfigFile);
         logger.trace("Students loaded : {}", j.toString());
-        networkConfig.setIpaddress(ipBDD);
-        networkConfig.setTcpport(port);
+        //networkConfig.setIpaddress(ipBDD);
+        //networkConfig.setTcpport(port);
         int birthdate = 0;
             final ObjectMapper objectMapper = new ObjectMapper();
             final String jsonifiedGuy = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(attributToReplace);
@@ -159,10 +155,10 @@ public class MainInsertClient {
                                                                         birthdate++, request, attributToReplace, requestBytes);
             clientRequests.push(clientRequest);
 
-            String jsonRequest = objectMapper.writeValueAsString(request);
+           // String jsonRequest = objectMapper.writeValueAsString(request);
         
-        try  {
-            socket = new Socket(ipServeur, 45065);
+/*         try  {
+            socket = new Socket(networkConfig.getIpaddress(), networkConfig.getTcpport());
             OutputStream outputStream = socket.getOutputStream();
             outputStream.write(jsonRequest.getBytes());
             outputStream.flush(); 
@@ -184,7 +180,7 @@ public class MainInsertClient {
                                     clientRequest2.getThreadName(),
                                     guy.getNom(), guy.getPrenom(), guy.getNumero(),
                                     clientRequest2.getResponse());
-    }
+    } */
     
 }
 }
