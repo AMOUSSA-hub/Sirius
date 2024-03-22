@@ -118,12 +118,12 @@ public class InfosJoueurs extends JScrollPane implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == btn) {
-            try {
+ /*            try {
                 Player player = this.toPlayer();
                 MainInsertClient.updatePlayer(player);
             }catch(Exception ex) {
                 System.err.println(ex);
-            }
+            } */
         }
     }
 

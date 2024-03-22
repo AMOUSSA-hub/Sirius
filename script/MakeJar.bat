@@ -1,0 +1,1 @@
+cd ..\prototype && mvn clean package 
