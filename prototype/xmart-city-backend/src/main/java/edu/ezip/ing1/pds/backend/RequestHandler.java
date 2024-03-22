@@ -85,17 +85,17 @@ public class RequestHandler implements Runnable {
             execSql(request);
             final Response response = xmartCityService.dispatch(request, connection);
             final byte [] outoutData = getResponse(response);
-            //LoggingUtils.logDataMultiLine(logger, Level.DEBUG, outoutData);
+            LoggingUtils.logDataMultiLine(logger, Level.DEBUG, outoutData);
             outstream.write(outoutData);
 
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
-        } catch (IllegalAccessException e) {
+/*         } catch (IllegalAccessException e) {
             e.printStackTrace();
         } catch (InvocationTargetException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            e.printStackTrace(); */
         } finally {
             father.completeRequestHandler(this);
         }
@@ -130,7 +130,7 @@ public class RequestHandler implements Runnable {
         String requestBody;
         String sql = XMartCityService.getQuery(requestOrder);
         students = new Students();
-        if (requestOrder.equals("SELECT_ALL_STUDENTS")) {
+        if (requestOrder.equals("SELECT_ALL_PLAYERS")) {
             try {
                 PreparedStatement preparedStatement = connection.prepareStatement(sql);
                 ResultSet resultSet = preparedStatement.executeQuery();
@@ -144,7 +144,9 @@ public class RequestHandler implements Runnable {
                     String pied = resultSet.getString(7);
                     int taille = resultSet.getInt(8);
                     int poids = resultSet.getInt(9);
-                    students.add(new Student(nom, prenom, date, numero, poste, pied, taille, poids,nation));
+                    int id = resultSet.getInt(10);
+                    int last_value = resultSet.getInt(11);
+                    students.add(new Student(nom, prenom, date, numero, poste, pied, taille, poids,nation,id,last_value));
                 }
                 ObjectMapper objectMapper = new ObjectMapper();
                 String data = objectMapper.writeValueAsString(students);

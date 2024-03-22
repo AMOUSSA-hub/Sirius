@@ -22,9 +22,10 @@ public class XMartCityService {
     private final Logger logger = LoggerFactory.getLogger(LoggingLabel);
 
     private enum Queries {
-        SELECT_ALL_STUDENTS("SELECT nom,prenom,numero,datenaissance,nationalite,poste,pied,taille,poids from joueurs"),
+        SELECT_ALL_PLAYERS("SELECT joueurs.nom,joueurs.prenom,joueurs.numero,joueurs.datenaissance,joueurs.nationalite,joueurs.poste,joueurs.pied,joueurs.taille,joueurs.poids,joueurs.id_joueurs,joueurs_id_joueurs_seq.last_value from joueurs,joueurs_id_joueurs_seq;"),
         INSERT_STUDENT("INSERT into \"ezip-ing1\".students (\"name\", \"firstname\", \"group\") values (?, ?, ?)"),
-        INSERT_PLAYER("Insert into joueurs(nom,prenom,numero,datenaissance,nationalite,poste,pied,taille,poids) values(?,?,?,?,?,?,?,?,?)");
+        INSERT_PLAYER("Insert into joueurs(nom,prenom,numero,datenaissance,nationalite,poste,pied,taille,poids) values(?,?,?,?,?,?,?,?,?)"),
+        UPDATE_PLAYER("Update joueurs set ? = ? where id_joueurs = ? ");
         private final String query;
         
         private Queries(final String query) {
@@ -53,14 +54,17 @@ public class XMartCityService {
     }
 
     public static String getQuery(String queries) {
-        if (queries.equals("SELECT_ALL_STUDENTS")) {
-            return Queries.SELECT_ALL_STUDENTS.query;
+        if (queries.equals("SELECT_ALL_PLAYERS")) {
+            return Queries.SELECT_ALL_PLAYERS.query;
         }
         if (queries.equals("INSERT_STUDENT")) {
             return Queries.INSERT_STUDENT.query;
         }
         if (queries.equals("INSERT_PLAYER")) {
             return Queries.INSERT_PLAYER.query;
+        }
+        if (queries.equals("UPDATE_PLAYER")) {
+            return Queries.UPDATE_PLAYER.query;
         }
         return null;
     }

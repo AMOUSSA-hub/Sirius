@@ -14,7 +14,7 @@ public class Student {
     private  String nom,nationalite;
     private  String prenom;
     private  Date naissance;
-    private int numero;
+    private int numero,id,last_value;
     private String poste;
     private String pied;
     private int taille;
@@ -38,7 +38,7 @@ public class Student {
         this.test = test;
     } */
 
-    public Student(String nom, String prenom, Date naissance, int numero, String poste, String pied, int taille, int poids,String nationalite) {
+    public Student(String nom, String prenom, Date naissance, int numero, String poste, String pied, int taille, int poids,String nationalite,int id,int last_value) {
         this.nom = nom;
         this.prenom = prenom;
         this.naissance = naissance;
@@ -48,6 +48,8 @@ public class Student {
         this.taille = taille;
         this.poids = poids;
         this.nationalite = nationalite;
+        this.id = id;
+        this.last_value = last_value;
     }
 
 /*     public String getName() {
@@ -118,6 +120,14 @@ public class Student {
         return nationalite;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public int getLastValue() {
+        return last_value;
+    }
+
     @JsonProperty("nom")
     public void setNom(String nom) {
         this.nom = nom;
@@ -163,6 +173,15 @@ public class Student {
         this.nationalite = nationalite;
     }
 
+    @JsonProperty("id")
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    @JsonProperty("last_value")
+    public void setLastValue(int last_value) {
+        this.last_value = last_value;
+    }
 
     private void setFieldsFromResulset(final ResultSet resultSet, final String ... fieldNames )
             throws NoSuchFieldException, SQLException, IllegalAccessException {
