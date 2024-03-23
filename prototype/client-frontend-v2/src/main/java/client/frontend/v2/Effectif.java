@@ -1,52 +1,49 @@
-package client.frontend;
+package client.frontend.v2;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileReader;
-import java.io.FileWriter;
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
+import java.awt.*;
+import java.awt.event.*;
+import java.io.*;
 import java.sql.Date;
-import java.text.SimpleDateFormat;
+import javax.swing.plaf.basic.BasicScrollBarUI;
+import javax.swing.*;
 import java.time.LocalDate;
 import java.util.*;
+import java.util.List;
+import java.awt.*;
+import java.time.temporal.ChronoUnit;
+import javax.swing.*;
+import java.time.LocalDate;
 
-import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import javax.swing.JComboBox;
-import javax.swing.JScrollPane;
-import javax.swing.UIManager;
-import javax.swing.plaf.basic.BasicScrollBarUI;
 import edu.ezip.ing1.pds.client.MainInsertClient;
 import edu.ezip.ing1.pds.client.MainSelectClient;
 
 import java.io.InputStream;
 import java.awt.Image;
 import javax.imageio.ImageIO;
-import javax.swing.JOptionPane;
-
 
 import java.io.IOException;
 import edu.ezip.ing1.pds.business.dto.Player;
+import org.jdatepicker.*;
+import javax.swing.JOptionPane;
 
-public class Effectif extends Page {
-    
+import java.io.InputStream;
+import java.awt.Image;
+import javax.imageio.ImageIO;
+import java.io.IOException;
+
+
+public class Effectif extends JPanel{
     public int lastIdValue = MainSelectClient.lastIdValue;
+
     static final Color fondTitre = new Color(96,96,96);
-    ImageIcon upArrow,downArrow;
+    ImageIcon upArrow; //= new ImageIcon(new ImageIcon("client-front_V2/images/upArrow.png").getImage().getScaledInstance(20, 20, Image.SCALE_DEFAULT)) ;
+    ImageIcon downArrow; //= new ImageIcon(new ImageIcon("client-front_V2/images/downArrow.png").getImage().getScaledInstance(20, 20, Image.SCALE_DEFAULT));
     ImageIcon swap = downArrow;
     JComboBox<String> tri = new JComboBox<>(); 
     Bouton ordre;
-    Boolean croissant = true;
+    boolean ascending_order = true;
     String attribut = "";
     JScrollPane scrollPane = new JScrollPane();
     List<InfosJoueurs> listeInfosJoueurs = new ArrayList<>();
@@ -55,11 +52,9 @@ public class Effectif extends Page {
     Box boxTest = new Box(BoxLayout.Y_AXIS);
     Box titre;
     int hauteur_effectif = InfosJoueurs.HeightBox_Y + 3;
-    String insereLinux = "./test.sh";
-    String insereWin = ".\\test.bat";
-    String os = Fenetre.os;
-    Effectif() {
-        removeAllExecptedMenuhome();
+    Color bg = Color.gray;
+    Effectif(JFrame fen) {
+
         try {
             // Charger l'image depuis les ressources
             InputStream inputStream = getClass().getResourceAsStream("/upArrow.png");
@@ -70,15 +65,22 @@ public class Effectif extends Page {
             upArrow = new ImageIcon(image);
             downArrow = new ImageIcon(image2);
             swap = downArrow;
-            // Utiliser clubManagerLabel ici...
-        } catch (IOException ex) {
-            ex.printStackTrace();
+
+        }catch(Exception e){
+            System.err.println(e);
         }
+        
+        setBackground(Color.GRAY);
+        GridBagConstraints gbc = new GridBagConstraints();
+        setLayout(new GridBagLayout());
+        tri.setRenderer(new DefaultListCellRenderer());
 
 
+        JPanel sortPane = new JPanel(new FlowLayout());
+        sortPane.setOpaque(false);
+        
 
-
-        tri.setRenderer(listRenderer);
+        //menu de tri
         tri.setFont(LabelTxt.font);
         tri.addItem("Trier par");
         tri.addItem("Par nom");
@@ -90,29 +92,96 @@ public class Effectif extends Page {
         tri.addItem("Par taille");
         tri.addItem("Par numero");
         tri.addItem("Par poids");
+
+       
+        gbc.gridx = 1;
+        gbc.gridy = 1;
+        gbc.gridwidth = 1;
+        gbc.gridheight = 1;
+        gbc.fill = GridBagConstraints.NONE;
+        gbc.anchor = GridBagConstraints.NORTH;
+        gbc.weightx = 0.0;
+        gbc.weighty = 0.0;
+        gbc.insets = new Insets(100, 1, 1, 1);
+        tri.setPreferredSize(new Dimension(300, 30));
+        add(sortPane,gbc);
+
+
+
+        JButton order = new JButton("",upArrow);
+        order.setPreferredSize(new Dimension(50, 30));
+        sortPane.add(tri);
+        sortPane.add(order);
+
+
+        // Mise en place du tableau des infos de l'effectif
+        String[] columnNames = {"PHOTO","JOUEUR","AGE","NAT","CONTRAT","SALAIRE","POS","TAILLE","N°","POIDS","PIED"};
+        GridSquad gs = new GridSquad(columnNames,fen);
+        JScrollPane scrollPane = new JScrollPane(gs);
         
-        tri.setSize(500, fontMetrics.getHeight()*2);
-        placeElement(2, 4, tri);
-        add(addPlayer).setBounds(0, tri.getY() + tri.getHeight(), addPlayer.width, addPlayer.height);
-        repaint();
-        titre = new Box(BoxLayout.X_AXIS);
-        titreBox();
+        //Bouton pour ajouter des joueurs
+        JButton addPlayerButton = new JButton("Ajouter");
+        addPlayerButton.setBackground(Color.BLACK);
+        addPlayerButton.setForeground(Color.WHITE);
+        addPlayerButton.setFont(new Font("Arial", Font.BOLD, 12));
+
+         gbc.gridx = 1;
+         gbc.gridy = 2;
+         gbc.gridwidth = 1;
+         gbc.gridheight = 1;
+         gbc.fill = GridBagConstraints.NONE;
+         gbc.anchor = GridBagConstraints.FIRST_LINE_START;
+         gbc.weightx = 1.0;
+         gbc.weighty = 0.0;
+         gbc.insets = new Insets(1, 1, 1, 1);
+         addPlayerButton.setPreferredSize(new Dimension(100, 30));
+         add(addPlayerButton,gbc);
+
+
+         Dimension maxSize = new Dimension(500,600); // Taille maximale de votre choix
+         scrollPane.setPreferredSize(maxSize);
+        //tableau effectif
+       gbc.gridx = 1;
+gbc.gridy = 3;
+gbc.gridwidth = 1;
+gbc.gridheight = GridBagConstraints.REMAINDER; // Permet au JScrollPane de s'étendre sur plusieurs lignes si nécessaire
+gbc.fill = GridBagConstraints.HORIZONTAL; // Remplir dans les deux directions
+gbc.anchor = GridBagConstraints.NORTH;
+gbc.weightx = 1.0;
+gbc.weighty = 1.0;
+gbc.insets = new Insets(1, 1, 1, 1);
+add(scrollPane, gbc);
+
+
+
+
+
+   
+        selectBDD(gs);
+
+        //for(InfosJoueurs joueur : listeInfosJoueurs){
+          // gs.addRow(joueur);
+        //}
         
-        selectBDD();
-        ordre = new Bouton(tri.getHeight(), tri.getHeight(),upArrow,bg);
-        ordre.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
-        ordre.addActionListener(new ActionListener() {
+
+        order.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e){
-                Icon tmp = ordre.getIcon();
-                ordre.setIcon(swap);
-                swap = (ImageIcon)tmp;
-                croissant = !croissant;
-                Collections.sort(listeInfosJoueurs,new JoueursCompare(attribut, croissant));
+                if(!ascending_order){
+                    order.setIcon(upArrow);
+                    ascending_order = true;
+                 }
+                
+                else{
+                    order.setIcon(downArrow);
+                    ascending_order = false;
+                 };
+                
+                Collections.sort(listeInfosJoueurs,new JoueursCompare(attribut,ascending_order));
                 ensembleJoueurs(listeInfosJoueurs, box);
             }
         });
-        add(ordre).setBounds(tri.getX() + tri.getWidth(), tri.getY(),ordre.width,ordre.height);
+        
         tri.addItemListener(new ItemListener() {
 
             @Override
@@ -127,7 +196,7 @@ public class Effectif extends Page {
                 if (e.getItem() == "Par numero") attribut = "Numero";
                 if (e.getItem() == "Par poids") attribut = "Poids";
                 if (e.getItem() == "Par poste") attribut = "Poste";
-                Collections.sort(listeInfosJoueurs,new JoueursCompare(attribut,croissant));
+                Collections.sort(listeInfosJoueurs,new JoueursCompare(attribut,ascending_order));
                 ensembleJoueurs(listeInfosJoueurs, box);
                 }
             
@@ -135,7 +204,7 @@ public class Effectif extends Page {
         });
 
 
-        addPlayer.addActionListener(new ActionListener() {
+        addPlayerButton.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -153,13 +222,15 @@ public class Effectif extends Page {
                     lastIdValue = MainSelectClient.lastIdValue;  
                     System.out.println("test");
                     Player j = new Player(joueur.prenom.getText(),joueur.nom.getText(),dateNaiss,joueur.nationalite.getText(),sqlDate,Integer.parseInt(joueur.salaire.getText()),(String)joueur.poste.getSelectedItem(),(int)joueur.tailleSpinner.getValue(),(int)joueur.numeroSpinner.getValue(),(int)joueur.poidsSpinner.getValue(),joueur.pied.getSelectedItem().toString(),lastIdValue);
+                    //listeInfosJoueurs.add(InfosJoueurs.playerToInfosJoueurs(j));
                     try {
                         int insert = (MainInsertClient.sendPlayer(j));
                         if (insert == 1) {
                             System.out.println("val : " + lastIdValue);
                             listeInfosJoueurs.add(InfosJoueurs.playerToInfosJoueurs(j));
-                            Collections.sort(listeInfosJoueurs,new JoueursCompare(attribut,croissant));
-                            ensembleJoueurs(listeInfosJoueurs, box);
+                            Collections.sort(listeInfosJoueurs,new JoueursCompare(attribut,ascending_order));
+                            gs.addRow(playerInformation(j));
+                            repaint();
                         }
                         else{
                             JOptionPane.showMessageDialog(null, "Le serveur est offline", "Erreur", JOptionPane.ERROR_MESSAGE);
@@ -227,21 +298,40 @@ public class Effectif extends Page {
 /*         int x = 150;
         g.setColor(Color.YELLOW);       
         g.drawLine(x, addPlayer.getY() + addPlayer.height, x,HEIGHT); */
+        
+
  
     }   
 
 
-    public void selectBDD(){
+    public void selectBDD(GridSquad gs){
         try {
             List<List<Object>> listOfPlayersInformations = MainSelectClient.selectAllPlayers();
             for (List<Object> playerInformation : listOfPlayersInformations) {
-                listeInfosJoueurs.add(new InfosJoueurs((String)playerInformation.get(0),(String)playerInformation.get(1),(Date)playerInformation.get(2),(String)playerInformation.get(3),(Date)playerInformation.get(4),(int)playerInformation.get(5),(String)playerInformation.get(6),(int)playerInformation.get(7),(int)playerInformation.get(8),(int)playerInformation.get(9),(String)playerInformation.get(10),(int)playerInformation.get(11)));
+                gs.addRow(playerInformation);//new InfosJoueurs((String)playerInformation.get(0),(String)playerInformation.get(1),(Date)playerInformation.get(2),(String)playerInformation.get(3),(Date)playerInformation.get(4),(int)playerInformation.get(5),(String)playerInformation.get(6),(int)playerInformation.get(7),(int)playerInformation.get(8),(int)playerInformation.get(9),(String)playerInformation.get(10),(int)playerInformation.get(11)));
             }
-            ensembleJoueurs(listeInfosJoueurs, box);
+            //ensembleJoueurs(listeInfosJoueurs, box);
         }catch(Exception execp) {
             System.err.println(execp);
         }
         
+    }
+
+    public List<Object> playerInformation(Player p) {
+        List<Object> res = new ArrayList<>();
+        res.add(p.prenom);
+        res.add(p.nom);
+        res.add(p.naissance);
+        res.add(p.nationalite);
+        res.add(p.contrat);
+        res.add(p.salaire);
+        res.add(p.position);
+        res.add(p.taille);
+        res.add(p.numero);
+        res.add(p.poids);
+        res.add(p.pied);
+        res.add(p.id);
+        return res;
     }
 
     

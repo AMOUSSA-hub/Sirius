@@ -77,7 +77,7 @@ public class MainInsertClient {
         return null;
     }
 
-    public static void sendPlayer(Player j) throws Exception {
+    public static int sendPlayer(Player j) {
         LoggingLabel = "I n s e r t e r - C l i e n t";
         logger = LoggerFactory.getLogger(LoggingLabel);
         requestOrder = "INSERT_PLAYER";
@@ -87,6 +87,9 @@ public class MainInsertClient {
         //networkConfig.setTcpport(port);
         System.out.println(networkConfig.getIpaddress() + " " + networkConfig.getTcpport() + "   CDCDCDCD");
         int birthdate = 0;
+        try {
+            
+
             final ObjectMapper objectMapper = new ObjectMapper();
             final String jsonifiedGuy = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(j);
             logger.trace("Student with its JSON face : {}", jsonifiedGuy);
@@ -102,8 +105,15 @@ public class MainInsertClient {
                                                                         networkConfig,
                                                                         birthdate++, request, j, requestBytes);
             clientRequests.push(clientRequest);
-
-        
+            Thread insert = clientRequest.getThread();
+            while (insert.isAlive()) {
+                //Waiting the thread to die
+            }
+            return Integer.parseInt(clientRequest.getResponse());
+        } catch (Exception e) {
+            System.err.println(e);
+        }
+        return 0;
 /*         try  {
             socket = new Socket(networkConfig.getIpaddress(), networkConfig.getTcpport());
             OutputStream outputStream = socket.getOutputStream();
