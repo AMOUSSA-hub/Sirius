@@ -82,12 +82,14 @@ public abstract class ClientRequest<N,S> implements Runnable {
             final ObjectMapper mapper = new ObjectMapper();
             final Response response = mapper.readValue(inputData, Response.class);
             logger.debug("Response = {}", response.toString());
-
-            result = readResult(response.responseBody);
-            setResponse(result.toString());
+            this.response = response.getResponseBody();
+            System.out.println("dzj : " + this.response);
+            //result = readResult(response.responseBody);
+            //System.out.println("ikdeijifjife : " + result);
+            //setResponse(result.toString());
 
         } catch (IOException e) {
-            //logger.error("Connection fails, exception tells {} — {}", e.getMessage(), e.getClass());
+            logger.error("Connection fails, exception tells {} — {}", e.getMessage(), e.getClass());
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -107,6 +109,10 @@ public abstract class ClientRequest<N,S> implements Runnable {
 
     public final S getResult() {
         return result;
+    }
+
+    public final Thread getThread(){
+        return self;
     }
 
     public void setResponse(String response){
