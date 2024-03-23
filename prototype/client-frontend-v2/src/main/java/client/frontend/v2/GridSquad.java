@@ -34,16 +34,13 @@ public class GridSquad extends JPanel {
 
     public void addRow(List<Object> j){
         gl.setRows(gl.getRows()+1);
-        //add(new CaseGridSquad(" ", fen));
 
         for (int i = 0; i < j.size()-1 ; i++) {
             Object info = j.get(i); 
-            //System.out.println("info : " + info);
             add(new CaseGridSquad(info.toString(),fen));
         }
         revalidate();
         repaint();
-        //gl.setRows(gl.getRows()+1);
 
     }
 

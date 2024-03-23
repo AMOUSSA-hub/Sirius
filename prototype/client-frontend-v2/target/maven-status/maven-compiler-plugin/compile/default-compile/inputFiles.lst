@@ -1,18 +1,20 @@
-C:\Users\Williams\OneDrive\Bureau\Cours_Ing1\SiriusGit\Sirius\prototype\client-frontend-v2\src\main\java\client\frontend\v2\InfosJoueurs.java
-C:\Users\Williams\OneDrive\Bureau\Cours_Ing1\SiriusGit\Sirius\prototype\client-frontend-v2\src\main\java\client\frontend\v2\LauncherFrame.java
-C:\Users\Williams\OneDrive\Bureau\Cours_Ing1\SiriusGit\Sirius\prototype\client-frontend-v2\src\main\java\client\frontend\v2\AddPlayer.java
-C:\Users\Williams\OneDrive\Bureau\Cours_Ing1\SiriusGit\Sirius\prototype\client-frontend-v2\src\main\java\client\frontend\v2\CalendarFrame.java
-C:\Users\Williams\OneDrive\Bureau\Cours_Ing1\SiriusGit\Sirius\prototype\client-frontend-v2\src\main\java\client\frontend\v2\MenuBar.java
-C:\Users\Williams\OneDrive\Bureau\Cours_Ing1\SiriusGit\Sirius\prototype\client-frontend-v2\src\main\java\client\frontend\v2\App.java
-C:\Users\Williams\OneDrive\Bureau\Cours_Ing1\SiriusGit\Sirius\prototype\client-frontend-v2\src\main\java\client\frontend\v2\GridSquad.java
-C:\Users\Williams\OneDrive\Bureau\Cours_Ing1\SiriusGit\Sirius\prototype\client-frontend-v2\src\main\java\client\frontend\v2\PageStatistiques.java
-C:\Users\Williams\OneDrive\Bureau\Cours_Ing1\SiriusGit\Sirius\prototype\client-frontend-v2\src\main\java\client\frontend\v2\CaseGridSquad.java
-C:\Users\Williams\OneDrive\Bureau\Cours_Ing1\SiriusGit\Sirius\prototype\client-frontend-v2\src\main\java\client\frontend\v2\JoueursCompare.java
-C:\Users\Williams\OneDrive\Bureau\Cours_Ing1\SiriusGit\Sirius\prototype\client-frontend-v2\src\main\java\client\frontend\v2\Bouton.java
-C:\Users\Williams\OneDrive\Bureau\Cours_Ing1\SiriusGit\Sirius\prototype\client-frontend-v2\src\main\java\client\frontend\v2\RoundBtn.java
-C:\Users\Williams\OneDrive\Bureau\Cours_Ing1\SiriusGit\Sirius\prototype\client-frontend-v2\src\main\java\client\frontend\v2\LabelTxt.java
-C:\Users\Williams\OneDrive\Bureau\Cours_Ing1\SiriusGit\Sirius\prototype\client-frontend-v2\src\main\java\client\frontend\v2\DatePick.java
-C:\Users\Williams\OneDrive\Bureau\Cours_Ing1\SiriusGit\Sirius\prototype\client-frontend-v2\src\main\java\client\frontend\v2\MenuBarButton.java
-C:\Users\Williams\OneDrive\Bureau\Cours_Ing1\SiriusGit\Sirius\prototype\client-frontend-v2\src\main\java\client\frontend\v2\HomeFrame.java
-C:\Users\Williams\OneDrive\Bureau\Cours_Ing1\SiriusGit\Sirius\prototype\client-frontend-v2\src\main\java\client\frontend\v2\Effectif.java
-C:\Users\Williams\OneDrive\Bureau\Cours_Ing1\SiriusGit\Sirius\prototype\client-frontend-v2\src\main\java\client\frontend\v2\Page.java
+C:\Users\amous\OneDrive\Documents\ING1\Doc Sirius\Sirius\prototype\client-frontend-v2\src\main\java\client\frontend\v2\CaseEvent.java
+C:\Users\amous\OneDrive\Documents\ING1\Doc Sirius\Sirius\prototype\client-frontend-v2\src\main\java\client\frontend\v2\DatePick.java
+C:\Users\amous\OneDrive\Documents\ING1\Doc Sirius\Sirius\prototype\client-frontend-v2\src\main\java\client\frontend\v2\GridTeamEvent.java
+C:\Users\amous\OneDrive\Documents\ING1\Doc Sirius\Sirius\prototype\client-frontend-v2\src\main\java\client\frontend\v2\MenuBarButton.java
+C:\Users\amous\OneDrive\Documents\ING1\Doc Sirius\Sirius\prototype\client-frontend-v2\src\main\java\client\frontend\v2\GridSquad.java
+C:\Users\amous\OneDrive\Documents\ING1\Doc Sirius\Sirius\prototype\client-frontend-v2\src\main\java\client\frontend\v2\Bouton.java
+C:\Users\amous\OneDrive\Documents\ING1\Doc Sirius\Sirius\prototype\client-frontend-v2\src\main\java\client\frontend\v2\Page.java
+C:\Users\amous\OneDrive\Documents\ING1\Doc Sirius\Sirius\prototype\client-frontend-v2\src\main\java\client\frontend\v2\JoueursCompare.java
+C:\Users\amous\OneDrive\Documents\ING1\Doc Sirius\Sirius\prototype\client-frontend-v2\src\main\java\client\frontend\v2\RoundBtn.java
+C:\Users\amous\OneDrive\Documents\ING1\Doc Sirius\Sirius\prototype\client-frontend-v2\src\main\java\client\frontend\v2\MenuBar.java
+C:\Users\amous\OneDrive\Documents\ING1\Doc Sirius\Sirius\prototype\client-frontend-v2\src\main\java\client\frontend\v2\AddPlayer.java
+C:\Users\amous\OneDrive\Documents\ING1\Doc Sirius\Sirius\prototype\client-frontend-v2\src\main\java\client\frontend\v2\InfosJoueurs.java
+C:\Users\amous\OneDrive\Documents\ING1\Doc Sirius\Sirius\prototype\client-frontend-v2\src\main\java\client\frontend\v2\PageStatistiques.java
+C:\Users\amous\OneDrive\Documents\ING1\Doc Sirius\Sirius\prototype\client-frontend-v2\src\main\java\client\frontend\v2\LauncherFrame.java
+C:\Users\amous\OneDrive\Documents\ING1\Doc Sirius\Sirius\prototype\client-frontend-v2\src\main\java\client\frontend\v2\App.java
+C:\Users\amous\OneDrive\Documents\ING1\Doc Sirius\Sirius\prototype\client-frontend-v2\src\main\java\client\frontend\v2\LabelTxt.java
+C:\Users\amous\OneDrive\Documents\ING1\Doc Sirius\Sirius\prototype\client-frontend-v2\src\main\java\client\frontend\v2\Effectif.java
+C:\Users\amous\OneDrive\Documents\ING1\Doc Sirius\Sirius\prototype\client-frontend-v2\src\main\java\client\frontend\v2\CalendarFrame.java
+C:\Users\amous\OneDrive\Documents\ING1\Doc Sirius\Sirius\prototype\client-frontend-v2\src\main\java\client\frontend\v2\CaseGridSquad.java
+C:\Users\amous\OneDrive\Documents\ING1\Doc Sirius\Sirius\prototype\client-frontend-v2\src\main\java\client\frontend\v2\HomeFrame.java
