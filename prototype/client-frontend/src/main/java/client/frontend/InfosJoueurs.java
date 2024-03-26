@@ -21,6 +21,7 @@ import edu.ezip.ing1.pds.business.dto.Player;
 import edu.ezip.ing1.pds.client.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JOptionPane;
 
 
 @JsonRootName(value = "student")
@@ -118,12 +119,16 @@ public class InfosJoueurs extends JScrollPane implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == btn) {
- /*            try {
+            try {
+                String[] buttons = {"nom", "prenom", "naissance", "nationalite", "position", "pied", "taille", "poids","numero"};
+                int choice = JOptionPane.showOptionDialog(null, "Choisir un attribut :", "Attributs",JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, buttons, buttons[0]);
+                String attributToChange = buttons[choice];
                 Player player = this.toPlayer();
-                MainInsertClient.updatePlayer(player);
+                System.out.println(player.toString());
+                MainInsertClient.updatePlayer(player,attributToChange,"gg");
             }catch(Exception ex) {
                 System.err.println(ex);
-            } */
+            }
         }
     }
 
