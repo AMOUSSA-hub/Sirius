@@ -23,6 +23,9 @@ import edu.ezip.ing1.pds.client.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
+import javax.swing.JOptionPane;
+import java.util.*;
+
 
 @JsonRootName(value = "student")
 public class InfosJoueurs extends JScrollPane implements ActionListener {
@@ -121,12 +124,69 @@ public class InfosJoueurs extends JScrollPane implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == btn) {
- /*            try {
+            try {
+                String[] buttons = {"nom", "prenom", "naissance", "nationalite", "position", "pied", "taille", "poids","numero"};
+                int choice = JOptionPane.showOptionDialog(null, "Choisir un attribut :", "Attributs",JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, buttons, buttons[0]);
+                String attributToChange = buttons[choice];
+                String userInput = JOptionPane.showInputDialog(null, "Par quoi voulez-vous le remplacer ?");
                 Player player = this.toPlayer();
-                MainInsertClient.updatePlayer(player);
+                Object newValue = userInput;
+                int update = MainInsertClient.updatePlayer(player,attributToChange,newValue);
+                if (update == 1) {
+                    updateAttribut(choice,userInput);
+                    //Iterator<InfosJoueurs> iterator = HomeFrame.effectif.listeInfosJoueurs.iterator();
+/*                     while (iterator.hasNext()) {
+                        InfosJoueurs joueur = iterator.next();
+                        if(joueur.getId() == id) {
+                            iterator.remove();
+                            //System.out.println(Fenetre.effectif.listeInfosJoueurs.toString());
+
+                        }
+                    } */
+                    //HomeFrame.effectif.listeInfosJoueurs.add(this);
+                    //System.out.println(HomeFrame.effectif.listeInfosJoueurs.toString());
+                    //Collections.sort(Fenetre.effectif.listeInfosJoueurs,new JoueursCompare(HomeFrame.effectif.attribut, HomeFrame.effectif.ascending_order));
+                    //HomeFrame.effectif.ensembleJoueurs(HomeFrame.effectif.listeInfosJoueurs, HomeFrame.effectif.box);
+                    //Fenetre.f.repaint();
+                }
             }catch(Exception ex) {
                 System.err.println(ex);
-            } */
+            }
+        }
+    }
+
+
+    public void updateAttribut(int choice,String newValue){
+        switch (choice) {
+            case 0:
+                nom = newValue;
+                break;
+            case 1:
+                prenom = newValue;
+                break;
+            case 2:
+                naissance = Date.valueOf(newValue);
+                break;
+            case 3:
+                nationalite = newValue;
+                break;
+            case 4:
+                position = newValue;
+                break;
+            case 5:
+                pied = newValue;
+                break;
+            case 6:
+                taille = Integer.valueOf(newValue);
+                break;
+            case 7:
+                poids = Integer.valueOf(newValue);
+                break;
+            case 8:
+                numero = Integer.valueOf(newValue);
+                break;
+            default:
+                
         }
     }
 
@@ -165,6 +225,10 @@ public class InfosJoueurs extends JScrollPane implements ActionListener {
     
     public String getNationalite(){
         return nationalite;
+    }
+
+    public int getId(){
+        return id;
     }
 
     @JsonProperty("nom")
@@ -216,7 +280,10 @@ public class InfosJoueurs extends JScrollPane implements ActionListener {
         return this.infosJoueur;
     }
 
-
+    @JsonProperty("id")
+    public void setId(int id) {
+        this.id = id;
+    }
 
 
     public String toString(){

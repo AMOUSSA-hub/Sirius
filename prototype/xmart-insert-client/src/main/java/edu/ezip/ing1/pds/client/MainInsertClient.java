@@ -143,7 +143,7 @@ public class MainInsertClient {
                                     clientRequest2.getResponse());
     } */
 }
-    public static void updatePlayer(Player j,String playerAttribut,Object newAttribut) {
+    public static int updatePlayer(Player j,String playerAttribut,Object newAttribut) {
       try {
         
 
@@ -173,9 +173,15 @@ public class MainInsertClient {
                                                                         networkConfig,
                                                                         birthdate++, request, j, requestBytes);
             clientRequests.push(clientRequest);
+            Thread insert = clientRequest.getThread();
+            while (insert.isAlive()) {
+                //Waiting the thread to die
+            }
+            return Integer.parseInt(clientRequest.getResponse());
         } catch (Exception e) {
             System.err.println(e);
-          }
+        }
+        return 0;
 
            // String jsonRequest = objectMapper.writeValueAsString(request);
         
