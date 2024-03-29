@@ -98,7 +98,9 @@ public class Effectif extends Page {
         titre = new Box(BoxLayout.X_AXIS);
         titreBox();
         
-        selectBDD();
+        listeInfosJoueurs = selectBDD();
+        ensembleJoueurs(listeInfosJoueurs, box);
+
         ordre = new Bouton(tri.getHeight(), tri.getHeight(),upArrow,bg);
         ordre.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
         ordre.addActionListener(new ActionListener() {
@@ -231,16 +233,18 @@ public class Effectif extends Page {
     }   
 
 
-    public void selectBDD(){
+    public List<InfosJoueurs> selectBDD(){
+        List<InfosJoueurs> liste = new ArrayList<>();
         try {
             List<List<Object>> listOfPlayersInformations = MainSelectClient.selectAllPlayers();
             for (List<Object> playerInformation : listOfPlayersInformations) {
-                listeInfosJoueurs.add(new InfosJoueurs((String)playerInformation.get(0),(String)playerInformation.get(1),(Date)playerInformation.get(2),(String)playerInformation.get(3),(Date)playerInformation.get(4),(int)playerInformation.get(5),(String)playerInformation.get(6),(int)playerInformation.get(7),(int)playerInformation.get(8),(int)playerInformation.get(9),(String)playerInformation.get(10),(int)playerInformation.get(11)));
+                liste.add(new InfosJoueurs((String)playerInformation.get(0),(String)playerInformation.get(1),(Date)playerInformation.get(2),(String)playerInformation.get(3),(Date)playerInformation.get(4),(int)playerInformation.get(5),(String)playerInformation.get(6),(int)playerInformation.get(7),(int)playerInformation.get(8),(int)playerInformation.get(9),(String)playerInformation.get(10),(int)playerInformation.get(11)));
             }
-            ensembleJoueurs(listeInfosJoueurs, box);
+            return liste;
         }catch(Exception execp) {
             System.err.println(execp);
         }
+        return null;
         
     }
 

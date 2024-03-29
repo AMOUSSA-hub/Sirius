@@ -156,7 +156,7 @@ public class Effectif extends JPanel{
 
 
    
-        selectBDD(gs);
+        listeInfosJoueurs = selectBDD(gs);
         
 
         order.addActionListener(new ActionListener() {
@@ -297,17 +297,22 @@ public class Effectif extends JPanel{
     }   
 
 
-    public void selectBDD(GridInfoSquad gs){
+    public List<InfosJoueurs> selectBDD(GridInfoSquad gs){
+        List<InfosJoueurs> liste = new ArrayList<>();
         try {
             listOfPlayersInformations = MainSelectClient.selectAllPlayers();
             for (List<Object> playerInformation : listOfPlayersInformations) {
                 gs.addRow(playerInformation);
+                liste.add(new InfosJoueurs((String)playerInformation.get(0),(String)playerInformation.get(1),(Date)playerInformation.get(2),(String)playerInformation.get(3),(Date)playerInformation.get(4),(int)playerInformation.get(5),(String)playerInformation.get(6),(int)playerInformation.get(7),(int)playerInformation.get(8),(int)playerInformation.get(9),(String)playerInformation.get(10),(int)playerInformation.get(11)));
+
             }
+            return liste;
             //ensembleJoueurs(listeInfosJoueurs, box);
         }catch(Exception execp) {
             System.err.println(execp);
         }
-        
+        return null;
+
     }
 
     public List<Object> playerInformation(Player p) {
