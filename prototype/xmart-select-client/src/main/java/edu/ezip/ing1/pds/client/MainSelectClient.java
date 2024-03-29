@@ -3,6 +3,7 @@ package edu.ezip.ing1.pds.client;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import edu.ezip.commons.LoggingUtils;
+import edu.ezip.ing1.pds.business.dto.TeamEvent;
 import edu.ezip.ing1.pds.client.commons.ClientRequest;
 import edu.ezip.ing1.pds.client.commons.ConfigLoader;
 import edu.ezip.ing1.pds.client.commons.NetworkConfig;
@@ -17,7 +18,9 @@ import java.time.LocalDate;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 import java.io.OutputStream;
 import java.net.Socket;
@@ -39,21 +42,20 @@ public class MainSelectClient {
     private static final Deque<ClientRequest> clientRequests = new ArrayDeque<ClientRequest>();
     public static final String ipServeur = "172.31.252.86";
     private static Socket socket;
-
-    public static void main(String[] args) throws IOException, InterruptedException, SQLException, Exception {
-
+    private final NetworkConfig networkConfig;
+    private int birthdate = 0;
+   public  MainSelectClient(){
         
-    }
-
-    public static List<List<Object>> selectAllPlayers() throws Exception{
-        List<List<Object>> listOfPlayersInformations = new ArrayList<>();
-        final NetworkConfig networkConfig = ConfigLoader.loadConfig(NetworkConfig.class, networkConfigFile);
+         networkConfig = ConfigLoader.loadConfig(NetworkConfig.class, networkConfigFile);
 /*         networkConfig.setIpaddress("172.31.253.218");
         networkConfig.setTcpport(5432); */
         logger.debug("Load Network config file : {}", networkConfig.toString());
     
-        int birthdate = 0;
-       
+    }
+
+    public  List<List<Object>> selectAllPlayers() throws Exception{
+        List<List<Object>> listOfPlayersInformations = new ArrayList<>();
+      // préparation de la requête qu'on envoie au serveur
         final ObjectMapper objectMapper = new ObjectMapper();
         final String requestId = UUID.randomUUID().toString();
         final Request request = new Request();
@@ -138,6 +140,16 @@ public class MainSelectClient {
         }
         return null;
     }
+
+
+    public Set<TeamEvent> getAllEvents(){
+        Set<TeamEvent> events = new  HashSet<>();
+        
+        
+
+    
+        return events;
+    } 
 
     public static String getReponseServeur(Socket socket) {
         try {

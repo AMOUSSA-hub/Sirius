@@ -53,6 +53,7 @@ public class Effectif extends JPanel{
     int hauteur_effectif = InfosJoueurs.HeightBox_Y + 3;
     Color bg = Color.gray;
     List<List<Object>> listOfPlayersInformations;
+    MainSelectClient msc = new MainSelectClient();
     Effectif(JFrame fen) {
 
         try {
@@ -299,7 +300,7 @@ public class Effectif extends JPanel{
 
     public void selectBDD(GridInfoSquad gs){
         try {
-            listOfPlayersInformations = MainSelectClient.selectAllPlayers();
+            listOfPlayersInformations = msc.selectAllPlayers();
             for (List<Object> playerInformation : listOfPlayersInformations) {
                 gs.addRow(playerInformation);
             }
