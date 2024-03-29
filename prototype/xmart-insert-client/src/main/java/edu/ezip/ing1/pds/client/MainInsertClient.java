@@ -28,6 +28,8 @@ import java.io.OutputStream;
 import java.net.Socket;
 import java.io.ByteArrayOutputStream;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 //import client.frontend.Player;
 
 
@@ -43,6 +45,7 @@ public class MainInsertClient {
     final NetworkConfig networkConfig =  ConfigLoader.loadConfig(NetworkConfig.class, networkConfigFile);
     //public static final String ipServeur = "172.31.252.86";
     private static Socket socket;
+    static JsonNodeFactory factory = JsonNodeFactory.instance;
     public static void main(String[] args) throws IOException, InterruptedException, SQLException, ClassNotFoundException {
 
         final Students guys = ConfigLoader.loadConfig(Students.class, studentsToBeInserted);
@@ -140,7 +143,10 @@ public class MainInsertClient {
                                     clientRequest2.getResponse());
     } */
 }
-    public static void updatePlayer(Player j,Object attributToReplace) throws Exception {
+    public static void updatePlayer(Player j,String playerAttribut,Object newAttribut) {
+      try {
+        
+
         LoggingLabel = "U P D A T E R - C l i e n t";
         logger = LoggerFactory.getLogger(LoggingLabel);
         requestOrder = "UPDATE_PLAYER";
@@ -149,8 +155,11 @@ public class MainInsertClient {
         //networkConfig.setIpaddress(ipBDD);
         //networkConfig.setTcpport(port);
         int birthdate = 0;
-            final ObjectMapper objectMapper = new ObjectMapper();
-            final String jsonifiedGuy = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(attributToReplace);
+            final ObjectMapper objectMapper = new ObjectMapper();  
+            ObjectNode rootNode = factory.objectNode();
+            rootNode.put(playerAttribut, newAttribut.toString());
+            rootNode.put("id", j.id);
+            final String jsonifiedGuy = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(rootNode);
             logger.trace("Student with its JSON face : {}", jsonifiedGuy);
             final String requestId = UUID.randomUUID().toString();
             final Request request = new Request();
@@ -162,8 +171,11 @@ public class MainInsertClient {
 
             final InsertStudentsClientRequest clientRequest = new InsertStudentsClientRequest (
                                                                         networkConfig,
-                                                                        birthdate++, request, attributToReplace, requestBytes);
+                                                                        birthdate++, request, j, requestBytes);
             clientRequests.push(clientRequest);
+        } catch (Exception e) {
+            System.err.println(e);
+          }
 
            // String jsonRequest = objectMapper.writeValueAsString(request);
         
