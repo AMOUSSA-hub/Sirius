@@ -12,6 +12,7 @@ client\frontend\v2\AddPlayer$4.class
 client\frontend\v2\DatePick$2.class
 client\frontend\v2\Page.class
 client\frontend\v2\MenuBar.class
+client\frontend\v2\GridInfoSquad.class
 client\frontend\v2\App.class
 client\frontend\v2\Effectif$1.class
 client\frontend\v2\RoundBtn.class

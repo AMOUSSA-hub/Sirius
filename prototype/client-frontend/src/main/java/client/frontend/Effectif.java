@@ -196,7 +196,7 @@ public class Effectif extends Page {
         //listeInfosJoueurs.add(pane);
     }
 
-    private void ensembleJoueurs(List<InfosJoueurs> listeJoueurs,Box box){ //Affiche la liste des joueurs du club 
+    public void ensembleJoueurs(List<InfosJoueurs> listeJoueurs,Box box){ //Affiche la liste des joueurs du club 
         int y = addPlayer.getY() + addPlayer.height;
         hauteur_effectif = InfosJoueurs.HeightBox_Y + 3;
         for (int i = 0 ; i < listeJoueurs.size(); i++){
