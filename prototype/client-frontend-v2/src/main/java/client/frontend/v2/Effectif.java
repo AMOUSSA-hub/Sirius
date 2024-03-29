@@ -92,7 +92,7 @@ public class Effectif extends JPanel{
         tri.addItem("Par numero");
         tri.addItem("Par poids");
 
-       
+       //mise en place du menu de tri
         gbc.gridx = 1;
         gbc.gridy = 1;
         gbc.gridwidth = 1;
@@ -102,7 +102,7 @@ public class Effectif extends JPanel{
         gbc.weightx = 0.0;
         gbc.weighty = 0.0;
         gbc.insets = new Insets(70, 1, 1, 1);
-        tri.setPreferredSize(new Dimension(300, 30));
+       // tri.setPreferredSize(new Dimension(300, 30));
         add(sortPane,gbc);
 
 
@@ -143,7 +143,7 @@ public class Effectif extends JPanel{
         gbc.gridy = 3;
         gbc.gridwidth = 1;
         gbc.gridheight = 1; 
-        gbc.fill = GridBagConstraints.BOTH; // Remplir dans les deux directions
+        gbc.fill = GridBagConstraints.HORIZONTAL; 
         gbc.anchor = GridBagConstraints.NORTH;
         gbc.weightx = 1.0;
         gbc.weighty = 1.0;
