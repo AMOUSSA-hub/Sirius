@@ -1,7 +1,9 @@
 package client.frontend.v2;
 
 import java.awt.*;
+import java.util.*;
 import java.util.List;
+
 import javax.swing.*;
 import javax.swing.JPanel;
 
@@ -30,7 +32,10 @@ public class GridInfoSquad extends JPanel {
 
     add(scrollPane);
   }
-
+/* A MODIFIER POUR FAIRE EN SORTE QUE CA PRENNE EN ARGUMENT InfosJoueur */
+   /**
+    *Ajoute une ligne au tableau .
+    */
   public void addRow(List<Object> j) {
     bodyTabLayout.setRows(bodyTabLayout.getRows() + 1);
 
@@ -43,22 +48,34 @@ public class GridInfoSquad extends JPanel {
     repaint();
 
   }
-
+/**
+ * Vide le corps du tableau.
+ */
   public void unFillGrid(){
-    scrollPane.removeAll();
-    scrollPane.setColumnHeaderView(headTabPanel);
+    bodyTabLayout.setRows(0);
+    bodyTabPanel.removeAll();
     revalidate();
     repaint();
-
-    scrollPane.add(new CaseGridSquad("blabal", fen));
 
 
   }
 
+  /**
+   * Trie le tableau
+   */
+  public void sort(List<InfosJoueurs> infosPlayer,boolean isAscendant,String sorting_attribut){
 
-  public void sort(boolean isAscendant){
-
+    System.out.println(isAscendant+" "+ sorting_attribut);
     unFillGrid();
+
+    Collections.sort(infosPlayer,new JoueursCompare(sorting_attribut,isAscendant));
+
+    for(InfosJoueurs y: infosPlayer){
+      //addRow(y);
+      
+    }
+
+    
   }
   
 }

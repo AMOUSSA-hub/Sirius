@@ -52,6 +52,7 @@ public class Effectif extends JPanel{
     Box titre;
     int hauteur_effectif = InfosJoueurs.HeightBox_Y + 3;
     Color bg = Color.gray;
+    List<List<Object>> listOfPlayersInformations;
     Effectif(JFrame fen) {
 
         try {
@@ -171,9 +172,7 @@ public class Effectif extends JPanel{
                     ascending_order = false;
                  };
                 
-                Collections.sort(listeInfosJoueurs,new JoueursCompare(attribut,ascending_order));
-            gs.unFillGrid();
-               // ensembleJoueurs(listeInfosJoueurs, box);
+            //gs.sort(listOfPlayersInformations,ascending_order,attribut);
             }
         });
         
@@ -191,8 +190,7 @@ public class Effectif extends JPanel{
                 if (e.getItem() == "Par numero") attribut = "Numero";
                 if (e.getItem() == "Par poids") attribut = "Poids";
                 if (e.getItem() == "Par poste") attribut = "Poste";
-                Collections.sort(listeInfosJoueurs,new JoueursCompare(attribut,ascending_order));
-                //ensembleJoueurs(listeInfosJoueurs, box);
+              //gs.sort(listOfPlayersInformations,ascending_order,attribut);
                 }
             
             
@@ -301,9 +299,9 @@ public class Effectif extends JPanel{
 
     public void selectBDD(GridInfoSquad gs){
         try {
-            List<List<Object>> listOfPlayersInformations = MainSelectClient.selectAllPlayers();
+            listOfPlayersInformations = MainSelectClient.selectAllPlayers();
             for (List<Object> playerInformation : listOfPlayersInformations) {
-                gs.addRow(playerInformation);//new InfosJoueurs((String)playerInformation.get(0),(String)playerInformation.get(1),(Date)playerInformation.get(2),(String)playerInformation.get(3),(Date)playerInformation.get(4),(int)playerInformation.get(5),(String)playerInformation.get(6),(int)playerInformation.get(7),(int)playerInformation.get(8),(int)playerInformation.get(9),(String)playerInformation.get(10),(int)playerInformation.get(11)));
+                gs.addRow(playerInformation);
             }
             //ensembleJoueurs(listeInfosJoueurs, box);
         }catch(Exception execp) {
