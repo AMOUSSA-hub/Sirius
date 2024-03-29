@@ -17,7 +17,7 @@ class DatePick {
     J_Dialog = new JDialog();
     J_Dialog.setModal(true);
     String[] Header = {
-        "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday","Sunday"};
+        "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi","Dimanche"};
     JPanel J_Panel1 = new JPanel(new GridLayout(7, 7));
     J_Panel1.setPreferredSize(new Dimension(700, 120));
 
@@ -46,7 +46,7 @@ class DatePick {
       J_Panel1.add(J_Button[i]);
     }
     JPanel J_Panel2 = new JPanel(new GridLayout(1, 3));
-    JButton Previous_Button = new JButton("<< Previous");
+    JButton Previous_Button = new JButton("<<");
     Previous_Button.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent ae) {
         DATE_MONTH--;
@@ -55,7 +55,7 @@ class DatePick {
     });
     J_Panel2.add(Previous_Button);
     J_Panel2.add(J_Label);
-    JButton Next_Button = new JButton("Next >>");
+    JButton Next_Button = new JButton(">>");
     Next_Button.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent ae) {
         DATE_MONTH++;

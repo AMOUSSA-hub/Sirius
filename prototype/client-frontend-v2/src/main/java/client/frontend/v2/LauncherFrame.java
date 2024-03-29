@@ -1,8 +1,6 @@
 package client.frontend.v2;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Image;
+import java.awt.*;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -30,7 +28,7 @@ public class LauncherFrame  extends JFrame{
         try {
             // Charger l'image depuis les ressources
             InputStream inputStream = getClass().getResourceAsStream("/clubManagerTransparent.png");
-            Image image = ImageIO.read(inputStream);
+            Image image = ImageIO.read(inputStream).getScaledInstance(500,500, Image.SCALE_DEFAULT);
     
             // Créer l'objet ImageIcon à partir de l'objet Image
             clubManager = new ImageIcon(image);
@@ -43,8 +41,9 @@ public class LauncherFrame  extends JFrame{
 
 
         //add(new JLabel(new ImageIcon(new ImageIcon("client-front_V2/images/clubManagerTransparent.png").getImage().getScaledInstance(500,500, Image.SCALE_DEFAULT))),BorderLayout.CENTER);
-        add(clubManagerLabel);
+        add(clubManagerLabel,BorderLayout.CENTER);
         JButton enterButton = new JButton("Entrer");
+        enterButton.setPreferredSize(new Dimension(50,20));
         add(enterButton,BorderLayout.SOUTH);
 
         enterButton.addActionListener(e -> {this.dispose();new HomeFrame();});

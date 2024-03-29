@@ -40,7 +40,6 @@ public class Effectif extends JPanel{
     static final Color fondTitre = new Color(96,96,96);
     ImageIcon upArrow; //= new ImageIcon(new ImageIcon("client-front_V2/images/upArrow.png").getImage().getScaledInstance(20, 20, Image.SCALE_DEFAULT)) ;
     ImageIcon downArrow; //= new ImageIcon(new ImageIcon("client-front_V2/images/downArrow.png").getImage().getScaledInstance(20, 20, Image.SCALE_DEFAULT));
-    ImageIcon swap = downArrow;
     JComboBox<String> tri = new JComboBox<>(); 
     Bouton ordre;
     boolean ascending_order = true;
@@ -59,12 +58,12 @@ public class Effectif extends JPanel{
             // Charger l'image depuis les ressources
             InputStream inputStream = getClass().getResourceAsStream("/upArrow.png");
             InputStream inputStream2 = getClass().getResourceAsStream("/downArrow.png");
-            Image image = ImageIO.read(inputStream);
-            Image image2 = ImageIO.read(inputStream2);
+            Image image = ImageIO.read(inputStream).getScaledInstance(20, 20, Image.SCALE_DEFAULT);
+            Image image2 = ImageIO.read(inputStream2).getScaledInstance(20, 20, Image.SCALE_DEFAULT);
             // Créer l'objet ImageIcon à partir de l'objet Image
             upArrow = new ImageIcon(image);
             downArrow = new ImageIcon(image2);
-            swap = downArrow;
+          
 
         }catch(Exception e){
             System.err.println(e);
@@ -98,11 +97,11 @@ public class Effectif extends JPanel{
         gbc.gridy = 1;
         gbc.gridwidth = 1;
         gbc.gridheight = 1;
-        gbc.fill = GridBagConstraints.NONE;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.anchor = GridBagConstraints.NORTH;
         gbc.weightx = 0.0;
         gbc.weighty = 0.0;
-        gbc.insets = new Insets(100, 1, 1, 1);
+        gbc.insets = new Insets(70, 1, 1, 1);
         tri.setPreferredSize(new Dimension(300, 30));
         add(sortPane,gbc);
 
@@ -116,8 +115,8 @@ public class Effectif extends JPanel{
 
         // Mise en place du tableau des infos de l'effectif
         String[] columnNames = {"PHOTO","JOUEUR","AGE","NAT","CONTRAT","SALAIRE","POS","TAILLE","N°","POIDS","PIED"};
-        GridSquad gs = new GridSquad(columnNames,fen);
-        JScrollPane scrollPane = new JScrollPane(gs);
+        GridInfoSquad gs = new GridInfoSquad(columnNames,fen);
+       
         
         //Bouton pour ajouter des joueurs
         JButton addPlayerButton = new JButton("Ajouter");
@@ -138,19 +137,18 @@ public class Effectif extends JPanel{
          add(addPlayerButton,gbc);
 
 
-         Dimension maxSize = new Dimension(500,600); // Taille maximale de votre choix
-         scrollPane.setPreferredSize(maxSize);
+        
         //tableau effectif
-       gbc.gridx = 1;
-gbc.gridy = 3;
-gbc.gridwidth = 1;
-gbc.gridheight = GridBagConstraints.REMAINDER; // Permet au JScrollPane de s'étendre sur plusieurs lignes si nécessaire
-gbc.fill = GridBagConstraints.HORIZONTAL; // Remplir dans les deux directions
-gbc.anchor = GridBagConstraints.NORTH;
-gbc.weightx = 1.0;
-gbc.weighty = 1.0;
-gbc.insets = new Insets(1, 1, 1, 1);
-add(scrollPane, gbc);
+        gbc.gridx = 1;
+        gbc.gridy = 3;
+        gbc.gridwidth = 1;
+        gbc.gridheight = 1; 
+        gbc.fill = GridBagConstraints.BOTH; // Remplir dans les deux directions
+        gbc.anchor = GridBagConstraints.NORTH;
+        gbc.weightx = 1.0;
+        gbc.weighty = 1.0;
+        gbc.insets = new Insets(1, 1, 1, 1);
+        add(gs, gbc);
 
 
 
@@ -158,10 +156,6 @@ add(scrollPane, gbc);
 
    
         selectBDD(gs);
-
-        //for(InfosJoueurs joueur : listeInfosJoueurs){
-          // gs.addRow(joueur);
-        //}
         
 
         order.addActionListener(new ActionListener() {
@@ -178,7 +172,8 @@ add(scrollPane, gbc);
                  };
                 
                 Collections.sort(listeInfosJoueurs,new JoueursCompare(attribut,ascending_order));
-                ensembleJoueurs(listeInfosJoueurs, box);
+            gs.unFillGrid();
+               // ensembleJoueurs(listeInfosJoueurs, box);
             }
         });
         
@@ -197,7 +192,7 @@ add(scrollPane, gbc);
                 if (e.getItem() == "Par poids") attribut = "Poids";
                 if (e.getItem() == "Par poste") attribut = "Poste";
                 Collections.sort(listeInfosJoueurs,new JoueursCompare(attribut,ascending_order));
-                ensembleJoueurs(listeInfosJoueurs, box);
+                //ensembleJoueurs(listeInfosJoueurs, box);
                 }
             
             
@@ -304,7 +299,7 @@ add(scrollPane, gbc);
     }   
 
 
-    public void selectBDD(GridSquad gs){
+    public void selectBDD(GridInfoSquad gs){
         try {
             List<List<Object>> listOfPlayersInformations = MainSelectClient.selectAllPlayers();
             for (List<Object> playerInformation : listOfPlayersInformations) {

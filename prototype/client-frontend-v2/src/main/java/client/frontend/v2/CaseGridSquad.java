@@ -22,12 +22,12 @@ public class CaseGridSquad extends JLabel {
         }
     
 
-    @Override
-    protected void paintComponent(Graphics g) {
-        // TODO Auto-generated method stub
-        super.paintComponent(g);
-        this.setPreferredSize(new Dimension(fen.getWidth()/12,75));
+    // @Override
+    // protected void paintComponent(Graphics g) {
+    //     // TODO Auto-generated method stub
+    //     super.paintComponent(g);
+    //     this.setPreferredSize(new Dimension(fen.getWidth()/12,fen.getHeight()/10));
         
 
-    }
+    // }
 }

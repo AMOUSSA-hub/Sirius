@@ -12,8 +12,8 @@ import javax.swing.JPanel;
 
 public class HomeFrame extends JFrame {
 
-    private int WIDTH = 1500;
-    private int HEIGHT = 900;
+    private int WIDTH = 1000;
+    private int HEIGHT = 600;
     
 
     public HomeFrame(){
