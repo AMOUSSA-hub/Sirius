@@ -250,12 +250,7 @@ public class AddPlayer extends JDialog {
     JPanel control = new JPanel();
     JButton okBouton = new JButton("OK");
 
-    okBouton.addActionListener(new ActionListener(){
-      public void actionPerformed(ActionEvent arg0) {        
-        //zInfo = new AddPlayerInfo(nom.getText(), (String)sexe.getSelectedItem(), getAge(), (String)poste.getSelectedItem() ,getTaille());
-        setVisible(false);
-      }      
-    });
+    okBouton.addActionListener((e) -> this.dispose());
 
     JButton cancelBouton = new JButton("Annuler");
     cancelBouton.addActionListener(new ActionListener(){

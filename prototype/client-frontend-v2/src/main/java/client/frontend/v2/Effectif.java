@@ -144,12 +144,12 @@ public class Effectif extends JPanel{
         gbc.gridx = 1;
         gbc.gridy = 3;
         gbc.gridwidth = 1;
-        gbc.gridheight = 1; 
-        gbc.fill = GridBagConstraints.HORIZONTAL; 
+        gbc.gridheight =1; 
+        gbc.fill = GridBagConstraints.BOTH; 
         gbc.anchor = GridBagConstraints.NORTH;
         gbc.weightx = 1.0;
         gbc.weighty = 1.0;
-        gbc.insets = new Insets(1, 1, 1, 1);
+        gbc.insets = new Insets(1, 1, 20, 1);
         add(gs, gbc);
 
 
@@ -173,7 +173,7 @@ public class Effectif extends JPanel{
                     ascending_order = false;
                  };
                 
-            //gs.sort(listOfPlayersInformations,ascending_order,attribut);
+            gs.sort(listeInfosJoueurs,ascending_order,attribut);
             }
         });
         
@@ -191,7 +191,7 @@ public class Effectif extends JPanel{
                 if (e.getItem() == "Par numero") attribut = "Numero";
                 if (e.getItem() == "Par poids") attribut = "Poids";
                 if (e.getItem() == "Par poste") attribut = "Poste";
-              //gs.sort(listOfPlayersInformations,ascending_order,attribut);
+                gs.sort(listeInfosJoueurs,ascending_order,attribut);
                 }
             
             
@@ -203,40 +203,44 @@ public class Effectif extends JPanel{
             @Override
             public void actionPerformed(ActionEvent e) {
                 AddPlayer joueur = new AddPlayer(null, "Ajouter un joueur ", true);
-                // //UtilDateModel model = (UtilDateModel)joueur.dateContrat.getModel();
-                // java.util.Date date = (java.util.Date)joueur.dateContratSpinner.getValue();
-                // java.sql.Date sqlDate = new java.sql.Date(date.getTime());
-                // //UtilDateModel model2 = (UtilDateModel)joueur.dateNaissance.getModel();
-                // java.util.Date age = (java.util.Date)joueur.dateNaissanceSpinner.getValue();
-                // java.sql.Date dateNaiss = new java.sql.Date(age.getTime());
+                //UtilDateModel model = (UtilDateModel)joueur.dateContrat.getModel();
+                java.util.Date date = (java.util.Date)joueur.dateContratSpinner.getValue();
+                java.sql.Date sqlDate = new java.sql.Date(date.getTime());
+                //UtilDateModel model2 = (UtilDateModel)joueur.dateNaissance.getModel();
+                java.util.Date age = (java.util.Date)joueur.dateNaissanceSpinner.getValue();
+                java.sql.Date dateNaiss = new java.sql.Date(age.getTime());
                 
-                // if(!joueur.nom.getText().isBlank() && !joueur.prenom.getText().isEmpty() /*&& !joueur.nationalite.getText().isEmpty()*/) {
-                //     MainSelectClient.lastIdValue++;
-                //     lastIdValue = MainSelectClient.lastIdValue;  
-                //     System.out.println("test");
-                //     Player j = new Player(joueur.prenom.getText(),joueur.nom.getText(),dateNaiss,joueur.nationalite.getText(),sqlDate,Integer.parseInt(joueur.salaire.getText()),(String)joueur.poste.getSelectedItem(),(int)joueur.tailleSpinner.getValue(),(int)joueur.numeroSpinner.getValue(),(int)joueur.poidsSpinner.getValue(),joueur.pied.getSelectedItem().toString(),lastIdValue);
-                //     //listeInfosJoueurs.add(InfosJoueurs.playerToInfosJoueurs(j));
-                //     try {
-                //         int insert = (MainInsertClient.sendPlayer(j));
-                //         if (insert == 1) {
-                //             System.out.println("val : " + lastIdValue);
-                //             listeInfosJoueurs.add(InfosJoueurs.playerToInfosJoueurs(j));
-                //             Collections.sort(listeInfosJoueurs,new JoueursCompare(attribut,ascending_order));
-                //             gs.addRow(playerInformation(j));
-                //             repaint();
-                //         }
-                //         else{
-                //             JOptionPane.showMessageDialog(null, "Le serveur est offline", "Erreur", JOptionPane.ERROR_MESSAGE);
-                //         }
-                    // }catch(Exception exp) {
-                    //     System.err.println(exp);
+                if(!joueur.nom.getText().isBlank() && !joueur.prenom.getText().isEmpty() /*&& !joueur.nationalite.getText().isEmpty()*/) {
+                    MainSelectClient.lastIdValue++;
+                    lastIdValue = MainSelectClient.lastIdValue;  
+                    System.out.println("test");
+                    try {
+                    Player j = new Player(joueur.prenom.getText(),joueur.nom.getText(),dateNaiss,joueur.nationalite.getText(),sqlDate,Integer.parseInt(joueur.salaire.getText()),(String)joueur.poste.getSelectedItem(),(int)joueur.tailleSpinner.getValue(),(int)joueur.numeroSpinner.getValue(),(int)joueur.poidsSpinner.getValue(),joueur.pied.getSelectedItem().toString(),lastIdValue);
+                    InfosJoueurs info = new InfosJoueurs(joueur.prenom.getText(),joueur.nom.getText(),dateNaiss,joueur.nationalite.getText(),sqlDate,Integer.parseInt(joueur.salaire.getText()),(String)joueur.poste.getSelectedItem(),(int)joueur.tailleSpinner.getValue(),(int)joueur.numeroSpinner.getValue(),(int)joueur.poidsSpinner.getValue(),joueur.pied.getSelectedItem().toString(),lastIdValue);
+                    //listeInfosJoueurs.add(InfosJoueurs.playerToInfosJoueurs(j));
+                    
+                        int insert = (MainInsertClient.sendPlayer(j));
+                        if (insert == 1) {
+                            System.out.println("val : " + lastIdValue);
+                            listeInfosJoueurs.add(InfosJoueurs.playerToInfosJoueurs(j));
+                            Collections.sort(listeInfosJoueurs,new JoueursCompare(attribut,ascending_order));
+
+                            gs.addRow(info);
+                            repaint();
+                        }
+                        else{
+                            JOptionPane.showMessageDialog(null, "Le serveur est offline", "Erreur", JOptionPane.ERROR_MESSAGE);
+                        }
+                    }catch(Exception exp) {
+                        System.err.println(exp);
+                        JOptionPane.showMessageDialog(null,exp);
                     }
-                // }
-                // else {
-                //     JOptionPane.showMessageDialog(null,"Les informations entrées ne sont pas complètes","Erreur", JOptionPane.ERROR_MESSAGE);
-                // }
+                }
+                else {
+                    JOptionPane.showMessageDialog(null,"Les informations entrées ne sont pas complètes","Erreur", JOptionPane.ERROR_MESSAGE);
+                }
                 
-           // }
+           }
             
         });
     }

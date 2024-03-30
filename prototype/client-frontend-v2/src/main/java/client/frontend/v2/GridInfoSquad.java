@@ -7,7 +7,7 @@ import java.util.List;
 import javax.swing.*;
 import javax.swing.JPanel;
 
-public class GridInfoSquad extends JPanel {
+public class GridInfoSquad extends JScrollPane {
 
   private GridLayout bodyTabLayout;
   private JFrame fen;
@@ -16,21 +16,20 @@ public class GridInfoSquad extends JPanel {
   private JPanel headTabPanel;
 
   public GridInfoSquad(String[] titles, JFrame fen) {
-    setLayout(new GridLayout(1, 1));
-    this.fen = fen;
-    headTabPanel = new JPanel(new GridLayout(1, titles.length));
+    super();
     bodyTabLayout = new GridLayout(0, titles.length);
     bodyTabPanel = new JPanel(bodyTabLayout);
-    scrollPane = new JScrollPane(bodyTabPanel);
-    scrollPane.setColumnHeaderView(headTabPanel);
+    setViewportView(bodyTabPanel);
+    this.fen = fen;
+    headTabPanel = new JPanel(new GridLayout(1, titles.length));
+    
+    this.setColumnHeaderView(headTabPanel);
 
     for (String title : titles) {
       CaseGridSquad c = new CaseGridSquad(title, fen);
       c.setBackground(new Color(96, 96, 96));
       headTabPanel.add(c);
     }
-
-    add(scrollPane);
   }
 /* A MODIFIER POUR FAIRE EN SORTE QUE CA PRENNE EN ARGUMENT InfosJoueur */
    /**
@@ -54,6 +53,7 @@ public class GridInfoSquad extends JPanel {
   public void unFillGrid(){
     bodyTabLayout.setRows(0);
     bodyTabPanel.removeAll();
+    this.setColumnHeaderView(headTabPanel);
     revalidate();
     repaint();
 
@@ -64,16 +64,15 @@ public class GridInfoSquad extends JPanel {
    * Trie le tableau
    */
   public void sort(List<InfosJoueurs> infosPlayer,boolean isAscendant,String sorting_attribut){
-
-    System.out.println(isAscendant+" "+ sorting_attribut);
     unFillGrid();
-
     Collections.sort(infosPlayer,new JoueursCompare(sorting_attribut,isAscendant));
-
     for(InfosJoueurs y: infosPlayer){
-      //addRow(y);
+      addRow(y);
       
     }
+
+    revalidate();
+    repaint();
 
     
   }
