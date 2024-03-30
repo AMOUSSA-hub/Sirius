@@ -31,9 +31,9 @@ import java.util.*;
 public class InfosJoueurs extends JScrollPane implements ActionListener {
 
     Date contrat,naissance;
-    String prenom,nom,nationalite,position,pied;
+    String prenom,nom,nationalite,position,pied,calculed_age;
     int age,salaire,taille,numero,poids,id;
-    private String [] infosJoueur;
+    private String [] infos;
 
     Bouton btn = new Bouton(20,20,"Modif");
 
@@ -84,6 +84,12 @@ public class InfosJoueurs extends JScrollPane implements ActionListener {
         this.salaire = salaire;
         this.position = pos;
         this.pied = pied;
+        this.calculed_age = " "+ChronoUnit.YEARS.between(naissance.toLocalDate(),LocalDate.now());
+
+
+        String [] i  = {prenom+" "+nom, this.calculed_age, this.nationalite,this.contrat+"",this.salaire+"",this.position,this.taille+"",this.numero+"",this.poids+"",this.pied+""};
+        this.infos = i;
+       
         java.util.Date dateUtil = new java.util.Date(contrat.getTime());
         SimpleDateFormat format = new SimpleDateFormat("dd MMMM yyyy",Locale.FRENCH);
         String str = format.format(dateUtil);
@@ -277,7 +283,7 @@ public class InfosJoueurs extends JScrollPane implements ActionListener {
     }
 
     public String[] getTabInfo(){
-        return this.infosJoueur;
+        return this.infos;
     }
 
     @JsonProperty("id")

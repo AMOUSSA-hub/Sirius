@@ -57,12 +57,9 @@ public class AddPlayer extends JDialog {
     this.setResizable(false);
     this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
     this.initComponent();
+    this.setVisible(true);
   }
 
-  public void showAddPlayer(){
-    this.setVisible(true);      
-    //return this.zInfo;      
-  }
 
   private void initComponent(){
 

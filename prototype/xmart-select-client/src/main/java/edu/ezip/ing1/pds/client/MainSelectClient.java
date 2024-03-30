@@ -93,8 +93,8 @@ public class MainSelectClient {
             JsonNode studentsNode = responseNode.get("response_body").get("students");
             String fileName = "Select.txt";
         try {
-            int nbJoueurs = studentsNode.size();
-            System.out.println("Nombre de joueurs selectionnés : " + nbJoueurs + "\n");
+            
+            System.out.println("Nombre de joueurs selectionnés : " + studentsNode.size() + "\n");
             FileWriter fileWriter = new FileWriter(fileName, false);
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
             //writeString(bufferedWriter,String.valueOf(nbJoueurs));

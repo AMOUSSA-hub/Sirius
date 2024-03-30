@@ -203,41 +203,40 @@ public class Effectif extends JPanel{
             @Override
             public void actionPerformed(ActionEvent e) {
                 AddPlayer joueur = new AddPlayer(null, "Ajouter un joueur ", true);
-                joueur.showAddPlayer(); 
-                //UtilDateModel model = (UtilDateModel)joueur.dateContrat.getModel();
-                java.util.Date date = (java.util.Date)joueur.dateContratSpinner.getValue();
-                java.sql.Date sqlDate = new java.sql.Date(date.getTime());
-                //UtilDateModel model2 = (UtilDateModel)joueur.dateNaissance.getModel();
-                java.util.Date age = (java.util.Date)joueur.dateNaissanceSpinner.getValue();
-                java.sql.Date dateNaiss = new java.sql.Date(age.getTime());
+                // //UtilDateModel model = (UtilDateModel)joueur.dateContrat.getModel();
+                // java.util.Date date = (java.util.Date)joueur.dateContratSpinner.getValue();
+                // java.sql.Date sqlDate = new java.sql.Date(date.getTime());
+                // //UtilDateModel model2 = (UtilDateModel)joueur.dateNaissance.getModel();
+                // java.util.Date age = (java.util.Date)joueur.dateNaissanceSpinner.getValue();
+                // java.sql.Date dateNaiss = new java.sql.Date(age.getTime());
                 
-                if(!joueur.nom.getText().isBlank() && !joueur.prenom.getText().isEmpty() /*&& !joueur.nationalite.getText().isEmpty()*/) {
-                    MainSelectClient.lastIdValue++;
-                    lastIdValue = MainSelectClient.lastIdValue;  
-                    System.out.println("test");
-                    Player j = new Player(joueur.prenom.getText(),joueur.nom.getText(),dateNaiss,joueur.nationalite.getText(),sqlDate,Integer.parseInt(joueur.salaire.getText()),(String)joueur.poste.getSelectedItem(),(int)joueur.tailleSpinner.getValue(),(int)joueur.numeroSpinner.getValue(),(int)joueur.poidsSpinner.getValue(),joueur.pied.getSelectedItem().toString(),lastIdValue);
-                    //listeInfosJoueurs.add(InfosJoueurs.playerToInfosJoueurs(j));
-                    try {
-                        int insert = (MainInsertClient.sendPlayer(j));
-                        if (insert == 1) {
-                            System.out.println("val : " + lastIdValue);
-                            listeInfosJoueurs.add(InfosJoueurs.playerToInfosJoueurs(j));
-                            Collections.sort(listeInfosJoueurs,new JoueursCompare(attribut,ascending_order));
-                            gs.addRow(playerInformation(j));
-                            repaint();
-                        }
-                        else{
-                            JOptionPane.showMessageDialog(null, "Le serveur est offline", "Erreur", JOptionPane.ERROR_MESSAGE);
-                        }
-                    }catch(Exception exp) {
-                        System.err.println(exp);
+                // if(!joueur.nom.getText().isBlank() && !joueur.prenom.getText().isEmpty() /*&& !joueur.nationalite.getText().isEmpty()*/) {
+                //     MainSelectClient.lastIdValue++;
+                //     lastIdValue = MainSelectClient.lastIdValue;  
+                //     System.out.println("test");
+                //     Player j = new Player(joueur.prenom.getText(),joueur.nom.getText(),dateNaiss,joueur.nationalite.getText(),sqlDate,Integer.parseInt(joueur.salaire.getText()),(String)joueur.poste.getSelectedItem(),(int)joueur.tailleSpinner.getValue(),(int)joueur.numeroSpinner.getValue(),(int)joueur.poidsSpinner.getValue(),joueur.pied.getSelectedItem().toString(),lastIdValue);
+                //     //listeInfosJoueurs.add(InfosJoueurs.playerToInfosJoueurs(j));
+                //     try {
+                //         int insert = (MainInsertClient.sendPlayer(j));
+                //         if (insert == 1) {
+                //             System.out.println("val : " + lastIdValue);
+                //             listeInfosJoueurs.add(InfosJoueurs.playerToInfosJoueurs(j));
+                //             Collections.sort(listeInfosJoueurs,new JoueursCompare(attribut,ascending_order));
+                //             gs.addRow(playerInformation(j));
+                //             repaint();
+                //         }
+                //         else{
+                //             JOptionPane.showMessageDialog(null, "Le serveur est offline", "Erreur", JOptionPane.ERROR_MESSAGE);
+                //         }
+                    // }catch(Exception exp) {
+                    //     System.err.println(exp);
                     }
-                }
-                else {
-                    JOptionPane.showMessageDialog(null,"Les informations entrées ne sont pas complètes","Erreur", JOptionPane.ERROR_MESSAGE);
-                }
+                // }
+                // else {
+                //     JOptionPane.showMessageDialog(null,"Les informations entrées ne sont pas complètes","Erreur", JOptionPane.ERROR_MESSAGE);
+                // }
                 
-            }
+           // }
             
         });
     }
@@ -303,8 +302,10 @@ public class Effectif extends JPanel{
         try {
             listOfPlayersInformations = msc.selectAllPlayers();
             for (List<Object> playerInformation : listOfPlayersInformations) {
-                gs.addRow(playerInformation);
-                liste.add(new InfosJoueurs((String)playerInformation.get(0),(String)playerInformation.get(1),(Date)playerInformation.get(2),(String)playerInformation.get(3),(Date)playerInformation.get(4),(int)playerInformation.get(5),(String)playerInformation.get(6),(int)playerInformation.get(7),(int)playerInformation.get(8),(int)playerInformation.get(9),(String)playerInformation.get(10),(int)playerInformation.get(11)));
+                
+               InfosJoueurs rowInfo = new InfosJoueurs((String)playerInformation.get(0),(String)playerInformation.get(1),(Date)playerInformation.get(2),(String)playerInformation.get(3),(Date)playerInformation.get(4),(int)playerInformation.get(5),(String)playerInformation.get(6),(int)playerInformation.get(7),(int)playerInformation.get(8),(int)playerInformation.get(9),(String)playerInformation.get(10),(int)playerInformation.get(11));
+                liste.add(rowInfo);
+                gs.addRow(rowInfo);
 
             }
             return liste;

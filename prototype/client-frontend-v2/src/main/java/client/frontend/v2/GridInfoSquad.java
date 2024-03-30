@@ -36,12 +36,12 @@ public class GridInfoSquad extends JPanel {
    /**
     *Ajoute une ligne au tableau .
     */
-  public void addRow(List<Object> j) {
+  public void addRow(InfosJoueurs j) {
     bodyTabLayout.setRows(bodyTabLayout.getRows() + 1);
 
-    for (int i = 0; i < j.size() - 1; i++) {
-      Object info = j.get(i);
-      bodyTabPanel.add(new CaseGridSquad(info.toString(), fen));
+    bodyTabPanel.add(new CaseGridSquad(" ", fen));
+    for (String info : j.getTabInfo()) {
+     bodyTabPanel.add(new CaseGridSquad(info, fen));
     }
 
     revalidate();
