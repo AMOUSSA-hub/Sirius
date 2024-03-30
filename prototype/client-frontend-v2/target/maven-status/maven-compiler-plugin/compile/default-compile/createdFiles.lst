@@ -3,12 +3,10 @@ client\frontend\v2\PageStatistiques.class
 client\frontend\v2\PageStatistiques$Joueur.class
 client\frontend\v2\Bouton.class
 client\frontend\v2\GridSquad.class
-client\frontend\v2\Effectif$4.class
 client\frontend\v2\CaseEvent.class
 client\frontend\v2\DatePick$3.class
 client\frontend\v2\CaseGridSquad.class
 client\frontend\v2\MenuBarButton.class
-client\frontend\v2\AddPlayer$4.class
 client\frontend\v2\DatePick$2.class
 client\frontend\v2\Page.class
 client\frontend\v2\MenuBar.class
