@@ -19,7 +19,7 @@ public class GridInfoSquad extends JScrollPane {
     super();
     bodyTabLayout = new GridLayout(0, titles.length);
     bodyTabPanel = new JPanel(bodyTabLayout);
-    setViewportView(bodyTabPanel);
+    this.setViewportView(bodyTabPanel);
     this.fen = fen;
     headTabPanel = new JPanel(new GridLayout(1, titles.length));
     
@@ -53,7 +53,6 @@ public class GridInfoSquad extends JScrollPane {
   public void unFillGrid(){
     bodyTabLayout.setRows(0);
     bodyTabPanel.removeAll();
-    this.setColumnHeaderView(headTabPanel);
     revalidate();
     repaint();
 
@@ -76,5 +75,9 @@ public class GridInfoSquad extends JScrollPane {
 
     
   }
+
+
+  
+
   
 }

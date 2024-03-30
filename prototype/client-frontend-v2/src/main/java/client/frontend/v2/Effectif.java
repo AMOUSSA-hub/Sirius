@@ -58,8 +58,8 @@ public class Effectif extends JPanel{
 
         try {
             // Charger l'image depuis les ressources
-            InputStream inputStream = getClass().getResourceAsStream("/upArrow.png");
-            InputStream inputStream2 = getClass().getResourceAsStream("/downArrow.png");
+            InputStream inputStream = getClass().getResourceAsStream("/downArrow.png");
+            InputStream inputStream2 = getClass().getResourceAsStream("/upArrow.png");
             Image image = ImageIO.read(inputStream).getScaledInstance(20, 20, Image.SCALE_DEFAULT);
             Image image2 = ImageIO.read(inputStream2).getScaledInstance(20, 20, Image.SCALE_DEFAULT);
             // Créer l'objet ImageIcon à partir de l'objet Image

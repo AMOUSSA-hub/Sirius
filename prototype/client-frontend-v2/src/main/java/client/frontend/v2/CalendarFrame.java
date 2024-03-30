@@ -1,6 +1,7 @@
 package client.frontend.v2;
 
 import java.awt.BorderLayout;
+import edu.ezip.ing1.pds.business.dto.TeamEvent;
 import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -16,7 +17,6 @@ public class CalendarFrame extends JPanel {
 
         setBackground(Color.gray);
         GridBagConstraints gbc = new GridBagConstraints();
-        
         setLayout(new GridBagLayout());
 
 

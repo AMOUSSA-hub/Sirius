@@ -144,6 +144,93 @@ public class MainSelectClient {
 
     public Set<TeamEvent> getAllEvents(){
         Set<TeamEvent> events = new  HashSet<>();
+
+        // préparation de la requête qu'on envoie au serveur
+        final ObjectMapper objectMapper = new ObjectMapper(); 
+        final Request request = new Request();
+        request.setRequestId(UUID.randomUUID().toString());  
+        request.setRequestOrder("SELECT_ALL_EVENT");
+        objectMapper.enable(SerializationFeature.WRAP_ROOT_VALUE);
+        final byte []  requestBytes = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsBytes(request);
+        LoggingUtils.logDataMultiLine(logger, Level.TRACE, requestBytes);
+        final SelectAllStudentsClientRequest clientRequest = new SelectAllStudentsClientRequest(
+                                                                    networkConfig,
+                                                                    birthdate++, request, null, requestBytes);
+        clientRequests.push(clientRequest);
+        String jsonRequest = objectMapper.writeValueAsString(request);
+        
+      
+        // try {
+        //     socket = new Socket(ipServeur, 45065);
+        //     OutputStream outputStream = socket.getOutputStream();
+        //     outputStream.write(jsonRequest.getBytes());
+        //     outputStream.flush(); 
+        // } catch (IOException e) {
+        //     e.printStackTrace();
+        // }
+    
+        
+        // while (!clientRequests.isEmpty()) {
+
+        //     final ClientRequest joinedClientRequest = clientRequests.pop();
+        //     //joinedClientRequest.join();
+
+        //     String res = getReponseServeur(socket);
+
+        //     ObjectMapper mapper = new ObjectMapper();
+        //     JsonNode responseNode = mapper.readTree(res);
+        //     JsonNode studentsNode = responseNode.get("response_body").get("students");
+        //     String fileName = "Select.txt";
+        // try {
+            
+        //     System.out.println("Nombre de joueurs selectionnés : " + studentsNode.size() + "\n");
+        //     FileWriter fileWriter = new FileWriter(fileName, false);
+        //     BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+        //     //writeString(bufferedWriter,String.valueOf(nbJoueurs));
+        //     for (JsonNode studentNode : studentsNode) {
+        //         String nom = studentNode.get("nom").asText();
+        //         String prenom = studentNode.get("prenom").asText();
+        //         int numero = studentNode.get("numero").asInt();
+        //         Long date = (studentNode.get("naissance").asLong());
+        //         Date date2 = new Date(date);
+        //         //String date3 = date2.toString();
+        //         String nationalite = studentNode.get("nationalite").asText();
+        //         String poste = studentNode.get("poste").asText();
+        //         String pied = studentNode.get("pied").asText();
+        //         int taille = studentNode.get("taille").asInt();
+        //         int poids = studentNode.get("poids").asInt();
+        //         int id = studentNode.get("id").asInt();
+        //         lastIdValue = studentNode.get("last_value").asInt();
+        //         List<Object> liste = new ArrayList<Object>();
+        //         liste.add(prenom);//new InfosJoueurs(prenom, nom, date2, nationalite, Date.valueOf(LocalDate.now()), 0, poste, taille, numero, poids, pied,id));
+        //         liste.add(nom);
+        //         liste.add(date2);
+        //         liste.add(nationalite);
+        //         liste.add(Date.valueOf(LocalDate.now()));
+        //         liste.add(0);
+        //         liste.add(poste);
+        //         liste.add(taille);
+        //         liste.add(numero);
+        //         liste.add(poids);
+        //         liste.add(pied);
+        //         liste.add(id);
+        //        // listOfPlayersInformations.add(liste);
+        //     }   
+        //     bufferedWriter.close();
+        //     return listOfPlayersInformations;
+        // } catch (IOException e) {
+        //     System.err.println("Erreur lors de la création ou de l'écriture dans le fichier : " + e.getMessage());
+        // }     
+    
+        
+
+
+        //     logger.debug("Thread {} complete.", joinedClientRequest.getThreadName());
+        // }
+        // return null;
+
+
+
         
         
 
