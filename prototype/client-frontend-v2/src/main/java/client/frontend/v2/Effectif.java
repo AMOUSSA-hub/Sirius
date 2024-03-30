@@ -47,10 +47,6 @@ public class Effectif extends JPanel{
     JScrollPane scrollPane = new JScrollPane();
     List<InfosJoueurs> listeInfosJoueurs = new ArrayList<>();
     Bouton addPlayer = new Bouton(50, "Ajouter");
-    Box box = new Box(BoxLayout.Y_AXIS);
-    Box boxTest = new Box(BoxLayout.Y_AXIS);
-    Box titre;
-    int hauteur_effectif = InfosJoueurs.HeightBox_Y + 3;
     Color bg = Color.gray;
     List<List<Object>> listOfPlayersInformations;
     MainSelectClient msc = new MainSelectClient();
@@ -244,7 +240,7 @@ public class Effectif extends JPanel{
             
         });
     }
-
+/* 
     private void titreBox(){
         InfosJoueurs.addInfosBox("PHOTO", null, new Box(BoxLayout.Y_AXIS), titre);
         InfosJoueurs.addInfosBox("JOUEUR", null, new Box(BoxLayout.Y_AXIS), titre);
@@ -262,9 +258,9 @@ public class Effectif extends JPanel{
         pane.getViewport().setBackground(fondTitre);
         box.add(pane.getViewport());
         //listeInfosJoueurs.add(pane);
-    }
+    } */
 
-    private void ensembleJoueurs(List<InfosJoueurs> listeJoueurs,Box box){ //Affiche la liste des joueurs du club 
+/*     private void ensembleJoueurs(List<InfosJoueurs> listeJoueurs,Box box){ //Affiche la liste des joueurs du club 
         int y = addPlayer.getY() + addPlayer.height;
         hauteur_effectif = InfosJoueurs.HeightBox_Y + 3;
         for (int i = 0 ; i < listeJoueurs.size(); i++){
@@ -287,7 +283,7 @@ public class Effectif extends JPanel{
         int scrollBarSize = ((Integer)UIManager.get("ScrollBar.width")).intValue();
         scrollPane.setBounds(0,y, WIDTH + scrollBarSize  ,hauteur_effectif);
         
-    }
+    } */
 
     @Override
     protected void paintComponent(Graphics g) {
