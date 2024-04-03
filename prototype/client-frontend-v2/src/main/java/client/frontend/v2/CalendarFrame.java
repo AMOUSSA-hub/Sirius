@@ -92,7 +92,7 @@ public class CalendarFrame extends JPanel {
 //Mise en place de la grille d'évènement
 gbc.gridx = 1;
 gbc.gridy = 3;
-gbc.gridwidth = 3;
+gbc.gridwidth = 5;
 gbc.gridheight = 1;
 gbc.fill = GridBagConstraints.BOTH;
 gbc.anchor = GridBagConstraints.NORTH;

@@ -170,6 +170,8 @@ public class MainSelectClient {
         final TeamEvents listEvents = (TeamEvents) clientRequest.getResult();
 
         for (final TeamEvent e : listEvents.getEvents()) {
+            
+            
             events.add(e);
            System.out.println(e.toString()); 
         }

@@ -36,6 +36,9 @@ public class TeamEvent {
 
 
 
+
+
+
     @JsonProperty("id")
     public void setName(int id) {
         this.id = id;
@@ -62,6 +65,25 @@ public class TeamEvent {
     }
 
 
+    public int getId() {
+        return id;
+    }
+    
+    public String getLabel() {
+        return label;
+    }
+    
+    public String getType() {
+        return type;
+    }
+    
+    public Date getDateDebut() {
+        return date_debut;
+    }
+    
+    public Date getDateFin() {
+        return date_fin;
+    }
 
 
 
