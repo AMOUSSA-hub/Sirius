@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 @JsonRootName(value = "response")
 public class Response {
     public String requestId;
-
     public String responseBody;
 
     public Response() {

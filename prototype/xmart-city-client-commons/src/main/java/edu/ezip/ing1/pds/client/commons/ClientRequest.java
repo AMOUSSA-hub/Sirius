@@ -83,10 +83,7 @@ public abstract class ClientRequest<N,S> implements Runnable {
             final Response response = mapper.readValue(inputData, Response.class);
             logger.debug("Response = {}", response.toString());
             this.response = response.getResponseBody();
-            System.out.println("dzj : " + this.response);
-            //result = readResult(response.responseBody);
-            //System.out.println("ikdeijifjife : " + result);
-            //setResponse(result.toString());
+            result = readResult(response.responseBody);
 
         } catch (IOException e) {
             logger.error("Connection fails, exception tells {} — {}", e.getMessage(), e.getClass());

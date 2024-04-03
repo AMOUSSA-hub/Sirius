@@ -49,8 +49,9 @@ public class Effectif extends JPanel{
     Bouton addPlayer = new Bouton(50, "Ajouter");
     Color bg = Color.gray;
     List<List<Object>> listOfPlayersInformations;
-    MainSelectClient msc = new MainSelectClient();
-    Effectif(JFrame fen) {
+    MainSelectClient msc;
+    Effectif(JFrame fen,MainSelectClient select) {
+        this.msc = select;
 
         try {
             // Charger l'image depuis les ressources

@@ -6,6 +6,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import edu.ezip.ing1.pds.client.MainSelectClient;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -24,10 +25,11 @@ public class HomeFrame extends JFrame {
 
         
         CardLayout ca = new CardLayout();
+        MainSelectClient msc = new MainSelectClient();
         
         JPanel contentPane = new JPanel(ca);
-        contentPane.add("Effectif",new Effectif(this));
-        contentPane.add("Calendrier",new CalendarFrame());
+        contentPane.add("Effectif",new Effectif(this,msc));
+        contentPane.add("Calendrier",new CalendarFrame(msc));
         contentPane.add("Stats", new PageStatistiques());
         add(new MenuBar(ca,contentPane),BorderLayout.NORTH);
         add(contentPane,BorderLayout.CENTER);

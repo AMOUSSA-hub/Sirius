@@ -7,29 +7,48 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
+import edu.ezip.ing1.pds.client.MainSelectClient;
+import java.io.*;
+import java.util.Set;
 
 import javax.swing.*;
 
 public class CalendarFrame extends JPanel {
 
 
-    public CalendarFrame(){
+    MainSelectClient msc;
+    Set<TeamEvent> events;
 
+    public CalendarFrame(MainSelectClient select){
+        this.msc = select;
         setBackground(Color.gray);
         GridBagConstraints gbc = new GridBagConstraints();
         setLayout(new GridBagLayout());
 
 
 
-    JPanel dateSelectorPanel = new JPanel(new GridLayout(1,3));
+    JPanel dateSelectorPanel = new JPanel(new GridLayout(1,4));
     JButton leftArrow = new JButton("<");
     JButton rightArrow = new JButton(">");
     JButton labelDate = new JButton(" du DD-MM-YYYY au DD-MM-YYYY ");
+    
     labelDate.setBackground(Color.WHITE);
 
     JButton addEventButton = new JButton("Ajouter un évènement");
-    
+    JButton getEventsButton = new JButton("récupérer les évènements");
+    getEventsButton.addActionListener(e->{
+    try{
 
+    
+        this.events = msc.getAllEvents();
+     
+    }catch(Exception ex){
+        System.err.println(ex);
+    }
+
+} );
+
+    
 
     labelDate.addActionListener(e -> {
         String date = new DatePick(this).Set_Picked_Date();
@@ -42,6 +61,7 @@ public class CalendarFrame extends JPanel {
     dateSelectorPanel.add(leftArrow);
     dateSelectorPanel.add(labelDate);
     dateSelectorPanel.add(rightArrow);
+    dateSelectorPanel.add(getEventsButton);
 
 
     // Mise en place de sélection de la date
