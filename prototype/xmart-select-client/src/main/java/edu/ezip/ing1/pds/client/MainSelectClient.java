@@ -115,19 +115,24 @@ public class MainSelectClient {
                 int poids = studentNode.get("poids").asInt();
                 int id = studentNode.get("id").asInt();
                 lastIdValue = studentNode.get("last_value").asInt();
+                JsonNode imageDataNode = studentNode.get("photo");
+                byte[] photo = objectMapper.convertValue(imageDataNode, byte[].class);
+                Date contrat = new Date(studentNode.get("contrat").asLong());
+                int salaire = studentNode.get("salaire").asInt();
                 List<Object> liste = new ArrayList<Object>();
                 liste.add(prenom);//new InfosJoueurs(prenom, nom, date2, nationalite, Date.valueOf(LocalDate.now()), 0, poste, taille, numero, poids, pied,id));
                 liste.add(nom);
                 liste.add(date2);
                 liste.add(nationalite);
-                liste.add(Date.valueOf(LocalDate.now()));
-                liste.add(0);
+                liste.add(contrat);
+                liste.add(salaire);
                 liste.add(poste);
                 liste.add(taille);
                 liste.add(numero);
                 liste.add(poids);
                 liste.add(pied);
                 liste.add(id);
+                liste.add(photo);
                 listOfPlayersInformations.add(liste);
             }   
             bufferedWriter.close();

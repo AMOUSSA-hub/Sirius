@@ -36,19 +36,22 @@ import org.jdatepicker.impl.UtilDateModel;
 
 import javax.swing.SpinnerDateModel;
 import java.util.Calendar;
+import java.io.File;
+import java.io.FileInputStream;
 
 public class AddPlayer extends JDialog {
   ImageIcon imageJoueur;
   JLabel nomLabel,prenomLabel, posteLabel, tailleLabel,contratLabel,salaireLabel,poidsLabel;
  
-   JSpinner ageSpinner = new JSpinner(new SpinnerNumberModel(16, 16, 50, 1));
-   JSpinner tailleSpinner = new JSpinner(new SpinnerNumberModel(160, 140, 220, 1));
-   JSpinner numeroSpinner = new JSpinner(new SpinnerNumberModel(1,1,99,1));
-   JSpinner poidsSpinner = new JSpinner(new SpinnerNumberModel(60, 40, 200, 1));
-   JSpinner dateContratSpinner,dateNaissanceSpinner;
-   JComboBox<String> pied, poste;
+  JSpinner ageSpinner = new JSpinner(new SpinnerNumberModel(16, 16, 50, 1));
+  JSpinner tailleSpinner = new JSpinner(new SpinnerNumberModel(160, 140, 220, 1));
+  JSpinner numeroSpinner = new JSpinner(new SpinnerNumberModel(1,1,99,1));
+  JSpinner poidsSpinner = new JSpinner(new SpinnerNumberModel(60, 40, 200, 1));
+  JSpinner dateContratSpinner,dateNaissanceSpinner;
+  JComboBox<String> pied, poste;
   JTextField nom, prenom, taille,poids,salaire,nationalite;
   JDatePicker dateContrat,dateNaissance;
+  byte[] imageJoueurbyte;
 
   public AddPlayer(JFrame parent, String title, boolean modal){
     super(parent, title, modal);
@@ -195,16 +198,26 @@ public class AddPlayer extends JDialog {
             imageJoueur = new ImageIcon(chooser.getSelectedFile().getAbsolutePath());
             imageJoueur.setImage(imageJoueur.getImage().getScaledInstance(imgBouton.width, imgBouton.height, java.awt.Image.SCALE_SMOOTH));
             imgBouton.setIcon(imageJoueur);
+            File imageFile = new File(imageJoueur.toString());
             System.out.println(imageJoueur.toString());
-            BufferedImage bf = (BufferedImage)imageJoueur.getImage();
-            String sourcePath = "chemin/vers/image/source.jpg";
+            
+            byte[] imageData = new byte[(int) imageFile.length()];
+            try (FileInputStream fis = new FileInputStream(imageFile)) {
+                fis.read(imageData);
+            } catch (IOException e23) {
+                System.err.println(e23);
+            }
+            imageJoueurbyte = imageData;
+            System.out.println(imageJoueurbyte.toString()); 
+            //BufferedImage bf = (BufferedImage)imageJoueur.getImage();
+            //String sourcePath = "chemin/vers/image/source.jpg";
         
             // Chemin du fichier de destination
-            String destinationPath = "chemin/vers/image/destination.jpg";
+            //String destinationPath = "chemin/vers/image/destination.jpg";
     
-            try {
+/*             try {
                 // Charger l'image depuis le fichier source
-                BufferedImage originalImage = ImageIO.read(new File(sourcePath));
+                //BufferedImage originalImage = ImageIO.read(new File(sourcePath));
     
                 // Créer une nouvelle image avec les mêmes données
                 BufferedImage copiedImage = new BufferedImage(
@@ -223,7 +236,7 @@ public class AddPlayer extends JDialog {
     
             } catch (IOException e8) {
                 System.err.println(e8);
-            }
+            } */
         
         }
         else {

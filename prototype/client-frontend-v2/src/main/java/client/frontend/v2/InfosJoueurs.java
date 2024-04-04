@@ -26,6 +26,11 @@ import java.awt.event.ActionEvent;
 import javax.swing.JOptionPane;
 import java.util.*;
 
+import javax.imageio.ImageIO;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.awt.Image;
+
 
 @JsonRootName(value = "student")
 public class InfosJoueurs extends JScrollPane implements ActionListener {
@@ -34,11 +39,11 @@ public class InfosJoueurs extends JScrollPane implements ActionListener {
     String prenom,nom,nationalite,position,pied,calculed_age;
     int age,salaire,taille,numero,poids,id;
     private String [] infos;
-
+    byte[] photo;
     Bouton btn = new Bouton(20,20,"Modif");
     
 
-    public InfosJoueurs(String prenom,String nom,Date naissance,String nat,Date contrat,int salaire, String pos, int taille, int numero, int poids,String pied,int id){
+    public InfosJoueurs(String prenom,String nom,Date naissance,String nat,Date contrat,int salaire, String pos, int taille, int numero, int poids,String pied,int id,byte[] photo){
         this.id = id;
         this.prenom = prenom;
         this.naissance = naissance;
@@ -51,6 +56,7 @@ public class InfosJoueurs extends JScrollPane implements ActionListener {
         this.salaire = salaire;
         this.position = pos;
         this.pied = pied;
+        this.photo = photo;
         this.calculed_age = " "+ChronoUnit.YEARS.between(naissance.toLocalDate(),LocalDate.now());
 
 
@@ -176,6 +182,35 @@ public class InfosJoueurs extends JScrollPane implements ActionListener {
     public int getId(){
         return id;
     }
+    
+    public byte[] getPhoto(){
+        return photo;
+    }
+
+
+    public Date getContrat(){
+        return contrat;
+    }
+
+    public int getSalaire(){
+        return salaire;
+    }
+
+    public Image getImagePhoto() {
+        if (photo != null) {
+        try {
+                ByteArrayInputStream bis = new ByteArrayInputStream(photo);
+                Image awtImage = ImageIO.read(bis);
+                bis.close();
+                return awtImage;
+            } catch (IOException e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+        return null;
+    }
+
 
     @JsonProperty("nom")
     public void setNom(String nom) {
@@ -232,16 +267,34 @@ public class InfosJoueurs extends JScrollPane implements ActionListener {
     }
 
 
+    @JsonProperty("photo") 
+    public void setPhoto(byte[] photo) {
+        this.photo = photo;
+    }
+
+    @JsonProperty("contrat") 
+    public void setContrat(Date contrat) {
+        this.contrat = contrat;
+    }
+
+    @JsonProperty("salaire")
+    public void setSalaire(int salaire) {
+        this.salaire = salaire;
+    } 
+
+    
     public String toString(){
         return("Le joueur " + nom + " " + prenom + " de " + age + " ans de nationalite " + nationalite + " evoluant au poste " + position + " et ayant un contrat allant jusque le " + contrat + " avec un salaire de " + salaire + "euros mesure " + taille + " cm et fait " + poids + " Kg et porte le numero " + numero );
     }
 
     public static InfosJoueurs playerToInfosJoueurs(Player p) {
-        InfosJoueurs j = new InfosJoueurs(p.nom,p.prenom,p.naissance,p.nationalite,p.contrat,p.salaire,p.position,p.taille,p.numero,p.poids,p.pied,p.id);
+        InfosJoueurs j = new InfosJoueurs(p.nom,p.prenom,p.naissance,p.nationalite,p.contrat,p.salaire,p.position,p.taille,p.numero,p.poids,p.pied,p.id,p.photo);
         return j;
     }
 
     public Player toPlayer(){
-        return (new Player(nom,prenom,naissance,nationalite,contrat,salaire,position,taille,numero,poids,pied,id)); 
+        return (new Player(nom,prenom,naissance,nationalite,contrat,salaire,position,taille,numero,poids,pied,id,photo)); 
     }
+
+    
 }

@@ -1,20 +1,9 @@
 package edu.ezip.ing1.pds.business.dto;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Label;
+
 import java.sql.Date;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-import java.util.Locale;
 
-import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.JLabel;
-import javax.swing.JScrollPane;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonRootName;
 @JsonRootName(value = "student")
@@ -23,8 +12,8 @@ public class Player {
     public Date contrat,naissance;
     public String prenom,nom,nationalite,position,pied;
     public int age,salaire,taille,numero,poids,id;
-
-    public Player(String prenom,String nom,Date naissance,String nat,Date contrat,int salaire, String pos, int taille, int numero, int poids,String pied,int id){
+    public byte[] photo;
+    public Player(String prenom,String nom,Date naissance,String nat,Date contrat,int salaire, String pos, int taille, int numero, int poids,String pied,int id,byte[] photo){
         this.id = id;   
         this.prenom = prenom;
         this.naissance = naissance;
@@ -37,15 +26,16 @@ public class Player {
         this.salaire = salaire;
         this.position = pos;
         this.pied = pied;
-        java.util.Date dateUtil = new java.util.Date(contrat.getTime());
-        SimpleDateFormat format = new SimpleDateFormat("dd MMMM yyyy",Locale.FRENCH);
-        String str = format.format(dateUtil);
+        this.photo = photo;
+        //java.util.Date dateUtil = new java.util.Date(contrat.getTime());
+        //SimpleDateFormat format = new SimpleDateFormat("dd MMMM yyyy",Locale.FRENCH);
+        //String str = format.format(dateUtil);
         LocalDate localD = LocalDate.now();
         long ageLong = ChronoUnit.YEARS.between(naissance.toLocalDate(),localD);
         int age = (int)ageLong;
         this.age = age;
-        int tailleContrat = str.length();
-        int startAnnee = tailleContrat - 4;
+        //int tailleContrat = str.length();
+        //int startAnnee = tailleContrat - 4;
     }
 
     public String getNom() {
@@ -86,6 +76,10 @@ public class Player {
 
     public int getId(){
         return id;
+    }
+
+    public byte[] getPhoto(){
+        return photo;
     }
 
     @JsonProperty("nom")
@@ -138,10 +132,48 @@ public class Player {
         this.id = id;
     }
 
+    @JsonProperty("photo") 
+    public void setPhoto(byte[] photo) {
+        this.photo = photo;
+    }
+
+
+    @JsonProperty("contrat") 
+    public void setContrat(Date contrat) {
+        this.contrat = contrat;
+    }
+
+    @JsonProperty("salaire")
+    public void setSalaire(int salaire) {
+        this.salaire = salaire;
+    } 
+
 
     public String toString(){
         return("Le joueur " + nom + " " + prenom + " de " + age + " ans de nationalite " + nationalite + " evoluant au poste " + position + " et ayant un contrat allant jusque le " + contrat + " avec un salaire de " + salaire + "euros mesure " + taille + " cm et fait " + poids + " Kg et porte le numero " + numero );
     }
+
+    public Date getContrat() {
+        return contrat;
+    }
+
+    public void setPosition(String position) {
+        this.position = position;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public int getSalaire() {
+        return salaire;
+    }
+
+
 
 /*     public InfosJoueurs toInfosJoueurs(){
         InfosJoueurs j = new InfosJoueurs(nom,prenom,naissance,nationalite,contrat,salaire,position,taille,numero,poids,pied,id);

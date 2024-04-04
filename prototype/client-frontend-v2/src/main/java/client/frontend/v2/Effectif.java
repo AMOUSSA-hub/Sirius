@@ -212,8 +212,8 @@ public class Effectif extends JPanel{
                     lastIdValue = MainSelectClient.lastIdValue;  
                     System.out.println("test");
                     try {
-                    Player j = new Player(joueur.prenom.getText(),joueur.nom.getText(),dateNaiss,joueur.nationalite.getText(),sqlDate,Integer.parseInt(joueur.salaire.getText()),(String)joueur.poste.getSelectedItem(),(int)joueur.tailleSpinner.getValue(),(int)joueur.numeroSpinner.getValue(),(int)joueur.poidsSpinner.getValue(),joueur.pied.getSelectedItem().toString(),lastIdValue);
-                    InfosJoueurs info = new InfosJoueurs(joueur.prenom.getText(),joueur.nom.getText(),dateNaiss,joueur.nationalite.getText(),sqlDate,Integer.parseInt(joueur.salaire.getText()),(String)joueur.poste.getSelectedItem(),(int)joueur.tailleSpinner.getValue(),(int)joueur.numeroSpinner.getValue(),(int)joueur.poidsSpinner.getValue(),joueur.pied.getSelectedItem().toString(),lastIdValue);
+                    Player j = new Player(joueur.prenom.getText(),joueur.nom.getText(),dateNaiss,joueur.nationalite.getText(),sqlDate,Integer.parseInt(joueur.salaire.getText()),(String)joueur.poste.getSelectedItem(),(int)joueur.tailleSpinner.getValue(),(int)joueur.numeroSpinner.getValue(),(int)joueur.poidsSpinner.getValue(),joueur.pied.getSelectedItem().toString(),lastIdValue,joueur.imageJoueurbyte);
+                    InfosJoueurs info = InfosJoueurs.playerToInfosJoueurs(j);
                     //listeInfosJoueurs.add(InfosJoueurs.playerToInfosJoueurs(j));
                     
                         int insert = (MainInsertClient.sendPlayer(j));
@@ -303,9 +303,10 @@ public class Effectif extends JPanel{
         try {
             listOfPlayersInformations = msc.selectAllPlayers();
             for (List<Object> playerInformation : listOfPlayersInformations) {
+               System.out.println(playerInformation.toString()); 
+               InfosJoueurs rowInfo = new InfosJoueurs((String)playerInformation.get(0),(String)playerInformation.get(1),(Date)playerInformation.get(2),(String)playerInformation.get(3),(Date)playerInformation.get(4),(int)playerInformation.get(5),(String)playerInformation.get(6),(int)playerInformation.get(7),(int)playerInformation.get(8),(int)playerInformation.get(9),(String)playerInformation.get(10),(int)playerInformation.get(11),(byte[])playerInformation.get(12));
                 
-               InfosJoueurs rowInfo = new InfosJoueurs((String)playerInformation.get(0),(String)playerInformation.get(1),(Date)playerInformation.get(2),(String)playerInformation.get(3),(Date)playerInformation.get(4),(int)playerInformation.get(5),(String)playerInformation.get(6),(int)playerInformation.get(7),(int)playerInformation.get(8),(int)playerInformation.get(9),(String)playerInformation.get(10),(int)playerInformation.get(11));
-                liste.add(rowInfo);
+               liste.add(rowInfo);
                 gs.addRow(rowInfo);
 
             }

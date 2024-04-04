@@ -37,8 +37,9 @@ public class GridInfoSquad extends JScrollPane {
     */
   public void addRow(InfosJoueurs j) {
     bodyTabLayout.setRows(bodyTabLayout.getRows() + 1);
-
-    bodyTabPanel.add(new CaseGridSquad(" ", fen));
+    Image im = j.getImagePhoto();
+    if (im != null) bodyTabPanel.add(new CaseGridSquad(im, fen));
+    else bodyTabPanel.add(new CaseGridSquad(" ", fen));
     for (String info : j.getTabInfo()) {
      bodyTabPanel.add(new CaseGridSquad(info, fen));
     }
