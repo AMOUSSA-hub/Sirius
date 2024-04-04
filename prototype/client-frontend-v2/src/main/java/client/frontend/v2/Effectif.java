@@ -42,14 +42,15 @@ public class Effectif extends JPanel{
     ImageIcon downArrow; //= new ImageIcon(new ImageIcon("client-front_V2/images/downArrow.png").getImage().getScaledInstance(20, 20, Image.SCALE_DEFAULT));
     JComboBox<String> tri = new JComboBox<>(); 
     Bouton ordre;
-    boolean ascending_order = true;
-    String attribut = "";
+    static boolean ascending_order = true;
+    static String attribut = "";
     JScrollPane scrollPane = new JScrollPane();
-    List<InfosJoueurs> listeInfosJoueurs = new ArrayList<>();
+    static List<InfosJoueurs> listeInfosJoueurs = new ArrayList<>();
     Bouton addPlayer = new Bouton(50, "Ajouter");
     Color bg = Color.gray;
     List<List<Object>> listOfPlayersInformations;
     MainSelectClient msc;
+    static GridInfoSquad gs;
     Effectif(JFrame fen,MainSelectClient select) {
         this.msc = select;
 
@@ -113,8 +114,8 @@ public class Effectif extends JPanel{
 
 
         // Mise en place du tableau des infos de l'effectif
-        String[] columnNames = {"PHOTO","JOUEUR","AGE","NAT","CONTRAT","SALAIRE","POS","TAILLE","N°","POIDS","PIED"};
-        GridInfoSquad gs = new GridInfoSquad(columnNames,fen);
+        String[] columnNames = {"PHOTO","JOUEUR","AGE","NAT","CONTRAT","SALAIRE","POS","TAILLE","N°","POIDS","PIED","MODIFICATIONS"};
+        gs = new GridInfoSquad(columnNames,fen);
        
         
         //Bouton pour ajouter des joueurs
@@ -155,7 +156,6 @@ public class Effectif extends JPanel{
 
    
         listeInfosJoueurs = selectBDD(gs);
-        
 
         order.addActionListener(new ActionListener() {
             @Override

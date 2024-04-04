@@ -44,6 +44,20 @@ public class GridInfoSquad extends JScrollPane {
      bodyTabPanel.add(new CaseGridSquad(info, fen));
     }
 
+    JPanel panel = new JPanel();
+    panel.setBackground(Color.GREEN);
+    panel.add(j.getBoutonModif());
+    add(panel);
+        panel.setOpaque(true);
+        panel.setPreferredSize(new Dimension(fen.getWidth()/13,75));
+        panel.setBorder(BorderFactory.createLineBorder(Color.WHITE));
+        panel.setBackground(Color.GRAY);
+        panel.setForeground(Color.white);
+        //panel.setHorizontalAlignment(CENTER);
+        //this.fen =fen;
+
+
+    bodyTabPanel.add(panel,fen);
     revalidate();
     repaint();
 

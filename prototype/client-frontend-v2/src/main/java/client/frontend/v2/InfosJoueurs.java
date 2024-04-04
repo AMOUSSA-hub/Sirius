@@ -33,15 +33,16 @@ import java.awt.Image;
 
 
 @JsonRootName(value = "student")
-public class InfosJoueurs extends JScrollPane implements ActionListener {
+public class InfosJoueurs implements ActionListener {
 
     Date contrat,naissance;
     String prenom,nom,nationalite,position,pied,calculed_age;
     int age,salaire,taille,numero,poids,id;
     private String [] infos;
     byte[] photo;
-    Bouton btn = new Bouton(20,20,"Modif");
-    
+    Bouton btn = new Bouton(200,75,"Modif");
+    //Bouton del = new Bouton(200,75,"Supprimer");
+
 
     public InfosJoueurs(String prenom,String nom,Date naissance,String nat,Date contrat,int salaire, String pos, int taille, int numero, int poids,String pied,int id,byte[] photo){
         this.id = id;
@@ -67,7 +68,7 @@ public class InfosJoueurs extends JScrollPane implements ActionListener {
         long ageLong = ChronoUnit.YEARS.between(naissance.toLocalDate(),localD);
         int age = (int)ageLong;
         this.age = age;
-
+        btn.addActionListener(this);
     }
 
 
@@ -75,7 +76,12 @@ public class InfosJoueurs extends JScrollPane implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        int choice1 = -1;
+        String[] operations = {"Modifier", "Supprimer"};
         if (e.getSource() == btn) {
+            choice1 = JOptionPane.showOptionDialog(null, "Que voulez-vous faire ?", "Choix",JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, operations, operations[0]);
+        }
+        if (operations[choice1].equals("Modifier")) {
             try {
                 String[] buttons = {"nom", "prenom", "naissance", "nationalite", "position", "pied", "taille", "poids","numero"};
                 int choice = JOptionPane.showOptionDialog(null, "Choisir un attribut :", "Attributs",JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, buttons, buttons[0]);
@@ -86,20 +92,44 @@ public class InfosJoueurs extends JScrollPane implements ActionListener {
                 int update = MainInsertClient.updatePlayer(player,attributToChange,newValue);
                 if (update == 1) {
                     updateAttribut(choice,userInput);
-                    //Iterator<InfosJoueurs> iterator = HomeFrame.effectif.listeInfosJoueurs.iterator();
-/*                     while (iterator.hasNext()) {
+                    Iterator<InfosJoueurs> iterator = Effectif.listeInfosJoueurs.iterator();
+                    while (iterator.hasNext()) {
                         InfosJoueurs joueur = iterator.next();
                         if(joueur.getId() == id) {
                             iterator.remove();
-                            //System.out.println(Fenetre.effectif.listeInfosJoueurs.toString());
+                            System.out.println(Effectif.listeInfosJoueurs.toString());
 
                         }
-                    } */
-                    //HomeFrame.effectif.listeInfosJoueurs.add(this);
-                    //System.out.println(HomeFrame.effectif.listeInfosJoueurs.toString());
-                    //Collections.sort(Fenetre.effectif.listeInfosJoueurs,new JoueursCompare(HomeFrame.effectif.attribut, HomeFrame.effectif.ascending_order));
-                    //HomeFrame.effectif.ensembleJoueurs(HomeFrame.effectif.listeInfosJoueurs, HomeFrame.effectif.box);
-                    //Fenetre.f.repaint();
+                    } 
+                    Effectif.listeInfosJoueurs.add(this);
+                    Effectif.gs.sort(Effectif.listeInfosJoueurs,Effectif.ascending_order,Effectif.attribut);
+                    //System.out.println(Arrays.toString(infos));  
+                }
+            }catch(Exception ex) {
+                System.err.println(ex);
+            }
+        }
+        if (operations[choice1].equals("Supprimer")) {
+            try {
+                int choix = JOptionPane.showConfirmDialog(null, "Êtes-vous sûr de vouloir supprimer ce joueur ?", "Confirmation de suppression", JOptionPane.YES_NO_OPTION);
+                if (choix == JOptionPane.YES_OPTION) {
+                    Player player = this.toPlayer();
+                    int delete = MainInsertClient.deletePlayer(player);
+                    if (delete == 1){
+                        JOptionPane.showMessageDialog(null, "Ce joueur a été supprimé avec succès", "Information", JOptionPane.INFORMATION_MESSAGE);
+                        Iterator<InfosJoueurs> iterator = Effectif.listeInfosJoueurs.iterator();
+                        while (iterator.hasNext()) {
+                            InfosJoueurs joueur = iterator.next();
+                            if(joueur.getId() == id) {
+                                iterator.remove();
+                                System.out.println(Effectif.listeInfosJoueurs.toString());
+                            }
+                        }
+                        Effectif.gs.sort(Effectif.listeInfosJoueurs,Effectif.ascending_order,Effectif.attribut); 
+                    }
+                    else{
+                        JOptionPane.showMessageDialog(null, "Le joueur n'a pas pu être supprimé", "Erreur", JOptionPane.ERROR_MESSAGE);
+                    }
                 }
             }catch(Exception ex) {
                 System.err.println(ex);
@@ -140,7 +170,14 @@ public class InfosJoueurs extends JScrollPane implements ActionListener {
             default:
                 
         }
+        String[] i  = {prenom+" "+nom, this.calculed_age, this.nationalite,this.contrat+"",this.salaire+"",this.position,this.taille+"",this.numero+"",this.poids+"",this.pied+""};
+        infos = i;
     }
+
+    public Bouton getBoutonModif() {
+        return btn;
+    }
+
 
 
     public String getNom() {

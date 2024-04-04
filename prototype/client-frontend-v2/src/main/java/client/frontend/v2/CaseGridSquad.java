@@ -14,7 +14,7 @@ public class CaseGridSquad extends JLabel {
     public CaseGridSquad(String i, JFrame fen){
         super(i);
             this.setOpaque(true);
-            this.setPreferredSize(new Dimension(fen.getWidth()/12,75));
+            this.setPreferredSize(new Dimension(fen.getWidth()/13,75));
             this.setBorder(BorderFactory.createLineBorder(Color.WHITE));
             this.setBackground(Color.GRAY);
             this.setForeground(Color.white);
@@ -23,9 +23,9 @@ public class CaseGridSquad extends JLabel {
         }
 
         public CaseGridSquad(Image i, JFrame fen){
-            super(new ImageIcon(i.getScaledInstance(fen.getWidth()/12, HEIGHT, Image.SCALE_DEFAULT)));
+            super(new ImageIcon(i.getScaledInstance(fen.getWidth()/13, HEIGHT, Image.SCALE_DEFAULT)));
                 this.setOpaque(true);
-                this.setPreferredSize(new Dimension(fen.getWidth()/12,75));
+                this.setPreferredSize(new Dimension(fen.getWidth()/13,75));
                 this.setBorder(BorderFactory.createLineBorder(Color.WHITE));
                 this.setBackground(Color.GRAY);
                 this.setForeground(Color.white);
@@ -33,5 +33,20 @@ public class CaseGridSquad extends JLabel {
                 this.fen =fen;
 
         }
+        public CaseGridSquad(JButton i, JFrame fen){
+            JPanel panel = new JPanel();
+            panel.setBackground(Color.GREEN);
+            panel.add(i);
+            add(panel);
+            this.setOpaque(true);
+                this.setPreferredSize(new Dimension(fen.getWidth()/13,75));
+                this.setBorder(BorderFactory.createLineBorder(Color.WHITE));
+                this.setBackground(Color.GRAY);
+                this.setForeground(Color.white);
+                this.setHorizontalAlignment(CENTER);
+                this.fen =fen;
+
+        }
+
 
 }

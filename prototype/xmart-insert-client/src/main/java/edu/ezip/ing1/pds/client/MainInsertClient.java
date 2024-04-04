@@ -211,5 +211,44 @@ public class MainInsertClient {
     } */
     
 }
+    public static int deletePlayer(Player j) {
+        try {
+
+        LoggingLabel = "D E L E T E - C l i e n t";
+        logger = LoggerFactory.getLogger(LoggingLabel);
+        requestOrder = "DELETE_PLAYER";
+        final NetworkConfig networkConfig =  ConfigLoader.loadConfig(NetworkConfig.class, networkConfigFile);
+        logger.trace("Students loaded : {}", j.toString());
+        //networkConfig.setIpaddress(ipBDD);
+        //networkConfig.setTcpport(port);
+        int birthdate = 0;
+        final ObjectMapper objectMapper = new ObjectMapper();  
+        ObjectNode rootNode = factory.objectNode();
+        rootNode.put("id", j.id);
+        final String jsonifiedGuy = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(rootNode);
+            logger.trace("Student with its JSON face : {}", jsonifiedGuy);
+            final String requestId = UUID.randomUUID().toString();
+            final Request request = new Request();
+            request.setRequestId(requestId);
+            request.setRequestOrder(requestOrder);
+            request.setRequestContent(jsonifiedGuy);
+            objectMapper.enable(SerializationFeature.WRAP_ROOT_VALUE);
+            final byte []  requestBytes = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsBytes(request);
+
+            final InsertStudentsClientRequest clientRequest = new InsertStudentsClientRequest (
+                                                                        networkConfig,
+                                                                        birthdate++, request, j, requestBytes);
+            clientRequests.push(clientRequest);
+            Thread insert = clientRequest.getThread();
+            while (insert.isAlive()) {
+                //Waiting the thread to die
+            }
+            return Integer.parseInt(clientRequest.getResponse());
+        } catch (Exception e) {
+            System.err.println(e);
+        }
+        return 0;
+    }
+
 }
 
