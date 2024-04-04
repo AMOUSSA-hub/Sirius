@@ -19,7 +19,7 @@ public class CalendarFrame extends JPanel {
     MainSelectClient msc;
     Set<TeamEvent> events;
 
-    public CalendarFrame(MainSelectClient select){
+    public CalendarFrame(MainSelectClient select, JFrame fen){
         this.msc = select;
         setBackground(Color.gray);
         GridBagConstraints gbc = new GridBagConstraints();
@@ -36,17 +36,14 @@ public class CalendarFrame extends JPanel {
 
     JButton addEventButton = new JButton("Ajouter un évènement");
     JButton getEventsButton = new JButton("récupérer les évènements");
-    getEventsButton.addActionListener(e->{
-    try{
 
-    
-        this.events = msc.getAllEvents();
-     
+    try{
+        this.events = msc.getAllEvents();   
     }catch(Exception ex){
         System.err.println(ex);
     }
 
-} );
+
 
     
 
@@ -56,6 +53,9 @@ public class CalendarFrame extends JPanel {
             labelDate.setText(date);
         }
     });
+
+
+    addEventButton.addActionListener(e -> new AddEventFrame(fen));
     
 
     dateSelectorPanel.add(leftArrow);
@@ -83,7 +83,7 @@ public class CalendarFrame extends JPanel {
     gbc.gridwidth = 1;
     gbc.gridheight = 1;
     gbc.fill = GridBagConstraints.NONE;
-    gbc.anchor = GridBagConstraints.NORTH;
+    gbc.anchor = GridBagConstraints.EAST;
     gbc.weightx = 0.0;
     gbc.weighty = 0.0;
     gbc.insets = new Insets(1, 1, 1, 1);
@@ -95,11 +95,11 @@ gbc.gridy = 3;
 gbc.gridwidth = 5;
 gbc.gridheight = 1;
 gbc.fill = GridBagConstraints.BOTH;
-gbc.anchor = GridBagConstraints.NORTH;
+gbc.anchor = GridBagConstraints.CENTER;
 gbc.weightx = 0.0;
 gbc.weighty = 1.0;
 gbc.insets = new Insets(1, 1, 20, 1);
-this.add(new GridTeamEvent(),gbc);
+this.add(new GridTeamEvent(this.events),gbc);
 
 
 
