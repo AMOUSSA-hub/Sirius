@@ -38,6 +38,8 @@ public class HomeFrame extends JFrame {
 
 
 
+        
+        this.pack();
         setLocationRelativeTo(null);
         setVisible(true);
     }

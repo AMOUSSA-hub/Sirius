@@ -14,6 +14,21 @@ public class TeamEvent {
     private int id;
     private String label,type;
     Date date_debut, date_fin;
+
+
+    private enum Type {
+        TRAINING("TRAINING"),
+        GAME("GAME"),
+        FRIENDY_GAME("FRIENDY_GAME");
+        private String type;
+        
+        private Type(final String type) {
+            this.type= type;
+        }
+    }
+
+
+
     public TeamEvent(){}
     
     public TeamEvent(int id,String label,String type, Date date_debut,Date date_fin ){
@@ -23,6 +38,8 @@ public class TeamEvent {
         this.date_debut = date_debut;
         this.date_fin = date_fin;
     }
+
+
 
     public final TeamEvent build(final ResultSet resultSet)
             throws SQLException, NoSuchFieldException, IllegalAccessException {
