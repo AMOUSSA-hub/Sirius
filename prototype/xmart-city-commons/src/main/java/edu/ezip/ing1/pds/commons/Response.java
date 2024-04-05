@@ -33,6 +33,8 @@ public class Response {
         return responseBody;
     }
 
+    @JsonProperty("response_body")
+    @JsonRawValue
     public void setResponseBody(String responseBody) {
         this.responseBody = responseBody;
     }

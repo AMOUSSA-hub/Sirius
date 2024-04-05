@@ -36,7 +36,7 @@ public class ConnectionPoolImpl {
     private ConnectionPoolImpl(final String dbEditor) throws SQLException {
         final DatabaseConnectionBasicConfiguration config =  DatabaseConnectionBasicConfiguration.getInstance();
         final StringBuffer letsBuildUrl = new StringBuffer();
-        config.setPoolSize((short)1000);
+        //config.setPoolSize((short)1000);
         letsBuildUrl.append(jdbc).append(":")
                 .append(dbEditor).append("://")
                 .append(config.getHost()).append("/")

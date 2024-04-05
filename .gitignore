@@ -1,6 +1,1 @@
-*.class
-prototype/xmart-city-backend/target/maven-archiver/pom.properties
-prototype/xmart-city-backend/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst
-prototype/xmart-city-backend/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst
-prototype/xmart-city-backend/target/xmart-zity-backend-1.0-SNAPSHOT.jar
-.vscode
+target

@@ -9,8 +9,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-@JsonRootName(value = "student")
-public class Student {
+@JsonRootName(value = "player")
+public class Player {
     private  String nom,nationalite;
     private  String prenom;
     private  Date naissance;
@@ -19,10 +19,12 @@ public class Student {
     private String pied;
     private int taille;
     private int poids;
-
-    public Student() {
+    private byte[] photo;
+    private Date contrat;
+    private int salaire;
+    public Player() {
     }
-    public final Student build(final ResultSet resultSet)
+    public final Player build(final ResultSet resultSet)
             throws SQLException, NoSuchFieldException, IllegalAccessException {
         setFieldsFromResulset(resultSet, "name", "firstname","group");
         return this;
@@ -38,7 +40,7 @@ public class Student {
         this.test = test;
     } */
 
-    public Student(String nom, String prenom, Date naissance, int numero, String poste, String pied, int taille, int poids,String nationalite,int id,int last_value) {
+    public Player(String nom, String prenom, Date naissance, int numero, String poste, String pied, int taille, int poids,String nationalite,int id,int last_value,byte[] photo,Date contrat,int salaire) {
         this.nom = nom;
         this.prenom = prenom;
         this.naissance = naissance;
@@ -50,38 +52,10 @@ public class Student {
         this.nationalite = nationalite;
         this.id = id;
         this.last_value = last_value;
+        this.photo = photo;
+        this.contrat = contrat;
+        this.salaire = salaire;
     }
-
-/*     public String getName() {
-        return name;
-    }
-
-    public String getFirstname() {
-        return firstname;
-    }
-
-    public String getGroup() {
-        return group;
-    } */
-
-/*     @JsonProperty("student_name")
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    @JsonProperty("student_1stname")
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
-    }
-
-    @JsonProperty("student_group")
-    public void setGroup(String group) {
-        this.group = group;
-    }
-    @JsonProperty("student_test") 
-    public void setTest(String test){
-        this.test = test;
-    } */
 
 
     public String getNom() {
@@ -126,6 +100,18 @@ public class Student {
 
     public int getLastValue() {
         return last_value;
+    }
+
+    public byte[] getPhoto(){
+        return photo;
+    }
+
+    public Date getContrat(){
+        return contrat;
+    }
+
+    public int getSalaire(){
+        return salaire;
     }
 
     @JsonProperty("nom")
@@ -182,6 +168,22 @@ public class Student {
     public void setLastValue(int last_value) {
         this.last_value = last_value;
     }
+
+    @JsonProperty("photo") 
+    public void setPhoto(byte[] photo) {
+        this.photo = photo;
+    }
+
+    @JsonProperty("contrat") 
+    public void setContrat(Date contrat) {
+        this.contrat = contrat;
+    }
+
+    @JsonProperty("salaire")
+    public void setSalaire(int salaire) {
+        this.salaire = salaire;
+    } 
+
 
     private void setFieldsFromResulset(final ResultSet resultSet, final String ... fieldNames )
             throws NoSuchFieldException, SQLException, IllegalAccessException {
