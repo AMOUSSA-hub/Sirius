@@ -129,7 +129,7 @@ public class InfosJoueurs extends JScrollPane implements ActionListener {
                 String userInput = JOptionPane.showInputDialog(null, "Par quoi voulez-vous le remplacer ?");
                 Player player = this.toPlayer();
                 Object newValue = userInput;
-                int update = MainInsertClient.updatePlayer(player,attributToChange,newValue);
+                int update = MainInsertClient.updateRequest(player,attributToChange,newValue);
                 if (update == 1) {
                     updateAttribut(choice,userInput);
                     Iterator<InfosJoueurs> iterator = Fenetre.effectif.listeInfosJoueurs.iterator();

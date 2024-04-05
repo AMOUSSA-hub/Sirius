@@ -216,7 +216,7 @@ public class Effectif extends JPanel{
                     InfosJoueurs info = InfosJoueurs.playerToInfosJoueurs(j);
                     //listeInfosJoueurs.add(InfosJoueurs.playerToInfosJoueurs(j));
                     
-                        int insert = (MainInsertClient.sendPlayer(j));
+                        int insert = (MainInsertClient.sendRequest(j,"INSERT_PLAYER"));
                         if (insert == 1) {
                             System.out.println("val : " + lastIdValue);
                             listeInfosJoueurs.add(InfosJoueurs.playerToInfosJoueurs(j));
@@ -332,7 +332,7 @@ public class Effectif extends JPanel{
         res.add(p.numero);
         res.add(p.poids);
         res.add(p.pied);
-        res.add(p.id);
+        res.add(p.getId());
         return res;
     }
 

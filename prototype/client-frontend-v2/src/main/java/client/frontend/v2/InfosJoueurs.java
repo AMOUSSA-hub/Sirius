@@ -117,7 +117,7 @@ public class InfosJoueurs implements ActionListener {
                     newValue = userInput;
                 }
                 Player player = this.toPlayer();
-                int update = MainInsertClient.updatePlayer(player,attributToChange,newValue);
+                int update = MainInsertClient.updateRequest(player,attributToChange,newValue,"UPDATE_PLAYER");
                 if (update == 1) {
                     updateAttribut(choice,userInput);
                     Iterator<InfosJoueurs> iterator = Effectif.listeInfosJoueurs.iterator();
@@ -142,7 +142,7 @@ public class InfosJoueurs implements ActionListener {
                 int choix = JOptionPane.showConfirmDialog(null, "Êtes-vous sûr de vouloir supprimer ce joueur ?", "Confirmation de suppression", JOptionPane.YES_NO_OPTION);
                 if (choix == JOptionPane.YES_OPTION) {
                     Player player = this.toPlayer();
-                    int delete = MainInsertClient.deletePlayer(player);
+                    int delete = MainInsertClient.deleteRequest(player,"DELETE_PLAYER");
                     if (delete == 1){
                         JOptionPane.showMessageDialog(null, "Ce joueur a été supprimé avec succès", "Information", JOptionPane.INFORMATION_MESSAGE);
                         Iterator<InfosJoueurs> iterator = Effectif.listeInfosJoueurs.iterator();
@@ -353,7 +353,7 @@ public class InfosJoueurs implements ActionListener {
     }
 
     public static InfosJoueurs playerToInfosJoueurs(Player p) {
-        InfosJoueurs j = new InfosJoueurs(p.nom,p.prenom,p.naissance,p.nationalite,p.contrat,p.salaire,p.position,p.taille,p.numero,p.poids,p.pied,p.id,p.photo);
+        InfosJoueurs j = new InfosJoueurs(p.nom,p.prenom,p.naissance,p.nationalite,p.contrat,p.salaire,p.position,p.taille,p.numero,p.poids,p.pied,p.getId(),p.photo);
         return j;
     }
 

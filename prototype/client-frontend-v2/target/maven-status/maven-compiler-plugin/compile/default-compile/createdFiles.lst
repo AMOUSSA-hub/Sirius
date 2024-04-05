@@ -2,6 +2,7 @@ client\frontend\v2\AddPlayer$1.class
 client\frontend\v2\PageStatistiques.class
 client\frontend\v2\PageStatistiques$Joueur.class
 client\frontend\v2\Bouton.class
+client\frontend\v2\AddEventFrame.class
 client\frontend\v2\GridSquad.class
 client\frontend\v2\CaseEvent.class
 client\frontend\v2\DatePick$3.class
@@ -14,6 +15,7 @@ client\frontend\v2\GridInfoSquad.class
 client\frontend\v2\App.class
 client\frontend\v2\Effectif$1.class
 client\frontend\v2\RoundBtn.class
+client\frontend\v2\CaseEvent$1.class
 client\frontend\v2\JoueursCompare.class
 client\frontend\v2\LauncherFrame.class
 client\frontend\v2\DatePick.class
