@@ -30,6 +30,8 @@ public class PageStatistiques extends JPanel {
 
         JPanel panel = new JPanel(new BorderLayout());
 
+        
+
         JTabbedPane onglets = new JTabbedPane();
 
         JPanel panneauMeilleursButeurs = new JPanel(new BorderLayout());
