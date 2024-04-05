@@ -1,5 +1,6 @@
 package client.frontend.v2;
 
+import edu.ezip.ing1.pds.client.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
@@ -7,14 +8,25 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Random;
+import java.util.Set;
+import edu.ezip.ing1.pds.business.dto.*;
 
 public class PageStatistiques extends JPanel {
 
     private DefaultTableModel modeleMeilleursButeurs;
     private DefaultTableModel modeleMeilleursPasseurs;
 
-    public PageStatistiques() {
-        
+    public PageStatistiques(MainSelectClient msc) {
+        try {
+            // Récupération des statistiques depuis le MainSelectClient
+            Set<Stat> stats = msc.getAllStats();
+
+            for (Stat s : stats) {
+                System.out.println("BABAZBFAEFAEZGF" + s.toString());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         JPanel panel = new JPanel(new BorderLayout());
 
@@ -136,6 +148,7 @@ public class PageStatistiques extends JPanel {
     }
 
     public static void main(String[] args) {
-        new PageStatistiques(); 
+        MainSelectClient msc = new MainSelectClient();
+        SwingUtilities.invokeLater(() -> new PageStatistiques(msc));
     }
 }
