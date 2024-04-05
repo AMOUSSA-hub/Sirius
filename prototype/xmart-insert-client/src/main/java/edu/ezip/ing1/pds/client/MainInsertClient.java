@@ -4,9 +4,7 @@ package edu.ezip.ing1.pds.client;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
-import edu.ezip.ing1.pds.business.dto.Player;
-import edu.ezip.ing1.pds.business.dto.Student;
-import edu.ezip.ing1.pds.business.dto.Students;
+import edu.ezip.ing1.pds.business.dto.*;
 import edu.ezip.ing1.pds.client.commons.ClientRequest;
 import edu.ezip.ing1.pds.client.commons.ConfigLoader;
 import edu.ezip.ing1.pds.client.commons.NetworkConfig;
@@ -48,7 +46,7 @@ public class MainInsertClient {
     static JsonNodeFactory factory = JsonNodeFactory.instance;
     public static void main(String[] args) throws IOException, InterruptedException, SQLException, ClassNotFoundException {
 
-        final Students guys = ConfigLoader.loadConfig(Students.class, studentsToBeInserted);
+        final Players guys = ConfigLoader.loadConfig(Players.class, studentsToBeInserted);
         logger.trace("Students loaded : {}", guys.toString());
         //networkConfig.setIpaddress(ipBDD);
         //networkConfig.setTcpport(port);
@@ -104,7 +102,7 @@ public class MainInsertClient {
             objectMapper.enable(SerializationFeature.WRAP_ROOT_VALUE);
             final byte []  requestBytes = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsBytes(request);
 
-            final InsertStudentsClientRequest clientRequest = new InsertStudentsClientRequest (
+            final InsertPlayersClientRequestRequest clientRequest = new InsertPlayersClientRequestRequest (
                                                                         networkConfig,
                                                                         birthdate++, request, j, requestBytes);
             clientRequests.push(clientRequest);
@@ -169,7 +167,7 @@ public class MainInsertClient {
             objectMapper.enable(SerializationFeature.WRAP_ROOT_VALUE);
             final byte []  requestBytes = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsBytes(request);
 
-            final InsertStudentsClientRequest clientRequest = new InsertStudentsClientRequest (
+            final InsertPlayersClientRequestRequest clientRequest = new InsertPlayersClientRequestRequest (
                                                                         networkConfig,
                                                                         birthdate++, request, j, requestBytes);
             clientRequests.push(clientRequest);
@@ -235,7 +233,7 @@ public class MainInsertClient {
             objectMapper.enable(SerializationFeature.WRAP_ROOT_VALUE);
             final byte []  requestBytes = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsBytes(request);
 
-            final InsertStudentsClientRequest clientRequest = new InsertStudentsClientRequest (
+            final InsertPlayersClientRequestRequest clientRequest = new InsertPlayersClientRequestRequest (
                                                                         networkConfig,
                                                                         birthdate++, request, j, requestBytes);
             clientRequests.push(clientRequest);

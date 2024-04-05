@@ -3,7 +3,6 @@ package edu.ezip.ing1.pds.client;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import edu.ezip.commons.LoggingUtils;
-import edu.ezip.ing1.pds.business.dto.Students;
 import edu.ezip.ing1.pds.business.dto.TeamEvent;
 import edu.ezip.ing1.pds.business.dto.TeamEvents;
 import edu.ezip.ing1.pds.client.commons.ClientRequest;
@@ -16,7 +15,6 @@ import org.slf4j.event.Level;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
@@ -37,7 +35,7 @@ public class MainSelectClient {
     public static int lastIdValue = 0;
     private final static String LoggingLabel = "S e l e c t - C l i e n t";
     private final static Logger logger = LoggerFactory.getLogger(LoggingLabel);
-    private final static String studentsToBeInserted = "students-to-be-inserted.yaml";
+    private final static String playersToBeInserted = "players-to-be-inserted.yaml";
     private final static String networkConfigFile = "network.yaml";
     private static final String threadName = "inserter-client";
     private static final String requestOrder = "SELECT_ALL_PLAYERS";
@@ -66,7 +64,7 @@ public class MainSelectClient {
         objectMapper.enable(SerializationFeature.WRAP_ROOT_VALUE);
         final byte []  requestBytes = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsBytes(request);
         LoggingUtils.logDataMultiLine(logger, Level.TRACE, requestBytes);
-        final SelectAllStudentsClientRequest clientRequest = new SelectAllStudentsClientRequest(
+        final SelectAllPlayersClientRequest clientRequest = new SelectAllPlayersClientRequest(
                                                                     networkConfig,
                                                                     birthdate++, request, null, requestBytes);
         clientRequests.push(clientRequest);
@@ -93,32 +91,32 @@ public class MainSelectClient {
 
             ObjectMapper mapper = new ObjectMapper();
             JsonNode responseNode = mapper.readTree(res);
-            JsonNode studentsNode = responseNode.get("response_body").get("students");
+            JsonNode playersNode = responseNode.get("response_body").get("players");
             String fileName = "Select.txt";
         try {
             
-            System.out.println("Nombre de joueurs selectionnés : " + studentsNode.size() + "\n");
+            System.out.println("Nombre de joueurs selectionnés : " + playersNode.size() + "\n");
             FileWriter fileWriter = new FileWriter(fileName, false);
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
             //writeString(bufferedWriter,String.valueOf(nbJoueurs));
-            for (JsonNode studentNode : studentsNode) {
-                String nom = studentNode.get("nom").asText();
-                String prenom = studentNode.get("prenom").asText();
-                int numero = studentNode.get("numero").asInt();
-                Long date = (studentNode.get("naissance").asLong());
+            for (JsonNode playerNode : playersNode) {
+                String nom = playerNode.get("nom").asText();
+                String prenom = playerNode.get("prenom").asText();
+                int numero = playerNode.get("numero").asInt();
+                Long date = (playerNode.get("naissance").asLong());
                 Date date2 = new Date(date);
                 //String date3 = date2.toString();
-                String nationalite = studentNode.get("nationalite").asText();
-                String poste = studentNode.get("poste").asText();
-                String pied = studentNode.get("pied").asText();
-                int taille = studentNode.get("taille").asInt();
-                int poids = studentNode.get("poids").asInt();
-                int id = studentNode.get("id").asInt();
-                lastIdValue = studentNode.get("last_value").asInt();
-                JsonNode imageDataNode = studentNode.get("photo");
+                String nationalite = playerNode.get("nationalite").asText();
+                String poste = playerNode.get("poste").asText();
+                String pied = playerNode.get("pied").asText();
+                int taille = playerNode.get("taille").asInt();
+                int poids = playerNode.get("poids").asInt();
+                int id = playerNode.get("id").asInt();
+                lastIdValue = playerNode.get("last_value").asInt();
+                JsonNode imageDataNode = playerNode.get("photo");
                 byte[] photo = objectMapper.convertValue(imageDataNode, byte[].class);
-                Date contrat = new Date(studentNode.get("contrat").asLong());
-                int salaire = studentNode.get("salaire").asInt();
+                Date contrat = new Date(playerNode.get("contrat").asLong());
+                int salaire = playerNode.get("salaire").asInt();
                 List<Object> liste = new ArrayList<Object>();
                 liste.add(prenom);//new InfosJoueurs(prenom, nom, date2, nationalite, Date.valueOf(LocalDate.now()), 0, poste, taille, numero, poids, pied,id));
                 liste.add(nom);

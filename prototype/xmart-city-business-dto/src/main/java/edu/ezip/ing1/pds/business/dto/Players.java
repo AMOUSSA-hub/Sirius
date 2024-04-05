@@ -10,14 +10,14 @@ import java.util.Set;
 public class Players {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    @JsonProperty("students")
+    @JsonProperty("players")
     private  Set<Player> players = new LinkedHashSet<Player>();
 
-    public Set<Player> getStudents() {
+    public Set<Player> setPlayers() {
         return players;
     }
 
-    public void setStudents(Set<Player> players) {
+    public void setPlayers(Set<Player> players) {
         this.players = players;
     }
 
@@ -28,8 +28,8 @@ public class Players {
 
     @Override
     public String toString() {
-        return "Students{" +
-                "students=" + players +
+        return "Players{" +
+                "players=" + players +
                 '}';
     }
 }

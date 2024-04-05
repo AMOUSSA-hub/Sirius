@@ -6,7 +6,7 @@ import java.time.temporal.ChronoUnit;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonRootName;
-@JsonRootName(value = "student")
+@JsonRootName(value = "player")
 public class Player {
     
     public Date contrat,naissance;

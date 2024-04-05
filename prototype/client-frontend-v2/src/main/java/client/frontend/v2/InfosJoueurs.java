@@ -23,8 +23,12 @@ import edu.ezip.ing1.pds.client.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-import javax.swing.JOptionPane;
+import javax.swing.*;
 import java.util.*;
+import java.io.File;
+import java.io.FileInputStream;
+import javax.swing.ImageIcon;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import javax.imageio.ImageIO;
 import java.io.ByteArrayInputStream;
@@ -83,12 +87,36 @@ public class InfosJoueurs implements ActionListener {
         }
         if (operations[choice1].equals("Modifier")) {
             try {
-                String[] buttons = {"nom", "prenom", "naissance", "nationalite", "position", "pied", "taille", "poids","numero"};
+                String[] buttons = {"nom", "prenom", "naissance", "nationalite", "poste", "pied", "taille", "poids","numero","contrat","photo","salaire"};
                 int choice = JOptionPane.showOptionDialog(null, "Choisir un attribut :", "Attributs",JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, buttons, buttons[0]);
                 String attributToChange = buttons[choice];
-                String userInput = JOptionPane.showInputDialog(null, "Par quoi voulez-vous le remplacer ?");
+                String userInput = null;
+                Object newValue = null;
+                if (attributToChange.equals("photo")) {
+                    ImageIcon imageJoueur;
+                    JFileChooser chooser = new JFileChooser();
+                    FileNameExtensionFilter filter = new FileNameExtensionFilter("JPG & PNG images ", "jpg","png");
+                    chooser.setFileFilter(filter);
+                    int returnVal = chooser.showOpenDialog(null);
+                    if(returnVal == JFileChooser.APPROVE_OPTION) {
+                        imageJoueur = new ImageIcon(chooser.getSelectedFile().getAbsolutePath());
+                        imageJoueur.setImage(imageJoueur.getImage().getScaledInstance(200, 200, java.awt.Image.SCALE_SMOOTH));
+                        //imgBouton.setIcon(imageJoueur);
+                        File imageFile = new File(imageJoueur.toString());
+                        System.out.println(imageJoueur.toString());
+                        
+                        byte[] imageData = new byte[(int) imageFile.length()];
+                        try (FileInputStream fis = new FileInputStream(imageFile)) {
+                            fis.read(imageData);
+                        } catch (IOException e23) {
+                            System.err.println(e23);
+                        }
+                        newValue = (Object)imageData;
+                }}else {
+                    userInput = JOptionPane.showInputDialog(null, "Par quoi voulez-vous le remplacer ?");
+                    newValue = userInput;
+                }
                 Player player = this.toPlayer();
-                Object newValue = userInput;
                 int update = MainInsertClient.updatePlayer(player,attributToChange,newValue);
                 if (update == 1) {
                     updateAttribut(choice,userInput);

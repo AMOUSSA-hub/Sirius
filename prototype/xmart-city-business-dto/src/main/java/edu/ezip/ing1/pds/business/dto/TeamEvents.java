@@ -17,12 +17,12 @@ public class TeamEvents {
         return events;
     }
 
-    public void setEvents(Set<TeamEvent> students) {
-        this.events = students;
+    public void setEvents(Set<TeamEvent> players) {
+        this.events = players;
     }
 
-    public final TeamEvents add (final TeamEvent student) {
-        events.add(student);
+    public final TeamEvents add (final TeamEvent player) {
+        events.add(player);
         return this;
     }
 
