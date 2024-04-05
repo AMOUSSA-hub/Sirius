@@ -29,6 +29,7 @@ public class HomeFrame extends JFrame {
         
         JPanel contentPane = new JPanel(ca);
         contentPane.add("Effectif",new Effectif(this,msc));
+        
         contentPane.add("Calendrier",new CalendarFrame(msc,this));
         contentPane.add("Stats", new PageStatistiques());
         add(new MenuBar(ca,contentPane),BorderLayout.NORTH);
