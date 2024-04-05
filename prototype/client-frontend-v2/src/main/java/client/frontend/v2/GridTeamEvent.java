@@ -16,7 +16,7 @@ public class GridTeamEvent extends JPanel {
         setLayout(new GridLayout(1,7));
 
         for (TeamEvent teamEvent : list) {
-           add(new CaseEvent(teamEvent)) ;
+           this.addCaseEvent(teamEvent);
         }
             
         
@@ -26,9 +26,18 @@ public class GridTeamEvent extends JPanel {
 
 
 
-    public void addCaseEvent(){
+    public void addCaseEvent(TeamEvent te){  
+        this.add(new CaseEvent(te)) ;
+      }
 
+    
+    public void removeCaseEvent( CaseEvent ca){
+        remove(ca);
+        this.revalidate();
+        this.repaint();
     }
+
+
 
 
 
