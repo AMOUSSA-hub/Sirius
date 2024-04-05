@@ -31,7 +31,7 @@ public class CaseEvent  extends JPanel {
 
             @Override
             public String[] getMonths() {
-                return new String[]{"", "janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"};
+                return new String[]{"janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"};
             }
         }).format(event.getDateDebut());
 

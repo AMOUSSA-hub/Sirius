@@ -35,7 +35,7 @@ public class CalendarFrame extends JPanel {
     labelDate.setBackground(Color.WHITE);
 
     JButton addEventButton = new JButton("Ajouter un évènement");
-    JButton getEventsButton = new JButton("récupérer les évènements");
+    JButton refreshBUttonEvent = new JButton("récupérer les évènements");
 
     try{
         this.events = msc.getAllEvents();   
@@ -61,7 +61,7 @@ public class CalendarFrame extends JPanel {
     dateSelectorPanel.add(leftArrow);
     dateSelectorPanel.add(labelDate);
     dateSelectorPanel.add(rightArrow);
-    dateSelectorPanel.add(getEventsButton);
+    dateSelectorPanel.add(refreshBUttonEvent);
 
 
     // Mise en place de sélection de la date
