@@ -68,6 +68,10 @@ public class CaseEvent  extends JPanel {
            if(MainInsertClient.deleteRequest(event, "DELETE_EVENT") == 1){
                 ((GridTeamEvent)this.getParent()).removeCaseEvent(this);
            }
+
+           else{
+            JOptionPane.showMessageDialog(null, "Erreur du côté du serveur !", "Erreur", JOptionPane.ERROR_MESSAGE);
+           }
         }
         });
 
