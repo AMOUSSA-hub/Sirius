@@ -1,14 +1,17 @@
 package edu.ezip.ing1.pds.client;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import edu.ezip.commons.LoggingUtils;
 import edu.ezip.ing1.pds.business.dto.TeamEvent;
 import edu.ezip.ing1.pds.business.dto.TeamEvents;
+import edu.ezip.ing1.pds.business.dto.Stats;
+import edu.ezip.ing1.pds.business.dto.Stat;
 import edu.ezip.ing1.pds.client.commons.ClientRequest;
 import edu.ezip.ing1.pds.client.commons.ConfigLoader;
 import edu.ezip.ing1.pds.client.commons.NetworkConfig;
 import edu.ezip.ing1.pds.commons.Request;
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.event.Level;
@@ -22,6 +25,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
+
+import javax.swing.plaf.nimbus.State;
+
 import java.io.OutputStream;
 import java.net.Socket;
 import java.io.BufferedWriter;
@@ -174,7 +180,6 @@ public class MainSelectClient {
 
         for (final TeamEvent e : listEvents.getEvents()) {
             
-            
             events.add(e);
            System.out.println(e.toString()); 
         }
@@ -184,6 +189,41 @@ public class MainSelectClient {
     
         return events;
     } 
+
+
+    public Set<Stat> getAllStats() throws IOException, InterruptedException, SQLException {
+        Set<Stat> stat = new HashSet<>();
+    
+        final ObjectMapper objectMapper = new ObjectMapper();
+        final String requestId = UUID.randomUUID().toString();
+        final Request request = new Request();
+        request.setRequestId(requestId);
+        request.setRequestOrder("SELECT_ALL_STATS");
+        objectMapper.enable(SerializationFeature.WRAP_ROOT_VALUE);
+        final byte[] requestBytes = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsBytes(request);
+        LoggingUtils.logDataMultiLine(logger, Level.TRACE, requestBytes);
+        final SelectAllStatRequest clientRequest = new SelectAllStatRequest(
+            networkConfig,
+            birthdate++, request, null, requestBytes
+        );
+    
+        clientRequests.push(clientRequest);
+        clientRequest.join();
+        logger.debug("Thread {} complete.", clientRequest.getThreadName());
+    
+        final Stats statsResponse = (Stats) clientRequest.getResult();
+    
+        if (statsResponse != null) { 
+            for (final Stat s : statsResponse.getStats()) {
+                stat.add(s);
+                System.out.println(s.toString());
+            }
+        } else {
+            logger.error("statsResponse est null. Impossible de recuperer les statistiques.");
+        }
+    
+        return stat;
+    }
 
     public static String getReponseServeur(Socket socket) {
         try {

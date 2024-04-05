@@ -29,8 +29,9 @@ public class HomeFrame extends JFrame {
         
         JPanel contentPane = new JPanel(ca);
         contentPane.add("Effectif",new Effectif(this,msc));
-        contentPane.add("Calendrier",new CalendarFrame(msc));
-        contentPane.add("Stats", new PageStatistiques());
+        
+        contentPane.add("Calendrier",new CalendarFrame(msc,this));
+        contentPane.add("Stats", new PageStatistiques(msc));
         add(new MenuBar(ca,contentPane),BorderLayout.NORTH);
         add(contentPane,BorderLayout.CENTER);
 
@@ -38,6 +39,8 @@ public class HomeFrame extends JFrame {
 
 
 
+        
+        this.pack();
         setLocationRelativeTo(null);
         setVisible(true);
     }
