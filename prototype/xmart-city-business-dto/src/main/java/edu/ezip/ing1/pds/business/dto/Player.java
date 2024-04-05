@@ -7,11 +7,11 @@ import java.time.temporal.ChronoUnit;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonRootName;
 @JsonRootName(value = "player")
-public class Player {
+public class Player extends Data {
     
     public Date contrat,naissance;
     public String prenom,nom,nationalite,position,pied;
-    public int age,salaire,taille,numero,poids,id;
+    public int age,salaire,taille,numero,poids;
     public byte[] photo;
     public Player(String prenom,String nom,Date naissance,String nat,Date contrat,int salaire, String pos, int taille, int numero, int poids,String pied,int id,byte[] photo){
         this.id = id;   

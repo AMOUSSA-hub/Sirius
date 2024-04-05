@@ -10,7 +10,7 @@ import java.sql.SQLException;
 import java.lang.reflect.Field;
 
 @JsonRootName(value = "stats")
-public class Stat {
+public class Stat extends Data {
     private short buts;
     private short passesdecisives;
     private short cartonsjaunes;
@@ -90,6 +90,11 @@ public class Stat {
         this.id_matchs = id_matchs;
     }
 
+    @JsonProperty("id")
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public short getButs() {
         return buts;
     }
@@ -120,6 +125,11 @@ public class Stat {
 
     public int getIdMatchs() {
         return id_matchs;
+    }
+
+    
+    public int getId() {
+        return id;
     }
 
     private void setFieldsFromResultSet(final ResultSet resultSet, final String... fieldNames) throws NoSuchFieldException, SQLException, IllegalAccessException {

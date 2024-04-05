@@ -10,8 +10,7 @@ import java.sql.SQLException;
 import java.lang.reflect.Field;
 
 @JsonRootName(value = "event")
-public class TeamEvent {
-    private int id;
+public class TeamEvent extends Data {
     private String label,type;
     Date date_debut, date_fin;
 
@@ -57,7 +56,7 @@ public class TeamEvent {
 
 
     @JsonProperty("id")
-    public void setName(int id) {
+    public void setId(int id) {
         this.id = id;
     }
 

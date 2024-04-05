@@ -156,7 +156,7 @@ public class Effectif extends Page {
                     System.out.println("test");
                     Player j = new Player(joueur.prenom.getText(),joueur.nom.getText(),dateNaiss,joueur.nationalite.getText(),sqlDate,Integer.parseInt(joueur.salaire.getText()),(String)joueur.poste.getSelectedItem(),(int)joueur.tailleSpinner.getValue(),(int)joueur.numeroSpinner.getValue(),(int)joueur.poidsSpinner.getValue(),joueur.pied.getSelectedItem().toString(),lastIdValue);
                     try {
-                        int insert = (MainInsertClient.sendPlayer(j));
+                        int insert = (MainInsertClient.sendRequest(j));
                         if (insert == 1) {
                             System.out.println("val : " + lastIdValue);
                             listeInfosJoueurs.add(InfosJoueurs.playerToInfosJoueurs(j));

@@ -78,10 +78,10 @@ public class MainInsertClient {
         return null;
     }
 
-    public static int sendPlayer(Player j) {
+    public static int sendRequest(Data j,String requestOrder) {
         LoggingLabel = "I n s e r t e r - C l i e n t";
         logger = LoggerFactory.getLogger(LoggingLabel);
-        requestOrder = "INSERT_PLAYER";
+        //requestOrder = requestOrder1;
         final NetworkConfig networkConfig =  ConfigLoader.loadConfig(NetworkConfig.class, networkConfigFile);
         logger.trace("Students loaded : {}", j.toString());
         //networkConfig.setIpaddress(ipBDD);
@@ -141,13 +141,13 @@ public class MainInsertClient {
                                     clientRequest2.getResponse());
     } */
 }
-    public static int updatePlayer(Player j,String playerAttribut,Object newAttribut) {
+    public static int updateRequest(Data j,String playerAttribut,Object newAttribut,String requestOrder) {
       try {
         
 
         LoggingLabel = "U P D A T E R - C l i e n t";
         logger = LoggerFactory.getLogger(LoggingLabel);
-        requestOrder = "UPDATE_PLAYER";
+        //requestOrder = "UPDATE_PLAYER";
         final NetworkConfig networkConfig =  ConfigLoader.loadConfig(NetworkConfig.class, networkConfigFile);
         logger.trace("Students loaded : {}", j.toString());
         //networkConfig.setIpaddress(ipBDD);
@@ -156,7 +156,7 @@ public class MainInsertClient {
             final ObjectMapper objectMapper = new ObjectMapper();  
             ObjectNode rootNode = factory.objectNode();
             rootNode.put(playerAttribut, newAttribut.toString());
-            rootNode.put("id", j.id);
+            rootNode.put("id", j.getId());
             final String jsonifiedGuy = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(rootNode);
             logger.trace("Student with its JSON face : {}", jsonifiedGuy);
             final String requestId = UUID.randomUUID().toString();
@@ -209,12 +209,12 @@ public class MainInsertClient {
     } */
     
 }
-    public static int deletePlayer(Player j) {
+    public static int deleteRequest(Data j,String requestOrder) {
         try {
 
         LoggingLabel = "D E L E T E - C l i e n t";
         logger = LoggerFactory.getLogger(LoggingLabel);
-        requestOrder = "DELETE_PLAYER";
+        //requestOrder = "DELETE_PLAYER";
         final NetworkConfig networkConfig =  ConfigLoader.loadConfig(NetworkConfig.class, networkConfigFile);
         logger.trace("Students loaded : {}", j.toString());
         //networkConfig.setIpaddress(ipBDD);
@@ -222,7 +222,7 @@ public class MainInsertClient {
         int birthdate = 0;
         final ObjectMapper objectMapper = new ObjectMapper();  
         ObjectNode rootNode = factory.objectNode();
-        rootNode.put("id", j.id);
+        rootNode.put("id", j.getId());
         final String jsonifiedGuy = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(rootNode);
             logger.trace("Student with its JSON face : {}", jsonifiedGuy);
             final String requestId = UUID.randomUUID().toString();
