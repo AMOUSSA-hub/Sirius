@@ -15,7 +15,7 @@ public class TeamEvent extends Data {
     Date date_debut, date_fin;
 
 
-    private enum Type {
+    public enum Type {
         TRAINING("TRAINING"),
         GAME("GAME"),
         FRIENDY_GAME("FRIENDY_GAME");

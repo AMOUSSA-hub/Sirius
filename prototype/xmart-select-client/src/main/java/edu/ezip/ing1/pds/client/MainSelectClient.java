@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
+import javax.swing.JOptionPane;
 import javax.swing.plaf.nimbus.State;
 
 import java.io.OutputStream;
@@ -86,6 +87,7 @@ public class MainSelectClient {
             outputStream.write(jsonRequest.getBytes());
             outputStream.flush(); 
         } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, "Serveur off !", "Erreur", JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
         }
       
