@@ -48,8 +48,8 @@ public class MainSelectClient {
     private static final Deque<ClientRequest> clientRequests = new ArrayDeque<ClientRequest>();
     public static final String ipServeur = "172.31.252.86";
     private static Socket socket;
-    private final NetworkConfig networkConfig;
-    private int birthdate = 0;
+    private static NetworkConfig networkConfig;
+    private static int birthdate = 0;
    public  MainSelectClient(){
         
          networkConfig = ConfigLoader.loadConfig(NetworkConfig.class, networkConfigFile);
@@ -59,7 +59,11 @@ public class MainSelectClient {
     
     }
 
-    public  List<List<Object>> selectAllPlayers() throws Exception{
+    public static  List<List<Object>> selectAllPlayers() throws Exception{
+        networkConfig = ConfigLoader.loadConfig(NetworkConfig.class, networkConfigFile);
+        /*         networkConfig.setIpaddress("172.31.253.218");
+                networkConfig.setTcpport(5432); */
+                logger.debug("Load Network config file : {}", networkConfig.toString());
         List<List<Object>> listOfPlayersInformations = new ArrayList<>();
       // préparation de la requête qu'on envoie au serveur
         final ObjectMapper objectMapper = new ObjectMapper();
