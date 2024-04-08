@@ -15,6 +15,7 @@
         <module>xmart-city-client-commons</module>
         <module>xmart-select-client</module>
         <module>client-frontend-v2</module>
+        <module>client-fx</module>
     </modules>
 <dependencies>
     
