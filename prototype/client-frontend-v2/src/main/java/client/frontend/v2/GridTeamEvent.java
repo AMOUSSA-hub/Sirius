@@ -15,6 +15,8 @@ public class GridTeamEvent extends JPanel {
 
         setLayout(new GridLayout(1,7));
 
+        System.out.println(list.size());
+
         for (TeamEvent teamEvent : list) {
            this.addCaseEvent(teamEvent);
         }
