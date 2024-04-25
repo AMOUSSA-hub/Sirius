@@ -47,7 +47,8 @@ public class MainSelectClient {
     private static final String threadName = "inserter-client";
     private static final String requestOrder = "SELECT_ALL_PLAYERS";
     private static final Deque<ClientRequest> clientRequests = new ArrayDeque<ClientRequest>();
-    public static final String ipServeur = "172.31.252.86";
+    // public static final String ipServeur = "172.31.252.86";
+    public static final String ipServeur = "172.31.253.230";
     private static Socket socket;
     private static NetworkConfig networkConfig;
     private static int birthdate = 0;
