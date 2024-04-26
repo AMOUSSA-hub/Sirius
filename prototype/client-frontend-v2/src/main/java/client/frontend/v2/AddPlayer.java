@@ -63,6 +63,14 @@ public class AddPlayer extends JDialog {
     this.setVisible(true);
   }
 
+  protected AddPlayer(JFrame parent, String title, boolean modal,String str){
+    super(parent,title,modal);
+    this.setSize(Page.WIDTH*3/5, Page.HEIGHT/2);
+    this.setLocationRelativeTo(null);
+    this.setResizable(false);
+    this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+  }
+
 
   private void initComponent(){
 
@@ -280,7 +288,7 @@ public class AddPlayer extends JDialog {
     this.getContentPane().add(control, BorderLayout.SOUTH);
   }  
 
-  private JPanel createPanelAttributs(String titre,int width,int height){
+  protected JPanel createPanelAttributs(String titre,int width,int height){
     JPanel panel = new JPanel();
     panel.setBackground(Color.WHITE);
     panel.setPreferredSize(new Dimension(width, height));
@@ -288,7 +296,7 @@ public class AddPlayer extends JDialog {
     return panel;
   }
 
-  private void setOnlyChiffres(JSpinner spinner) {
+  protected void setOnlyChiffres(JSpinner spinner) {
     JFormattedTextField textField = ((JSpinner.NumberEditor)spinner.getEditor()).getTextField();
         ((NumberFormatter) textField.getFormatter()).setAllowsInvalid(false);
   }
