@@ -6,6 +6,7 @@ import edu.ezip.ing1.pds.client.*;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.util.HashMap;
 import java.util.Set;
 import edu.ezip.ing1.pds.business.dto.*;
 import edu.ezip.ing1.pds.client.MainInsertClient;
@@ -18,9 +19,11 @@ public class PageStatistiques extends JPanel {
     private DefaultTableModel tablecartonsrouges;
     private DefaultTableModel tablenote;
     private DefaultTableModel tablemin;
-
+    private HashMap<Integer,Player> playerHashMap;
     public PageStatistiques(MainSelectClient msc) {
         Set<Stat> stats = null;
+        playerHashMap = Effectif.getPlayerNameHashMap();
+
         try {
             stats = msc.getAllStats();
             
@@ -61,7 +64,7 @@ public class PageStatistiques extends JPanel {
         JTable tableaucartonsjaunes = new JTable(tablecartonsjaunes);
         JScrollPane defilementcartonsjaunes = new JScrollPane(tableaucartonsjaunes);
         panelcartonsjaunes.add(defilementcartonsjaunes, BorderLayout.CENTER);
-        onglets.addTab("Cartonsjaunes", panelcartonsjaunes);
+        onglets.addTab("Cartons jaunes", panelcartonsjaunes);
 
         JPanel panelcartonsrouges = new JPanel(new BorderLayout());
         panelcartonsrouges.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
@@ -69,7 +72,7 @@ public class PageStatistiques extends JPanel {
         JTable tableaucartonsrouges = new JTable(tablecartonsrouges);
         JScrollPane defilementcartonsrouge = new JScrollPane(tableaucartonsrouges);
         panelcartonsrouges.add(defilementcartonsrouge, BorderLayout.CENTER);
-        onglets.addTab("Cartonsrouges", panelcartonsrouges);
+        onglets.addTab("Cartons rouges", panelcartonsrouges);
 
         JPanel panelnote = new JPanel(new BorderLayout());
         panelnote.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
@@ -85,7 +88,7 @@ public class PageStatistiques extends JPanel {
         JTable tableaumin = new JTable(tablemin);
         JScrollPane defilementmin = new JScrollPane(tableaumin);
         panelmin.add(defilementmin, BorderLayout.CENTER);
-        onglets.addTab("minute jouer", panelmin);
+        onglets.addTab("Minutes jouees", panelmin);
         JButton addStats = new JButton("ajouter des statistiques");
         MainInsertClient.sendRequest(new Stat((short)1,(short) 2,(short) 3,(short) 4,(short) 5,(short) 6, 14, 1), "INSERT_STATS");
         panel.add(addStats, BorderLayout.SOUTH);
@@ -140,41 +143,46 @@ public class PageStatistiques extends JPanel {
         modeleButeurs.setRowCount(0);
         //stats.sort(Comparator.comparingInt(Stat::getButs).reversed());
         for (Stat stat : stats) {
-            modeleButeurs.addRow(new Object[]{stat.getIdJoueurs(), stat.getButs()});
+            modeleButeurs.addRow(new Object[]{getNamesPlayer(stat.getIdJoueurs()), stat.getButs()});
         }
     }
 
     private void Passeurs(Set<Stat>stats) {
         modelePasseurs.setRowCount(0);
         for (Stat stat : stats) {
-            modelePasseurs.addRow(new Object[]{stat.getIdJoueurs(), stat.getPassesDecisives()});
+            modelePasseurs.addRow(new Object[]{getNamesPlayer(stat.getIdJoueurs()), stat.getPassesDecisives()});
         }
     }
     private void Cartonsjaunes(Set<Stat>stats) {
         tablecartonsjaunes.setRowCount(0);
         for (Stat stat : stats) {
-            tablecartonsjaunes.addRow(new Object[]{stat.getIdJoueurs(), stat.getCartonsJaunes()});
+            tablecartonsjaunes.addRow(new Object[]{getNamesPlayer(stat.getIdJoueurs()), stat.getCartonsJaunes()});
         }
     }
     private void CartonsRouges(Set<Stat>stats) {
         tablecartonsrouges.setRowCount(0);
         for (Stat stat : stats) {
-            tablecartonsrouges.addRow(new Object[]{stat.getIdJoueurs(), stat.getCartonsRouges()});
+            tablecartonsrouges.addRow(new Object[]{getNamesPlayer(stat.getIdJoueurs()), stat.getCartonsRouges()});
         }
     }
     private void Notedumatch(Set<Stat>stats) {
         tablemin.setRowCount(0);
         for (Stat stat : stats) {
-            tablenote.addRow(new Object[]{stat.getIdJoueurs(), stat.getNoteDuMatch()});
+            tablenote.addRow(new Object[]{getNamesPlayer(stat.getIdJoueurs()), stat.getNoteDuMatch()});
         }
     }
     private void Minutesjouees(Set<Stat>stats) {
         tablemin.setRowCount(0);
         for (Stat stat : stats) {
-            tablemin.addRow(new Object[]{stat.getIdJoueurs(), stat.getMinutesJouees()});
+            tablemin.addRow(new Object[]{getNamesPlayer(stat.getIdJoueurs()), stat.getMinutesJouees()});
         }
     }
     
+
+    private String getNamesPlayer(int id_joueur) {
+        Player player = playerHashMap.get(id_joueur);
+        return (player.getPrenom() + " " + player.getNom());
+    }
 
     
 

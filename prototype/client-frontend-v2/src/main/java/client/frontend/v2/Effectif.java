@@ -35,6 +35,7 @@ import java.io.IOException;
 
 
 public class Effectif extends JPanel{
+    public static HashMap<Integer,Player> playerNameHashMap = new HashMap<Integer,Player>();
     public int lastIdValue = MainSelectClient.lastIdValue;
 
     static final Color fondTitre = new Color(96,96,96);
@@ -304,8 +305,9 @@ public class Effectif extends JPanel{
             listOfPlayersInformations = msc.selectAllPlayers();
             for (List<Object> playerInformation : listOfPlayersInformations) {
                System.out.println(playerInformation.toString()); 
-               InfosJoueurs rowInfo = new InfosJoueurs((String)playerInformation.get(0),(String)playerInformation.get(1),(Date)playerInformation.get(2),(String)playerInformation.get(3),(Date)playerInformation.get(4),(int)playerInformation.get(5),(String)playerInformation.get(6),(int)playerInformation.get(7),(int)playerInformation.get(8),(int)playerInformation.get(9),(String)playerInformation.get(10),(int)playerInformation.get(11),(byte[])playerInformation.get(12));
-                
+               int id = (int)playerInformation.get(11);
+               InfosJoueurs rowInfo = new InfosJoueurs((String)playerInformation.get(0),(String)playerInformation.get(1),(Date)playerInformation.get(2),(String)playerInformation.get(3),(Date)playerInformation.get(4),(int)playerInformation.get(5),(String)playerInformation.get(6),(int)playerInformation.get(7),(int)playerInformation.get(8),(int)playerInformation.get(9),(String)playerInformation.get(10),id,(byte[])playerInformation.get(12));
+               playerNameHashMap.put(id, rowInfo.toPlayer());
                liste.add(rowInfo);
                 gs.addRow(rowInfo);
 
@@ -334,6 +336,10 @@ public class Effectif extends JPanel{
         res.add(p.pied);
         res.add(p.getId());
         return res;
+    }
+
+    public static HashMap<Integer,Player>getPlayerNameHashMap(){
+        return playerNameHashMap;
     }
 
     
