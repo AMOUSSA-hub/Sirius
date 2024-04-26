@@ -52,7 +52,7 @@ public class AddEventFrame extends JDialog {
 
         JButton addStats = new JButton("ajouter des statistiques");
 
-            MainInsertClient.sendRequest(new Stat((short)0,(short) 0,(short) 0,(short) 0,(short) 0,(short) 0, 6, 1), "INSERT_STATS");
+            MainInsertClient.sendRequest(new Stat((short)1,(short) 2,(short) 3,(short) 4,(short) 5,(short) 6, 14, 1), "INSERT_STATS");
     
 
 
