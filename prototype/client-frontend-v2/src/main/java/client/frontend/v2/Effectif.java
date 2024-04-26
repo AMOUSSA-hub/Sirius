@@ -207,12 +207,12 @@ public class Effectif extends JPanel{
                 java.util.Date age = (java.util.Date)joueur.dateNaissanceSpinner.getValue();
                 java.sql.Date dateNaiss = new java.sql.Date(age.getTime());
                 
-                if(!joueur.nom.getText().isBlank() && !joueur.prenom.getText().isEmpty() /*&& !joueur.nationalite.getText().isEmpty()*/) {
+                if(!joueur.getNom().isEmpty() && !joueur.getNom().isEmpty() && !joueur.getNationalite().isEmpty()) {
                     MainSelectClient.lastIdValue++;
                     lastIdValue = MainSelectClient.lastIdValue;  
                     System.out.println("test");
                     try {
-                    Player j = new Player(joueur.prenom.getText(),joueur.nom.getText(),dateNaiss,joueur.nationalite.getText(),sqlDate,Integer.parseInt(joueur.salaire.getText()),(String)joueur.poste.getSelectedItem(),(int)joueur.tailleSpinner.getValue(),(int)joueur.numeroSpinner.getValue(),(int)joueur.poidsSpinner.getValue(),joueur.pied.getSelectedItem().toString(),lastIdValue,joueur.imageJoueurbyte);
+                    Player j = new Player(joueur.getPrenom(),joueur.getNom(),dateNaiss,joueur.getNationalite(),sqlDate,Integer.parseInt(joueur.getSalaire()),(String)joueur.poste.getSelectedItem(),(int)joueur.tailleSpinner.getValue(),(int)joueur.numeroSpinner.getValue(),(int)joueur.poidsSpinner.getValue(),joueur.pied.getSelectedItem().toString(),lastIdValue,joueur.imageJoueurbyte);
                     InfosJoueurs info = InfosJoueurs.playerToInfosJoueurs(j);
                     //listeInfosJoueurs.add(InfosJoueurs.playerToInfosJoueurs(j));
                     
@@ -230,7 +230,7 @@ public class Effectif extends JPanel{
                         }
                     }catch(Exception exp) {
                         System.err.println(exp);
-                        JOptionPane.showMessageDialog(null,exp);
+                        JOptionPane.showMessageDialog(null,"exp");
                     }
                 }
                 else {

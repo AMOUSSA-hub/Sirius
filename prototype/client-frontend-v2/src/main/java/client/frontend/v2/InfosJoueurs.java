@@ -80,9 +80,10 @@ public class InfosJoueurs implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        UpdatePlayer updatePlayer = new UpdatePlayer(null, "Modifier un joueur", true,this);
         int choice1 = -1;
         String[] operations = {"Modifier", "Supprimer"};
-        if (e.getSource() == btn) {
+/*         if (e.getSource() == btn) {
             choice1 = JOptionPane.showOptionDialog(null, "Que voulez-vous faire ?", "Choix",JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, operations, operations[0]);
         }
         if (operations[choice1].equals("Modifier")) {
@@ -162,7 +163,7 @@ public class InfosJoueurs implements ActionListener {
             }catch(Exception ex) {
                 System.err.println(ex);
             }
-        }
+        } */
     }
 
 
