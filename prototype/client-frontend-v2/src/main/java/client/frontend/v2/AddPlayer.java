@@ -293,4 +293,35 @@ public class AddPlayer extends JDialog {
         ((NumberFormatter) textField.getFormatter()).setAllowsInvalid(false);
   }
 
+public String isNull(String str){
+  if (str.equals("")){
+    return null;
+  }
+  return str.trim();
+}
+
+public String getNom() {
+    return nom.getText().trim();
+}
+
+public String getPrenom() {
+    return prenom.getText().trim();
+}
+
+public String getTaille() {
+    return taille.getText().trim();
+}
+
+public String getPoids() {
+    return poids.getText().trim();
+}
+
+public String getSalaire() {
+    return salaire.getText().trim();
+}
+
+public String getNationalite() {
+    return nationalite.getText().trim();
+}
+
 }
