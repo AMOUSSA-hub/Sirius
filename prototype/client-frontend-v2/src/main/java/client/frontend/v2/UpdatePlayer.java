@@ -7,6 +7,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -14,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
@@ -26,13 +29,6 @@ public class UpdatePlayer extends AddPlayer {
         player = j;
         this.initComponent();
         this.setVisible(true);
-
-/*         this.nom.setText(player.getNom());
-        this.prenom.setText(player.getPrenom());
-        this.salaire.setText(player.getSalaire() +"");
-        this.tailleSpinner.setValue(j.getTaille());
-        this.poidsSpinner.setValue(j.getPoids()); */
-        System.out.println(nom.getText() + " + " + player.getNom());
     }
     private void initComponent(){
 
@@ -65,6 +61,7 @@ public class UpdatePlayer extends AddPlayer {
     
         //Le numero de Maillot 
         JPanel panNumero = createPanelAttributs("Numero", 100, 60);
+        numeroSpinner.setValue(player.getNumero());
         panNumero.add(numeroSpinner);
         setOnlyChiffres(numeroSpinner);
     
@@ -74,11 +71,13 @@ public class UpdatePlayer extends AddPlayer {
         SpinnerDateModel modelNaissance = new SpinnerDateModel();
         modelNaissance.setCalendarField(Calendar.DAY_OF_MONTH);
         dateNaissanceSpinner = new JSpinner(modelNaissance);
+        dateNaissanceSpinner.setValue(player.getNaissance());
         panAge.add(dateNaissanceSpinner);
     
         //La taille
         JPanel panTaille = createPanelAttributs("La taille du Joueur ", 220, 60);
         tailleLabel = new JLabel(" cm");
+        tailleSpinner.setValue(player.getTaille());
         panTaille.add(tailleSpinner);
         panTaille.add(tailleLabel);
         setOnlyChiffres(tailleSpinner);
@@ -106,6 +105,7 @@ public class UpdatePlayer extends AddPlayer {
         //Le poids 
         JPanel panPoids = createPanelAttributs("Le poids du Joueur", 220, 60);
         poidsLabel = new JLabel(" Kg");
+        poidsSpinner.setValue(player.getPoids());
         panPoids.add(poidsSpinner);
         panPoids.add(poidsLabel);
         setOnlyChiffres(poidsSpinner);
@@ -116,12 +116,13 @@ public class UpdatePlayer extends AddPlayer {
         SpinnerDateModel modelContrat = new SpinnerDateModel();
         modelContrat.setCalendarField(Calendar.DAY_OF_MONTH);
         dateContratSpinner = new JSpinner(modelContrat);
+        dateContratSpinner.setValue(player.getContrat());
         panContrat.add(dateContratSpinner);
     
     
         //Le salaire
         JPanel panSalaire = createPanelAttributs("Salaire Mensuel (en euros)", 220, 60);
-        salaire = new JTextField("0");
+        salaire = new JTextField(String.valueOf(player.getSalaire()));
         salaire.setPreferredSize(new Dimension(150, 25));
         panSalaire.add(salaire);
         salaire.addKeyListener(new KeyListener() {
@@ -148,12 +149,22 @@ public class UpdatePlayer extends AddPlayer {
         
         //La nationalite 
         JPanel panNationalite = createPanelAttributs("La nationalite", 220, 60);
-        nationalite = new JTextField();
+        nationalite = new JTextField(player.getNationalite());
         nationalite.setPreferredSize(new Dimension(100,25));
         panNationalite.add(nationalite);
     
     
-        Bouton imgBouton = new Bouton(200,200,"Add Player",Color.WHITE,Color.BLACK);
+        Bouton imgBouton = new Bouton(200,200,"",Color.WHITE,Color.BLACK);
+        imageJoueurbyte = player.getPhoto();
+        try{
+
+            ByteArrayInputStream bais = new ByteArrayInputStream(player.getPhoto());
+            BufferedImage image = ImageIO.read(bais);
+            imgBouton.setIcon(new ImageIcon(image));
+        }catch(Exception exp){
+            imgBouton.setText("Add Player");
+            System.err.println(exp);
+        }
         JPanel img = new JPanel();
         img.add(imgBouton);
     

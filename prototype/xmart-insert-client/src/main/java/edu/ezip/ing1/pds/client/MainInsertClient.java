@@ -141,7 +141,7 @@ public class MainInsertClient {
                                     clientRequest2.getResponse());
     } */
 }
-    public static int updateRequest(Data j,String playerAttribut,Object newAttribut,String requestOrder) {
+    public static int updateRequest(Data j,HashMap<String,Object> thingsToChange,String requestOrder) {
       try {
         
 
@@ -155,7 +155,10 @@ public class MainInsertClient {
         int birthdate = 0;
             final ObjectMapper objectMapper = new ObjectMapper();  
             ObjectNode rootNode = factory.objectNode();
-            rootNode.put(playerAttribut, newAttribut.toString());
+            for (String attribut : thingsToChange.keySet()){
+                rootNode.put(attribut, thingsToChange.get(attribut).toString());
+
+            }
             rootNode.put("id", j.getId());
             final String jsonifiedGuy = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(rootNode);
             logger.trace("Student with its JSON face : {}", jsonifiedGuy);

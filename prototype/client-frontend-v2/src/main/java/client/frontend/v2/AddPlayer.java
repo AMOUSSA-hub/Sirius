@@ -33,6 +33,7 @@ import javax.swing.text.NumberFormatter;
 
 import org.jdatepicker.JDatePicker;
 import org.jdatepicker.impl.UtilDateModel;
+import org.stringtemplate.v4.ST;
 
 import javax.swing.SpinnerDateModel;
 import java.util.Calendar;
@@ -317,11 +318,16 @@ public String getPrenom() {
 }
 
 public String getTaille() {
-    return taille.getText().trim();
+    return tailleSpinner.getValue().toString().trim();
+}
+
+
+public String getPoste() {
+  return poste.getSelectedItem().toString().trim();
 }
 
 public String getPoids() {
-    return poids.getText().trim();
+    return poidsSpinner.getValue().toString().trim();
 }
 
 public String getSalaire() {
@@ -331,5 +337,26 @@ public String getSalaire() {
 public String getNationalite() {
     return nationalite.getText().trim();
 }
+public String getNumero(){
+  return numeroSpinner.getValue().toString().trim();
+}
+
+public String getPied(){
+  return pied.getSelectedItem().toString().trim();
+}
+public java.sql.Date getNaissance() {
+  java.util.Date utilDate = (java.util.Date) dateNaissanceSpinner.getValue();
+  return new java.sql.Date(utilDate.getTime());
+}
+
+public java.sql.Date getContrat() {
+  java.util.Date utilDate = (java.util.Date) dateContratSpinner.getValue();
+  return new java.sql.Date(utilDate.getTime());
+}
+
+public byte[] getPhotoBytes(){
+  return imageJoueurbyte;
+}
+
 
 }

@@ -7,7 +7,6 @@ import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-import java.util.Locale;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -32,7 +31,9 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import javax.imageio.ImageIO;
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.awt.Image;
 
 
@@ -63,7 +64,7 @@ public class InfosJoueurs implements ActionListener {
         this.pied = pied;
         this.photo = photo;
         this.calculed_age = " "+ChronoUnit.YEARS.between(naissance.toLocalDate(),LocalDate.now());
-
+        //System.out.println("UIEHIUEAHIUDHZIUDHDIUAZH : " + this.poids);
 
         String [] i  = {prenom+" "+nom, this.calculed_age, this.nationalite,this.contrat+"",this.salaire+"",this.position,this.taille+"",this.numero+"",this.poids+"",this.pied+""};
         this.infos = i;
@@ -80,19 +81,20 @@ public class InfosJoueurs implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        UpdatePlayer updatePlayer = new UpdatePlayer(null, "Modifier un joueur", true,this);
+        //UpdatePlayer updatePlayerz = new UpdatePlayer(null, "Modifier un joueur", false, null);
         int choice1 = -1;
         String[] operations = {"Modifier", "Supprimer"};
-/*         if (e.getSource() == btn) {
+        if (e.getSource() == btn) {
             choice1 = JOptionPane.showOptionDialog(null, "Que voulez-vous faire ?", "Choix",JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, operations, operations[0]);
         }
         if (operations[choice1].equals("Modifier")) {
+            UpdatePlayer updatePlayer = new UpdatePlayer(null, "Modifier un joueur", true, this);
             try {
-                String[] buttons = {"nom", "prenom", "naissance", "nationalite", "poste", "pied", "taille", "poids","numero","contrat","photo","salaire"};
+/*                 String[] buttons = {"nom", "prenom", "naissance", "nationalite", "poste", "pied", "taille", "poids","numero","contrat","photo","salaire"};
                 int choice = JOptionPane.showOptionDialog(null, "Choisir un attribut :", "Attributs",JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, buttons, buttons[0]);
                 String attributToChange = buttons[choice];
                 String userInput = null;
-                Object newValue = null;
+                Object thingsToChange.get(attribut) = null;
                 if (attributToChange.equals("photo")) {
                     ImageIcon imageJoueur;
                     JFileChooser chooser = new JFileChooser();
@@ -112,15 +114,20 @@ public class InfosJoueurs implements ActionListener {
                         } catch (IOException e23) {
                             System.err.println(e23);
                         }
-                        newValue = (Object)imageData;
+                        thingsToChange.get(attribut) = (Object)imageData;
                 }}else {
                     userInput = JOptionPane.showInputDialog(null, "Par quoi voulez-vous le remplacer ?");
-                    newValue = userInput;
-                }
+                    thingsToChange.get(attribut) = userInput;
+                }*/
                 Player player = this.toPlayer();
-                int update = MainInsertClient.updateRequest(player,attributToChange,newValue,"UPDATE_PLAYER");
+                System.out.println("test");
+                HashMap<String,Object> attributsHashMap = thingsToUpdate(updatePlayer);
+                int update = 0;
+                if (!attributsHashMap.isEmpty()) {
+                    update = MainInsertClient.updateRequest(player,attributsHashMap,"UPDATE_PLAYER");
+                }
                 if (update == 1) {
-                    updateAttribut(choice,userInput);
+                    updateAttribut(attributsHashMap);
                     Iterator<InfosJoueurs> iterator = Effectif.listeInfosJoueurs.iterator();
                     while (iterator.hasNext()) {
                         InfosJoueurs joueur = iterator.next();
@@ -134,8 +141,12 @@ public class InfosJoueurs implements ActionListener {
                     Effectif.gs.sort(Effectif.listeInfosJoueurs,Effectif.ascending_order,Effectif.attribut);
                     //System.out.println(Arrays.toString(infos));  
                 }
+                else{
+                    JOptionPane.showMessageDialog(null, "Le joueur n'a pas pu être modifié", "Erreur", JOptionPane.ERROR_MESSAGE);
+
+                }
             }catch(Exception ex) {
-                System.err.println(ex);
+                JOptionPane.showMessageDialog(null,ex);
             }
         }
         if (operations[choice1].equals("Supprimer")) {
@@ -161,46 +172,114 @@ public class InfosJoueurs implements ActionListener {
                     }
                 }
             }catch(Exception ex) {
-                System.err.println(ex);
+                JOptionPane.showMessageDialog(null,ex);
             }
-        } */
+        } 
     }
 
 
-    public void updateAttribut(int choice,String newValue){
-        switch (choice) {
-            case 0:
-                nom = newValue;
+    private HashMap<String,Object> thingsToUpdate(UpdatePlayer p) {
+
+        HashMap<String,Object> hashMap = new HashMap<>();
+        if (!(p.getNom().equalsIgnoreCase(this.nom))) {
+            hashMap.put("nom",p.getNom());
+        }
+        if (!(p.getPrenom().equalsIgnoreCase(this.prenom))) {
+            hashMap.put("prenom",p.getPrenom());
+        }
+        if (!(Integer.parseInt(p.getTaille()) == (this.taille))) {
+            hashMap.put("taille",p.getTaille());
+        }
+        if (!(p.getPoste().equalsIgnoreCase(this.position))) {
+            hashMap.put("poste",p.getPoste());
+        }
+        if (!(Integer.parseInt(p.getPoids()) == (this.poids))) {
+            hashMap.put("poids",p.getPoids());
+        }
+        if (!(Integer.parseInt(p.getNumero()) == (this.numero))) {
+            hashMap.put("numero",p.getNumero());
+        }       
+        if (!(Integer.parseInt(p.getSalaire()) == (this.salaire))) {
+            hashMap.put("salaire",p.getSalaire());
+        }
+        if (!(p.getPied().equalsIgnoreCase(this.pied))) {
+            hashMap.put("pied",p.getPied());
+        }
+        if (!(p.getNationalite().equalsIgnoreCase(this.nationalite))) {
+            hashMap.put("nationalite",p.getNationalite());
+        }
+        if (!(p.getNaissance().equals(this.naissance))) {
+            hashMap.put("datenaissance",p.getNaissance());
+        }
+        if (!(p.getContrat().equals(this.contrat))) {
+            hashMap.put("datefin",p.getContrat());
+        }
+        if (!(p.getPhotoBytes().equals(this.photo))) {
+            hashMap.put("photo",p.getPhotoBytes());
+        }
+        return hashMap;
+    }
+
+
+    public void updateAttribut(HashMap<String,Object> thingsToChange){
+        for (String attribut : thingsToChange.keySet() ) {
+        switch (attribut) {
+            case "nom":
+                nom = thingsToChange.get(attribut).toString();
                 break;
-            case 1:
-                prenom = newValue;
+            case "prenom":
+                prenom = thingsToChange.get(attribut).toString();
                 break;
-            case 2:
-                naissance = Date.valueOf(newValue);
+            case "datenaissance":
+                naissance = Date.valueOf(thingsToChange.get(attribut).toString());
                 break;
-            case 3:
-                nationalite = newValue;
+            case "nationalite":
+                nationalite = thingsToChange.get(attribut).toString();
                 break;
-            case 4:
-                position = newValue;
+            case "poste":
+                position = thingsToChange.get(attribut).toString();
                 break;
-            case 5:
-                pied = newValue;
+            case "pied":
+                pied = thingsToChange.get(attribut).toString();
                 break;
-            case 6:
-                taille = Integer.valueOf(newValue);
+            case "taille":
+                taille = Integer.valueOf(thingsToChange.get(attribut).toString());
                 break;
-            case 7:
-                poids = Integer.valueOf(newValue);
+            case "poids":
+                poids = Integer.valueOf(thingsToChange.get(attribut).toString());
                 break;
-            case 8:
-                numero = Integer.valueOf(newValue);
+            case "photo":
+                photo = convertToBytes(thingsToChange.get(attribut));
+                break;
+            case "datefin":
+                contrat = Date.valueOf(thingsToChange.get(attribut).toString());
+                break;
+            case "salaire":
+                salaire = Integer.valueOf(thingsToChange.get(attribut).toString());
+                break;
+            case "numero":
+                numero = Integer.valueOf(thingsToChange.get(attribut).toString());
                 break;
             default:
+        }
                 
         }
         String[] i  = {prenom+" "+nom, this.calculed_age, this.nationalite,this.contrat+"",this.salaire+"",this.position,this.taille+"",this.numero+"",this.poids+"",this.pied+""};
         infos = i;
+    }
+
+
+    public static byte[] convertToBytes(Object obj) {
+        try {
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            ObjectOutputStream oos = new ObjectOutputStream(bos);
+            oos.writeObject(obj);
+            oos.flush();
+            return bos.toByteArray();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public Bouton getBoutonModif() {
