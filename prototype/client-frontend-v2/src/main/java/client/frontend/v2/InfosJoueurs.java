@@ -90,35 +90,6 @@ public class InfosJoueurs implements ActionListener {
         if (operations[choice1].equals("Modifier")) {
             UpdatePlayer updatePlayer = new UpdatePlayer(null, "Modifier un joueur", true, this);
             try {
-/*                 String[] buttons = {"nom", "prenom", "naissance", "nationalite", "poste", "pied", "taille", "poids","numero","contrat","photo","salaire"};
-                int choice = JOptionPane.showOptionDialog(null, "Choisir un attribut :", "Attributs",JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, buttons, buttons[0]);
-                String attributToChange = buttons[choice];
-                String userInput = null;
-                Object thingsToChange.get(attribut) = null;
-                if (attributToChange.equals("photo")) {
-                    ImageIcon imageJoueur;
-                    JFileChooser chooser = new JFileChooser();
-                    FileNameExtensionFilter filter = new FileNameExtensionFilter("JPG & PNG images ", "jpg","png");
-                    chooser.setFileFilter(filter);
-                    int returnVal = chooser.showOpenDialog(null);
-                    if(returnVal == JFileChooser.APPROVE_OPTION) {
-                        imageJoueur = new ImageIcon(chooser.getSelectedFile().getAbsolutePath());
-                        imageJoueur.setImage(imageJoueur.getImage().getScaledInstance(200, 200, java.awt.Image.SCALE_SMOOTH));
-                        //imgBouton.setIcon(imageJoueur);
-                        File imageFile = new File(imageJoueur.toString());
-                        System.out.println(imageJoueur.toString());
-                        
-                        byte[] imageData = new byte[(int) imageFile.length()];
-                        try (FileInputStream fis = new FileInputStream(imageFile)) {
-                            fis.read(imageData);
-                        } catch (IOException e23) {
-                            System.err.println(e23);
-                        }
-                        thingsToChange.get(attribut) = (Object)imageData;
-                }}else {
-                    userInput = JOptionPane.showInputDialog(null, "Par quoi voulez-vous le remplacer ?");
-                    thingsToChange.get(attribut) = userInput;
-                }*/
                 Player player = this.toPlayer();
                 System.out.println("test");
                 HashMap<String,Object> attributsHashMap = thingsToUpdate(updatePlayer);
