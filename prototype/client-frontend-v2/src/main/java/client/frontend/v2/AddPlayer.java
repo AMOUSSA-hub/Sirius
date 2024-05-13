@@ -33,6 +33,7 @@ import javax.swing.text.NumberFormatter;
 
 import org.jdatepicker.JDatePicker;
 import org.jdatepicker.impl.UtilDateModel;
+import org.stringtemplate.v4.ST;
 
 import javax.swing.SpinnerDateModel;
 import java.util.Calendar;
@@ -61,6 +62,14 @@ public class AddPlayer extends JDialog {
     this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
     this.initComponent();
     this.setVisible(true);
+  }
+
+  protected AddPlayer(JFrame parent, String title, boolean modal,String str){
+    super(parent,title,modal);
+    this.setSize(Page.WIDTH*3/5, Page.HEIGHT/2);
+    this.setLocationRelativeTo(null);
+    this.setResizable(false);
+    this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
   }
 
 
@@ -280,7 +289,7 @@ public class AddPlayer extends JDialog {
     this.getContentPane().add(control, BorderLayout.SOUTH);
   }  
 
-  private JPanel createPanelAttributs(String titre,int width,int height){
+  protected JPanel createPanelAttributs(String titre,int width,int height){
     JPanel panel = new JPanel();
     panel.setBackground(Color.WHITE);
     panel.setPreferredSize(new Dimension(width, height));
@@ -288,9 +297,66 @@ public class AddPlayer extends JDialog {
     return panel;
   }
 
-  private void setOnlyChiffres(JSpinner spinner) {
+  protected void setOnlyChiffres(JSpinner spinner) {
     JFormattedTextField textField = ((JSpinner.NumberEditor)spinner.getEditor()).getTextField();
         ((NumberFormatter) textField.getFormatter()).setAllowsInvalid(false);
   }
+
+public String isNull(String str){
+  if (str.equals("")){
+    return null;
+  }
+  return str.trim();
+}
+
+public String getNom() {
+    return nom.getText().trim();
+}
+
+public String getPrenom() {
+    return prenom.getText().trim();
+}
+
+public String getTaille() {
+    return tailleSpinner.getValue().toString().trim();
+}
+
+
+public String getPoste() {
+  return poste.getSelectedItem().toString().trim();
+}
+
+public String getPoids() {
+    return poidsSpinner.getValue().toString().trim();
+}
+
+public String getSalaire() {
+    return salaire.getText().trim();
+}
+
+public String getNationalite() {
+    return nationalite.getText().trim();
+}
+public String getNumero(){
+  return numeroSpinner.getValue().toString().trim();
+}
+
+public String getPied(){
+  return pied.getSelectedItem().toString().trim();
+}
+public java.sql.Date getNaissance() {
+  java.util.Date utilDate = (java.util.Date) dateNaissanceSpinner.getValue();
+  return new java.sql.Date(utilDate.getTime());
+}
+
+public java.sql.Date getContrat() {
+  java.util.Date utilDate = (java.util.Date) dateContratSpinner.getValue();
+  return new java.sql.Date(utilDate.getTime());
+}
+
+public byte[] getPhotoBytes(){
+  return imageJoueurbyte;
+}
+
 
 }

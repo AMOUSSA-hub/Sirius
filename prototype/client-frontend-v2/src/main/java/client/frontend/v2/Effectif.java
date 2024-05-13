@@ -35,6 +35,7 @@ import java.io.IOException;
 
 
 public class Effectif extends JPanel{
+    public static HashMap<Integer,Player> playerNameHashMap = new HashMap<Integer,Player>();
     public int lastIdValue = MainSelectClient.lastIdValue;
 
     static final Color fondTitre = new Color(96,96,96);
@@ -207,12 +208,12 @@ public class Effectif extends JPanel{
                 java.util.Date age = (java.util.Date)joueur.dateNaissanceSpinner.getValue();
                 java.sql.Date dateNaiss = new java.sql.Date(age.getTime());
                 
-                if(!joueur.nom.getText().isBlank() && !joueur.prenom.getText().isEmpty() /*&& !joueur.nationalite.getText().isEmpty()*/) {
+                if(!joueur.getNom().isEmpty() && !joueur.getNom().isEmpty() && !joueur.getNationalite().isEmpty()) {
                     MainSelectClient.lastIdValue++;
                     lastIdValue = MainSelectClient.lastIdValue;  
                     System.out.println("test");
                     try {
-                    Player j = new Player(joueur.prenom.getText(),joueur.nom.getText(),dateNaiss,joueur.nationalite.getText(),sqlDate,Integer.parseInt(joueur.salaire.getText()),(String)joueur.poste.getSelectedItem(),(int)joueur.tailleSpinner.getValue(),(int)joueur.numeroSpinner.getValue(),(int)joueur.poidsSpinner.getValue(),joueur.pied.getSelectedItem().toString(),lastIdValue,joueur.imageJoueurbyte);
+                    Player j = new Player(joueur.getPrenom(),joueur.getNom(),dateNaiss,joueur.getNationalite(),sqlDate,Integer.parseInt(joueur.getSalaire()),(String)joueur.poste.getSelectedItem(),(int)joueur.tailleSpinner.getValue(),(int)joueur.numeroSpinner.getValue(),(int)joueur.poidsSpinner.getValue(),joueur.pied.getSelectedItem().toString(),lastIdValue,joueur.imageJoueurbyte);
                     InfosJoueurs info = InfosJoueurs.playerToInfosJoueurs(j);
                     //listeInfosJoueurs.add(InfosJoueurs.playerToInfosJoueurs(j));
                     
@@ -230,7 +231,7 @@ public class Effectif extends JPanel{
                         }
                     }catch(Exception exp) {
                         System.err.println(exp);
-                        JOptionPane.showMessageDialog(null,exp);
+                        JOptionPane.showMessageDialog(null,"exp");
                     }
                 }
                 else {
@@ -304,8 +305,9 @@ public class Effectif extends JPanel{
             listOfPlayersInformations = msc.selectAllPlayers();
             for (List<Object> playerInformation : listOfPlayersInformations) {
                System.out.println(playerInformation.toString()); 
-               InfosJoueurs rowInfo = new InfosJoueurs((String)playerInformation.get(0),(String)playerInformation.get(1),(Date)playerInformation.get(2),(String)playerInformation.get(3),(Date)playerInformation.get(4),(int)playerInformation.get(5),(String)playerInformation.get(6),(int)playerInformation.get(7),(int)playerInformation.get(8),(int)playerInformation.get(9),(String)playerInformation.get(10),(int)playerInformation.get(11),(byte[])playerInformation.get(12));
-                
+               int id = (int)playerInformation.get(11);
+               InfosJoueurs rowInfo = new InfosJoueurs((String)playerInformation.get(0),(String)playerInformation.get(1),(Date)playerInformation.get(2),(String)playerInformation.get(3),(Date)playerInformation.get(4),(int)playerInformation.get(5),(String)playerInformation.get(6),(int)playerInformation.get(7),(int)playerInformation.get(8),(int)playerInformation.get(9),(String)playerInformation.get(10),id,(byte[])playerInformation.get(12));
+               playerNameHashMap.put(id, rowInfo.toPlayer());
                liste.add(rowInfo);
                 gs.addRow(rowInfo);
 
@@ -334,6 +336,10 @@ public class Effectif extends JPanel{
         res.add(p.pied);
         res.add(p.getId());
         return res;
+    }
+
+    public static HashMap<Integer,Player>getPlayerNameHashMap(){
+        return playerNameHashMap;
     }
 
     
