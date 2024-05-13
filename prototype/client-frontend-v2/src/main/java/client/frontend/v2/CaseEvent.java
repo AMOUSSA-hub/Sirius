@@ -24,7 +24,7 @@ public class CaseEvent  extends JPanel {
         this.setBackground(Color.WHITE);
         setLayout(new BorderLayout());
 
-        formattedDate = new SimpleDateFormat("EEEE dd MMMM 'à' HH'h'mm", new DateFormatSymbols() {
+        SimpleDateFormat dateFormatter = new SimpleDateFormat("EEEE dd MMMM 'à' HH'h'mm", new DateFormatSymbols() {
             @Override
             public String[] getWeekdays() {
                 return new String[]{"", "Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"};
@@ -34,13 +34,14 @@ public class CaseEvent  extends JPanel {
             public String[] getMonths() {
                 return new String[]{"janvier","février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"};
             }
-        }).format(event.getDateDebut());
+        });
 
         JPanel nothJPanel = new JPanel(new GridLayout(3,1));
         JPanel soutJPanel = new JPanel(new FlowLayout());
 
         JLabel titleEvent = new JLabel(event.getLabel().toUpperCase(),SwingConstants.CENTER);
-        JLabel dateEvent = new JLabel(formattedDate,SwingConstants.CENTER);
+        JLabel dateEvent = new JLabel("<html><center>du <br> "+dateFormatter.format(event.getDateDebut())+" <br> au <br>"+dateFormatter.format(event.getDateFin())+"<center><html>",SwingConstants.CENTER);
+        dateEvent.setHorizontalAlignment(SwingConstants.CENTER);
         JLabel typeEvent = new JLabel(event.getType(),SwingConstants.CENTER);
 
         JButton editButton = new JButton("modifier");

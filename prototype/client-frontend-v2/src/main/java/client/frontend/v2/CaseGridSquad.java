@@ -16,7 +16,7 @@ public class CaseGridSquad extends JLabel {
             this.setOpaque(true);
             this.setPreferredSize(new Dimension(fen.getWidth()/13,75));
             this.setBorder(BorderFactory.createLineBorder(Color.WHITE));
-            this.setBackground(Color.GRAY);
+           this.setBackground(Color.GRAY);
             this.setForeground(Color.white);
             this.setHorizontalAlignment(CENTER);
             this.fen =fen;

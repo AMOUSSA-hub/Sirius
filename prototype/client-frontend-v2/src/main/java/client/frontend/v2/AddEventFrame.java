@@ -4,16 +4,23 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JSpinner;
 import javax.swing.JTextField;
+import javax.swing.SpinnerDateModel;
+
 import java.text.ParseException;
 
 import edu.ezip.ing1.pds.business.dto.Stat;
@@ -23,56 +30,98 @@ import edu.ezip.ing1.pds.client.MainInsertClient;
 public class AddEventFrame extends JDialog {
 
 
-    JTextField labelEventFill;
+
     
 
 
-    public AddEventFrame(JFrame fen){
-        super(fen,true);
+    public AddEventFrame(JFrame fen, GridTeamEvent gte){
+        super(fen,"Créer un évènement",true);
 
 
-        // Chaîne de caractères représentant la date
-        String dateString = "2024-05-05 12:03:00";
-
-        // Format de la date
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Date dateObject = null;
-        try {
-            // Convertir la chaîne en objet Date
-             dateObject = dateFormat.parse(dateString);
-            System.out.println(dateObject); // Affiche la date convertie
-        } catch (java.text.ParseException e) {
-            // Gérer l'exception si la conversion échoue
-            e.printStackTrace();
-        }
-
-
-
-        MainInsertClient.sendRequest(new TeamEvent(0, "Game6","FRIENDLY_GAME", dateObject,dateObject), "INSERT_EVENTS");
-
-        JButton addStats = new JButton("ajouter des statistiques");
-
-            MainInsertClient.sendRequest(new Stat((short)0,(short) 0,(short) 0,(short) 0,(short) 0,(short) 0, 6, 1), "INSERT_STATS");
     
+        JPanel bodyPanel = new JPanel();
 
+        bodyPanel.setLayout(new GridLayout(4,1));
 
             //Label évènement
-        JPanel labelFillPan = createPanelFillAttributs("label", 200, 60);
-        labelEventFill = new JTextField();
-        labelEventFill.setPreferredSize(new Dimension(100, 25));
-        JLabel nomLabel = new JLabel("titre de l'évènement");
-        labelFillPan.add(nomLabel);
+        JPanel labelFillPan = createFillAttributs("label");
+        JTextField labelEventFill = new JTextField();
+        labelEventFill.setPreferredSize(new Dimension(200, 25));
         labelFillPan.add(labelEventFill);
-        
+        bodyPanel.add(labelFillPan);
 
-            JPanel bodyPanel = new JPanel();
 
-            bodyPanel.add(labelFillPan);
+         //Type évènement
+         JPanel TypeFillPan = createFillAttributs("Type");
+         String [] allTypeEvent = TeamEvent.getAllTypeEvent();
+         JComboBox<String> typeEventList = new JComboBox<String>(allTypeEvent);
+         typeEventList.setPreferredSize(new Dimension(200, 25));
+         TypeFillPan.add(typeEventList);
+         bodyPanel.add(TypeFillPan);
+
+
+         //Date Début évènement
+         JPanel startingDateFillPan = createFillAttributs("Date DEBUT");
+         SpinnerDateModel startingDatemodel = new SpinnerDateModel();
+         startingDatemodel.setCalendarField(Calendar.DAY_OF_MONTH);
+        JSpinner startingDateSpinner = new JSpinner(startingDatemodel);
+        startingDateSpinner.setPreferredSize(new Dimension(200, 25));
+         startingDateFillPan.add(startingDateSpinner);
+         bodyPanel.add(startingDateFillPan);
+
+          //Date Fin évènement
+          JPanel endingDateFillPan = createFillAttributs("Date FIN");
+          SpinnerDateModel endingDatemodel = new SpinnerDateModel();
+         endingDatemodel.setCalendarField(Calendar.DAY_OF_MONTH);
+         JSpinner endingDateSpinner = new JSpinner(endingDatemodel);
+         endingDateSpinner.setPreferredSize(new Dimension(200, 25));
+         endingDateFillPan.add(endingDateSpinner);
+          bodyPanel.add(endingDateFillPan);
+
+         
+
+           
+
+            
             JPanel botPanel = new JPanel(new FlowLayout());
             
             JButton submit = new JButton("valider");
             JButton quit = new JButton("quitter");
 
+
+            submit.addActionListener( e->{
+
+                Date startingDate = (java.util.Date)startingDateSpinner.getValue();
+                Date endingDate = (java.util.Date)endingDateSpinner.getValue();
+                String label = labelEventFill.getText();
+
+                boolean alreadyExist = false;
+
+                for (TeamEvent te :CalendarFrame.events){
+
+                    if(label.equals(te.getLabel()) && startingDate.equals(te.getDateDebut()) && endingDate.equals(te.getDateFin()) ){
+
+                        alreadyExist = true;
+                    }
+                }
+
+                if( label.trim().equals("")){
+                    JOptionPane.showMessageDialog(null, "Veuillez renseigner le champs \"label\" de l'évènement.", "Erreur", JOptionPane.ERROR_MESSAGE);
+                }
+                else if(startingDate.compareTo(endingDate) >= 0 ){
+                    JOptionPane.showMessageDialog(null, "la date de début doit être strictement antérieur à celle de fin. ", "Erreur", JOptionPane.ERROR_MESSAGE);                  
+
+                }else if( alreadyExist){
+                    JOptionPane.showMessageDialog(null, "Cet évènement existe dejà !", "Erreur", JOptionPane.ERROR_MESSAGE);     
+                } else{
+                    System.out.println( typeEventList.getSelectedItem().toString());
+                    TeamEvent te = new TeamEvent(0,label ,typeEventList.getSelectedItem().toString(),startingDate,endingDate);
+                    MainInsertClient.sendRequest(te, "INSERT_EVENTS");
+                    gte.addCaseEvent(te);
+                    this.dispose();
+                }
+
+            });
 
         botPanel.add(submit);
         botPanel.add(quit);
@@ -88,10 +137,9 @@ public class AddEventFrame extends JDialog {
     }
 
 
-     private JPanel createPanelFillAttributs(String titre,int width,int height){
+     private JPanel createFillAttributs(String titre){
     JPanel panel = new JPanel();
     panel.setBackground(Color.WHITE);
-    panel.setPreferredSize(new Dimension(width, height));
     panel.setBorder(BorderFactory.createTitledBorder(titre));
     return panel;
   }

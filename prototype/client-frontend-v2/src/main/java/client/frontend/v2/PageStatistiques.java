@@ -22,7 +22,7 @@ public class PageStatistiques extends JPanel {
             Set<Stat> stats = msc.getAllStats();
 
             for (Stat s : stats) {
-                System.out.println("BABAZBFAEFAEZGF" + s.toString());
+                System.out.println(s.toString());
             }
         } catch (Exception e) {
             e.printStackTrace();
