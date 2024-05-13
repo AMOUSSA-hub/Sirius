@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
@@ -17,25 +24,18 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="576.0" prefWidth="1050.0" style="-fx-background-color: #02030A;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.ezip.ing1.pds.smartcitybyezip.Controller">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="2000.0" style="-fx-background-color: #02030A;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.ezip.ing1.pds.smartcitybyezip.Controller">
    <children>
       <VBox alignment="TOP_CENTER" prefHeight="576.0" prefWidth="256.0" style="-fx-background-color: #05071F;" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <ImageView fitHeight="141.0" fitWidth="429.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@cm_logo.jpg" />
+                <image>
+                  <Image url="/cm_logo.jpg" />
                </image>
                <VBox.margin>
                   <Insets bottom="10.0" top="50.0" />
                </VBox.margin></ImageView>
-            <Button fx:id="btnOverview" alignment="BASELINE_LEFT" graphicTextGap="22.0" mnemonicParsing="false" onAction="#handleClicks" prefHeight="67.0" prefWidth="278.0" style="-fx-font-weight: bold;" stylesheets="@style.css" text="Accueil" textFill="#e7e5e5">
-               <graphic>
-                  <ImageView fitHeight="23.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/icons8_Home_32px.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
+            <Button fx:id="btnOverview" alignment="BOTTOM_LEFT" contentDisplay="CENTER" graphicTextGap="22.0" mnemonicParsing="false" onAction="#handleClicks" prefHeight="96.0" prefWidth="256.0" style="-fx-font-weight: bold;" stylesheets="@style.css" text="Accueil" textFill="#e7e5e5" textOverrun="WORD_ELLIPSIS">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
@@ -46,17 +46,10 @@
                   <Insets left="50.0" />
                </padding>
                <font>
-                  <Font size="24.0" />
+                  <Font size="48.0" />
                </font>
             </Button>
-            <Button fx:id="btnOverview1" alignment="BASELINE_LEFT" graphicTextGap="22.0" mnemonicParsing="false" onAction="#handleClicks" prefHeight="67.0" prefWidth="278.0" style="-fx-font-weight: bold;" stylesheets="@style.css" text="Effectif" textFill="#e7e5e5">
-               <graphic>
-                  <ImageView fitHeight="23.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/icons8_Home_32px.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
+            <Button fx:id="btnOverview1" alignment="BASELINE_LEFT" contentDisplay="CENTER" graphicTextGap="22.0" mnemonicParsing="false" onAction="#handleClicks" prefHeight="96.0" prefWidth="256.0" style="-fx-font-weight: bold;" stylesheets="@style.css" text="Effectif" textFill="#e7e5e5">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
@@ -64,17 +57,10 @@
                   <Insets left="50.0" />
                </padding>
                <font>
-                  <Font size="24.0" />
+                  <Font size="48.0" />
                </font>
             </Button>
             <Button fx:id="btnOverview2" alignment="BASELINE_LEFT" graphicTextGap="22.0" mnemonicParsing="false" onAction="#handleClicks" prefHeight="67.0" prefWidth="278.0" style="-fx-font-weight: bold;" stylesheets="@style.css" text="Formation" textFill="#e7e5e5">
-               <graphic>
-                  <ImageView fitHeight="23.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/icons8_Home_32px.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
@@ -86,13 +72,6 @@
                </font>
             </Button>
             <Button fx:id="btnOverview3" alignment="BASELINE_LEFT" graphicTextGap="22.0" mnemonicParsing="false" onAction="#handleClicks" prefHeight="67.0" prefWidth="278.0" style="-fx-font-weight: bold;" stylesheets="@style.css" text="Match à venir" textFill="#e7e5e5">
-               <graphic>
-                  <ImageView fitHeight="23.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/icons8_Home_32px.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
@@ -104,13 +83,6 @@
                </font>
             </Button>
             <Button fx:id="btnOverview4" alignment="BASELINE_LEFT" graphicTextGap="22.0" mnemonicParsing="false" onAction="#handleClicks" prefHeight="67.0" prefWidth="278.0" style="-fx-font-weight: bold;" stylesheets="@style.css" text="Statistiques" textFill="#e7e5e5">
-               <graphic>
-                  <ImageView fitHeight="23.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/icons8_Home_32px.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
@@ -122,13 +94,6 @@
                </font>
             </Button>
             <Button fx:id="btnOverview5" alignment="BASELINE_LEFT" graphicTextGap="22.0" mnemonicParsing="false" onAction="#handleClicks" prefHeight="67.0" prefWidth="278.0" style="-fx-font-weight: bold;" stylesheets="@style.css" text="Calendrier" textFill="#e7e5e5">
-               <graphic>
-                  <ImageView fitHeight="23.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/icons8_Home_32px.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
@@ -166,7 +131,7 @@
                               <Label text="Joueurs au Total" textFill="#e7e5e5" />
                            </children>
                         </VBox>
-                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                        <VBox alignment="CENTER" prefHeight="92.0" prefWidth="134.0">
                            <children>
                               <Label text="10" textFill="#26bfbc">
                                  <font>
@@ -205,7 +170,7 @@
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </padding>
                            <children>
-                              <TableView prefHeight="378.0" prefWidth="733.0" style="-fx-background-color: GRAY;">
+                              <TableView fx:id="TabPlayers" prefHeight="547.0" prefWidth="980.0" style="-fx-background-color: GRAY;">
                                 <columns>
                                   <TableColumn prefWidth="75.3333386182785" text="photo" />
                                   <TableColumn prefWidth="76.66667175292969" text="joueur" />
@@ -224,9 +189,9 @@
                      </content>
                   </ScrollPane>
                   <ImageView fitHeight="17.0" fitWidth="16.0" layoutX="749.0" layoutY="53.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/icons8_Search_52px.png" />
-                     </image>
+<!--                      <image>
+                        <Image url="cm_logo.jpg" />
+                     </image> -->
                   </ImageView>
                   <Button layoutX="19.0" layoutY="164.0" mnemonicParsing="false" text="Ajouter joueur" />
                   <Button layoutX="657.0" layoutY="164.0" mnemonicParsing="false" text="Modifier joueur" />

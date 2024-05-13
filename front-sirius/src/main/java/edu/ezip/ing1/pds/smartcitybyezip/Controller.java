@@ -7,6 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.TableView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -22,6 +23,10 @@ public class Controller implements Initializable {
     private VBox pnItems = null;
     @FXML
     private Button btnOverview;
+
+
+    @FXML
+    private TableView<?> TabPlayers;
 
     @FXML
     private Button btnOrders;
