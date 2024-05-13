@@ -9,7 +9,6 @@ import java.awt.*;
 import java.util.HashMap;
 import java.util.Set;
 import edu.ezip.ing1.pds.business.dto.*;
-import edu.ezip.ing1.pds.client.MainInsertClient;
 
 public class PageStatistiques extends JPanel {
 
@@ -20,7 +19,7 @@ public class PageStatistiques extends JPanel {
     private DefaultTableModel tablenote;
     private DefaultTableModel tablemin;
     private HashMap<Integer,Player> playerHashMap;
-    public PageStatistiques(MainSelectClient msc) {
+    public PageStatistiques(MainSelectClient msc, JFrame fen) {
         Set<Stat> stats = null;
         playerHashMap = Effectif.getPlayerNameHashMap();
 
@@ -89,12 +88,12 @@ public class PageStatistiques extends JPanel {
         JScrollPane defilementmin = new JScrollPane(tableaumin);
         panelmin.add(defilementmin, BorderLayout.CENTER);
         onglets.addTab("Minutes jouees", panelmin);
-        JButton addStats = new JButton("ajouter des statistiques");
-        MainInsertClient.sendRequest(new Stat((short)1,(short) 2,(short) 3,(short) 4,(short) 5,(short) 6, 14, 1), "INSERT_STATS");
+        Bouton addStats = new Bouton("ajouter des statistiques");
         panel.add(addStats, BorderLayout.SOUTH);
+        MainInsertClient.sendRequest(new Stat((short)1,(short) 2,(short) 3,(short) 4,(short) 5,(short) 6, 14, 1), "INSERT_STATS");
 
         //JPanel panneauStatsEquipe = new JPanel(new BorderLayout());
-       //panneauStatsEquipe.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        //panneauStatsEquipe.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
         // JLabel etiquetteStatsEquipe = new JLabel("Statistiques de l'équipe");
         // etiquetteStatsEquipe.setFont(new Font("Arial", Font.BOLD, 16));
@@ -137,6 +136,7 @@ public class PageStatistiques extends JPanel {
         add(panel);
 
         setVisible(true);
+        addStats.addActionListener(e -> new AddEventFrame(fen));
     }
 
     private void Buteurs(Set<Stat>stats) {
@@ -183,6 +183,7 @@ public class PageStatistiques extends JPanel {
         Player player = playerHashMap.get(id_joueur);
         return (player.getPrenom() + " " + player.getNom());
     }
+
 
     
 
