@@ -18,14 +18,35 @@ public class TeamEvent extends Data {
     public enum Type {
         TRAINING("TRAINING"),
         GAME("GAME"),
-        FRIENDY_GAME("FRIENDY_GAME");
+        FRIENDY_GAME("FRIENDLY_GAME");
         private String type;
         
         private Type(final String type) {
             this.type= type;
         }
+
     }
 
+    
+
+
+
+
+    public static String[] getAllTypeEvent(){
+
+        Type[] types = Type.values();
+
+        // Création d'un tableau de chaînes de caractères
+        String[] typeStrings = new String[types.length];
+
+        // Remplissage du tableau avec les chaînes correspondantes
+        for (int i = 0; i < types.length; i++) {
+            typeStrings[i] = types[i].type;
+        }
+
+        return typeStrings;
+
+    }
 
 
     public TeamEvent(){}

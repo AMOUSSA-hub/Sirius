@@ -86,7 +86,7 @@ public class MainInsertClient {
         logger.trace("Students loaded : {}", j.toString());
         //networkConfig.setIpaddress(ipBDD);
         //networkConfig.setTcpport(port);
-        System.out.println(networkConfig.getIpaddress() + " " + networkConfig.getTcpport() + "   CDCDCDCD");
+        //System.out.println(networkConfig.getIpaddress() + " " + networkConfig.getTcpport());
         int birthdate = 0;
         try {
             

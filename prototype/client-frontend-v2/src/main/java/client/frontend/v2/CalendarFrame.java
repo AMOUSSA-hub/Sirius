@@ -17,7 +17,7 @@ public class CalendarFrame extends JPanel {
 
 
     MainSelectClient msc;
-    Set<TeamEvent> events;
+    static Set<TeamEvent> events;
 
     public CalendarFrame(MainSelectClient select, JFrame fen){
         this.msc = select;
@@ -46,6 +46,9 @@ public class CalendarFrame extends JPanel {
     }
 
 
+    GridTeamEvent gte =  new GridTeamEvent(this.events);
+
+
 
     
 
@@ -57,7 +60,7 @@ public class CalendarFrame extends JPanel {
     });
 
 
-    addEventButton.addActionListener(e -> new AddEventFrame(fen));
+    addEventButton.addActionListener(e -> new AddEventFrame(fen,gte));
     
 
     dateSelectorPanel.add(leftArrow);
@@ -67,21 +70,21 @@ public class CalendarFrame extends JPanel {
 
 
     // Mise en place de sélection de la date
-    gbc.gridx = 2;
-    gbc.gridy = 1;
-    gbc.gridwidth = 1;
-    gbc.gridheight = 1;
-    gbc.fill = GridBagConstraints.NONE;
-    gbc.anchor = GridBagConstraints.NORTH;
-    gbc.weightx = 0.0;
-    gbc.weighty = 0.0;
-    gbc.insets = new Insets(1, 1, 1, 1);
-    this.add(dateSelectorPanel,gbc);
+    // gbc.gridx = 2;
+    // gbc.gridy = 1;
+    // gbc.gridwidth = 1;
+    // gbc.gridheight = 1;
+    // gbc.fill = GridBagConstraints.NONE;
+    // gbc.anchor = GridBagConstraints.NORTH;
+    // gbc.weightx = 0.0;
+    // gbc.weighty = 0.0;
+    // gbc.insets = new Insets(1, 1, 1, 1);
+    // this.add(dateSelectorPanel,gbc);
 
 
     //Mise en place du bouton d'ajout d'un évènement
     gbc.gridx = 1;
-    gbc.gridy = 2;
+    gbc.gridy = 1;
     gbc.gridwidth = 1;
     gbc.gridheight = 1;
     gbc.fill = GridBagConstraints.NONE;
@@ -91,21 +94,30 @@ public class CalendarFrame extends JPanel {
     gbc.insets = new Insets(1, 1, 1, 1);
     this.add(addEventButton,gbc);
 
+    JScrollPane jp = new JScrollPane(gte);
 //Mise en place de la grille d'évènement
 gbc.gridx = 1;
-gbc.gridy = 3;
-gbc.gridwidth = 5;
+gbc.gridy = 2;
+gbc.gridwidth = 2;
 gbc.gridheight = 1;
 gbc.fill = GridBagConstraints.BOTH;
 gbc.anchor = GridBagConstraints.CENTER;
-gbc.weightx = 0.0;
+gbc.weightx = 1.0;
 gbc.weighty = 1.0;
-gbc.insets = new Insets(1, 1, 20, 1);
-this.add(new GridTeamEvent(this.events),gbc);
+gbc.insets = new Insets(1, 1, 100, 1);
+this.add(jp,gbc);
 
 
 
         
+    }
+
+    public static Set<TeamEvent> getEvents() {
+        return events;
+    }
+
+    public static void setEvents(Set<TeamEvent> events) {
+        CalendarFrame.events = events;
     }
     
 }
