@@ -8,6 +8,7 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.text.DateFormatSymbols;
+import java.text.FieldPosition;
 import java.text.SimpleDateFormat;
 
 import javax.swing.*;
@@ -20,7 +21,7 @@ public class CaseEvent  extends JPanel {
 
     private String formattedDate;
 
-    public CaseEvent(TeamEvent event){
+    public CaseEvent(TeamEvent event, GridTeamEvent gte){
         this.setBackground(Color.WHITE);
         setLayout(new BorderLayout());
 
@@ -38,9 +39,10 @@ public class CaseEvent  extends JPanel {
 
         JPanel nothJPanel = new JPanel(new GridLayout(3,1));
         JPanel soutJPanel = new JPanel(new FlowLayout());
+        
 
         JLabel titleEvent = new JLabel(event.getLabel().toUpperCase(),SwingConstants.CENTER);
-        JLabel dateEvent = new JLabel("<html><center>du <br> "+dateFormatter.format(event.getDateDebut())+" <br> au <br>"+dateFormatter.format(event.getDateFin())+"<center><html>",SwingConstants.CENTER);
+        JLabel dateEvent = new JLabel("<html><center>du <br> "+dateFormatter.format(event.getDateDebut(),new StringBuffer(),new FieldPosition(null))+" <br> au <br>"+dateFormatter.format(event.getDateFin(),new StringBuffer(),new FieldPosition(null))+"<center><html>",SwingConstants.CENTER);
         dateEvent.setHorizontalAlignment(SwingConstants.CENTER);
         JLabel typeEvent = new JLabel(event.getType(),SwingConstants.CENTER);
 
@@ -75,6 +77,8 @@ public class CaseEvent  extends JPanel {
            }
         }
         });
+
+        editButton.addActionListener(e -> new AddEventFrame(CalendarFrame.getFen(), gte, event));
 
         this.add(nothJPanel,BorderLayout.CENTER);
         this.add(soutJPanel,BorderLayout.SOUTH);

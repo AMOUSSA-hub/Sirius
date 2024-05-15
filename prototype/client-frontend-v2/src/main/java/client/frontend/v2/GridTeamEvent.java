@@ -2,6 +2,7 @@ package client.frontend.v2;
 
 import java.awt.Color;
 import java.awt.GridLayout;
+import java.io.Serial;
 import java.util.Set;
 
 import javax.swing.JPanel;
@@ -21,20 +22,25 @@ public class GridTeamEvent extends JPanel {
         this.setBackground(Color.GRAY);
         System.out.println(list.size());
 
-        for (TeamEvent teamEvent : list) {
-           this.addCaseEvent(teamEvent);
-        }
-            
+        fillGrid(list);
         
         
 
+    }
+
+    public void fillGrid(Set<TeamEvent> list){
+
+        for (TeamEvent teamEvent : list) {
+            this.addCaseEvent(teamEvent);
+         }
+             
     }
 
 
 
     public void addCaseEvent(TeamEvent te){  
         gl.setColumns(gl.getColumns()+1);
-        this.add(new CaseEvent(te)) ;
+        this.add(new CaseEvent(te,this)) ;
         this.revalidate();
         this.repaint();
       }
@@ -45,6 +51,17 @@ public class GridTeamEvent extends JPanel {
         remove(ca);
         this.revalidate();
         this.repaint();
+    }
+
+    @Override
+    public void removeAll() {
+        // TODO Auto-generated method stub
+        super.removeAll();
+        gl.setColumns(1);
+        gl.setRows(0);
+        this.repaint();
+        this.revalidate();
+
     }
 
 

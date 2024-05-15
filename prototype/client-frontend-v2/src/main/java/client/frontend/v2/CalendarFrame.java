@@ -18,9 +18,11 @@ public class CalendarFrame extends JPanel {
 
     MainSelectClient msc;
     static Set<TeamEvent> events;
+    static JFrame fen ;
 
     public CalendarFrame(MainSelectClient select, JFrame fen){
         this.msc = select;
+        this.fen = fen;
         setBackground(Color.gray);
         GridBagConstraints gbc = new GridBagConstraints();
         setLayout(new GridBagLayout());
@@ -118,6 +120,10 @@ this.add(jp,gbc);
 
     public static void setEvents(Set<TeamEvent> events) {
         CalendarFrame.events = events;
+    }
+
+    public static JFrame getFen() {
+        return fen;
     }
     
 }

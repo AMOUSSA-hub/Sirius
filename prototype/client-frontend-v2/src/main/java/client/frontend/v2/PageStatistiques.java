@@ -90,7 +90,7 @@ public class PageStatistiques extends JPanel {
         onglets.addTab("Minutes jouees", panelmin);
         Bouton addStats = new Bouton("ajouter des statistiques");
         panel.add(addStats, BorderLayout.SOUTH);
-        MainInsertClient.sendRequest(new Stat((short)1,(short) 2,(short) 3,(short) 4,(short) 5,(short) 6, 14, 1), "INSERT_STATS");
+       // MainInsertClient.sendRequest(new Stat((short)1,(short) 2,(short) 3,(short) 4,(short) 5,(short) 6, 14, 1), "INSERT_STATS");
 
         //JPanel panneauStatsEquipe = new JPanel(new BorderLayout());
         //panneauStatsEquipe.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
@@ -136,7 +136,7 @@ public class PageStatistiques extends JPanel {
         add(panel);
 
         setVisible(true);
-        addStats.addActionListener(e -> new AddEventFrame(fen));
+        //*addStats.addActionListener(e -> new AddEventFrame(fen));
     }
 
     private void Buteurs(Set<Stat>stats) {

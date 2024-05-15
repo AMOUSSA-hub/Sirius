@@ -107,9 +107,7 @@ public class MainInsertClient {
                                                                         birthdate++, request, j, requestBytes);
             clientRequests.push(clientRequest);
             Thread insert = clientRequest.getThread();
-            while (insert.isAlive()) {
-                //Waiting the thread to die
-            }
+            insert.join();
             return Integer.parseInt(clientRequest.getResponse());
         } catch (Exception e) {
             System.err.println(e);

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonRootName;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -151,6 +152,31 @@ public class TeamEvent extends Data {
                     ", date_debut='" + date_debut + '\'' +
                     ", date_fin='" + date_fin + '\'' +
                     '}';
+        }
+
+
+        public HashMap<String,Object> getDifferencies (TeamEvent te){
+            HashMap<String,Object> differencies = new HashMap<>();
+
+            if(!this.getLabel().equals(te.getLabel())){
+                differencies.put("label",te.getLabel());
+            }
+
+            if(!this.getType().equals(te.getType())){
+                differencies.put("type",te.getType());
+            }
+
+            if(!this.getDateDebut().equals(te.getDateDebut())){
+                differencies.put("date_debut",te.getDateDebut());
+            }
+
+            if(!this.getDateFin().equals(te.getDateFin())){
+                differencies.put("date_fin",te.getDateFin());
+            }
+
+            
+    return differencies;
+
         }
 
 
