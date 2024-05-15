@@ -7,6 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
@@ -20,34 +21,67 @@ import java.util.ResourceBundle;
 public class Controller implements Initializable {
 
     @FXML
-    private VBox pnItems = null;
-    @FXML
-    private Button btnOverview;
+    private TableColumn<?, ?> Columnage;
 
+    @FXML
+    private TableColumn<?, ?> Columncontrat;
+
+    @FXML
+    private TableColumn<?, ?> Columnnat;
+
+    @FXML
+    private TableColumn<?, ?> Columnnom;
+
+    @FXML
+    private TableColumn<?, ?> Columnnum;
+
+    @FXML
+    private TableColumn<?, ?> Columnphoto;
+
+    @FXML
+    private TableColumn<?, ?> Columnpoids;
+
+    @FXML
+    private TableColumn<?, ?> Columnposte;
+
+    @FXML
+    private TableColumn<?, ?> Columnprenom;
+
+    @FXML
+    private TableColumn<?, ?> Columnsalaire;
+
+    @FXML
+    private TableColumn<?, ?> Columntaille;
 
     @FXML
     private TableView<?> TabPlayers;
 
     @FXML
-    private Button btnOrders;
+    private Button btnOverview;
 
     @FXML
-    private Button btnCustomers;
+    private Button btnOverview1;
 
     @FXML
-    private Button btnMenus;
+    private Button btnOverview2;
 
     @FXML
-    private Button btnPackages;
+    private Button btnOverview3;
 
     @FXML
-    private Button btnSettings;
+    private Button btnOverview4;
 
     @FXML
-    private Button btnSignout;
+    private Button btnOverview5;
+
+    @FXML
+    private VBox pnItems;
 
     @FXML
     private Pane pnlCustomer;
+
+    @FXML
+    private Pane pnlMenus;
 
     @FXML
     private Pane pnlOrders;
@@ -55,8 +89,7 @@ public class Controller implements Initializable {
     @FXML
     private Pane pnlOverview;
 
-    @FXML
-    private Pane pnlMenus;
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -84,23 +117,24 @@ public class Controller implements Initializable {
     }
 
 
-    public void handleClicks(ActionEvent actionEvent) {
-        if (actionEvent.getSource() == btnCustomers) {
-            pnlCustomer.setStyle("-fx-background-color : #1620A1");
-            pnlCustomer.toFront();
+    //public void handleClicks(ActionEvent actionEvent) {
+    //    if (actionEvent.getSource() == btnCustomers) {
+    //   pnlCustomer.setStyle("-fx-background-color : #1620A1");
+    //   pnlCustomer.toFront();
+    // }
+    //  if (actionEvent.getSource() == btnMenus) {
+    //      pnlMenus.setStyle("-fx-background-color : #53639F");
+    //      pnlMenus.toFront();
+    //  }
+    //  if (actionEvent.getSource() == btnOverview) {
+        //      pnlOverview.setStyle("-fx-background-color : #02030A");
+    //      pnlOverview.toFront();
         }
-        if (actionEvent.getSource() == btnMenus) {
-            pnlMenus.setStyle("-fx-background-color : #53639F");
-            pnlMenus.toFront();
-        }
-        if (actionEvent.getSource() == btnOverview) {
-            pnlOverview.setStyle("-fx-background-color : #02030A");
-            pnlOverview.toFront();
-        }
-        if(actionEvent.getSource()==btnOrders)
-        {
-            pnlOrders.setStyle("-fx-background-color : #464F67");
-            pnlOrders.toFront();
-        }
-    }
-}
+//  Object btnOrders;
+//  if(actionEvent.getSource()==btnOrders)
+//  {
+//      pnlOrders.setStyle("-fx-background-color : #464F67");
+//      pnlOrders.toFront();
+//  }
+// }
+//}
