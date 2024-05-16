@@ -1,5 +1,7 @@
 package client.frontend.v2;
 
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
@@ -8,6 +10,7 @@ import java.awt.Color;
 import java.awt.Container;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 public class MenuBar extends JPanel  {
@@ -21,13 +24,21 @@ public class MenuBar extends JPanel  {
     MenuBarButton upcomingMatch = new MenuBarButton("Matchs");
     MenuBarButton stats = new MenuBarButton("Stats");
     MenuBarButton calendrier = new MenuBarButton("Calendrier");
-    MenuBarButton quit = new MenuBarButton("Quitter");
+    MenuBarButton quit;
     
     MenuBar( CardLayout layout, Container container) {
        
         this.setVisible(true);
         this.setBackground(Color.BLACK);
         this.setLayout(new GridLayout());
+
+        try {
+            this.quit = new MenuBarButton(new ImageIcon(ImageIO.read(getClass().getResourceAsStream("/on_off.png")).getScaledInstance(30,30, Image.SCALE_DEFAULT)));
+
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
+
 
         add(accueil);
         add(effectif);
