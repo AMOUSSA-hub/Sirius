@@ -93,19 +93,15 @@ public class PageStatistiques extends JPanel {
 
         // Initialisation de la page des statistiques de l'équipe
         pageStatistiquesEquipe = new PageStatistiquesEquipe(stats);
+        pageStatistiquesEquipe.setVisible(false);
 
         // Ajout de l'actionListener pour le choix des statistiques
         choixStatistiques.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String choix = (String) choixStatistiques.getSelectedItem();
-                if (choix.equals("Statistiques des joueurs")) {
-                    // Afficher les statistiques des joueurs
-                    setVisible(true);
-                    pageStatistiquesEquipe.setVisible(false);
-                } else {
+                if  (choix.equals("Statistiques de l'équipe")){
                     // Afficher les statistiques de l'équipe
-                    setVisible(false);
                     pageStatistiquesEquipe.setVisible(true);
                 }
             }

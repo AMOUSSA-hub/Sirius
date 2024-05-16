@@ -36,7 +36,6 @@ public class PageStatistiquesEquipe extends JFrame {
         // Ajustement de la taille et de la visibilité de la fenêtre
         pack();
         setLocationRelativeTo(null); // Centre la fenêtre sur l'écran
-        setVisible(true);
     }
 
     // Méthodes pour calculer les statistiques totales de l'équipe
