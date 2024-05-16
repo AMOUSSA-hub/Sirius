@@ -18,6 +18,7 @@ public class Game extends Data {
     private int opponentScore;
     private int teamScore;
     private Timestamp matchDay;
+    private int id_evenement;
     // Constructeur par défaut requis pour Jackson
     public Game() {
     }
@@ -28,13 +29,19 @@ public class Game extends Data {
         @JsonProperty("adversaire") String opponent,
         @JsonProperty("stade") String arena,
         @JsonProperty("competition") String championship,
-        @JsonProperty("matchday") Timestamp matchDay
+        @JsonProperty("matchday") Timestamp matchDay,
+        @JsonProperty("id_evenement") int id_evenement
     ) {
         this.id = id;
         this.opponent = opponent;
         this.arena = arena;
         this.championship = championship;
         this.matchDay = matchDay;
+        this.id_evenement = id_evenement;
+    }
+
+    public int getId_Match(){
+        return id;
     }
 
     public String getOpponent() {
@@ -64,6 +71,10 @@ public class Game extends Data {
     
     public Timestamp getMatchDay(){
         return matchDay;
+    }
+
+    public int getId_evenement(){
+        return id_evenement;
     }
 
     @JsonProperty("adversaire")
@@ -101,6 +112,10 @@ public class Game extends Data {
         this.matchDay = matchDay;
     }
 
+    @JsonProperty("id_evenement")
+    public void setId_evenement(int id_evenement) {
+        this.id_evenement = id_evenement;
+    }
 
     @Override
     public String toString() {

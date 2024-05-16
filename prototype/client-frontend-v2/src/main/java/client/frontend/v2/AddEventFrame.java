@@ -178,7 +178,11 @@ public class AddEventFrame extends JDialog {
                     gte.addCaseEvent(te);
 
                     if(isGame){
-                        Game g = new Game(0,opponentNameFill.getText(), arenaFill.getText(), championshipFill.getText(), new java.sql.Timestamp(startingDate.getTime()));
+                        Game g = new Game(0,opponentNameFill.getText(), arenaFill.getText(), championshipFill.getText(), new java.sql.Timestamp(startingDate.getTime()),te.getId());
+                        int res = MainInsertClient.sendRequest(g, "INSERT_MATCH");
+                        if (res == 1) {
+                            FootballFormationFrame.games.add(g);
+                        }
                     }
     
                     this.dispose();

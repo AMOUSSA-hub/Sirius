@@ -31,7 +31,7 @@ class FootballFormationFrame extends JPanel {
     private JFrame frame;
     private MainSelectClient msc;
     private JButton select = new JButton("Select matchs");
-    private Set<Game> games;
+    public static Set<Game> games;
     private static HashMap<Integer,Game> matchHashMap = new HashMap<>();
     public FootballFormationFrame(JFrame frame,MainSelectClient msc) {
         // Crée les composants
