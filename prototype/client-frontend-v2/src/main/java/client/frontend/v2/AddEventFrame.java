@@ -180,8 +180,10 @@ public class AddEventFrame extends JDialog {
                     if(isGame){
                         Game g = new Game(0,opponentNameFill.getText(), arenaFill.getText(), championshipFill.getText(), new java.sql.Timestamp(startingDate.getTime()),te.getId());
                         int res = MainInsertClient.sendRequest(g, "INSERT_MATCH");
-                        if (res == 1) {
+                        if (res != -1) {
+                            g.setId(res);
                             FootballFormationFrame.games.add(g);
+                            FootballFormationFrame.refreshMatch();
                         }
                     }
     
