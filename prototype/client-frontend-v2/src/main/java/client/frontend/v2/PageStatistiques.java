@@ -1,11 +1,11 @@
 package client.frontend.v2;
 
 import edu.ezip.ing1.pds.client.*;
-
-
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.Set;
 import edu.ezip.ing1.pds.business.dto.*;
@@ -18,15 +18,15 @@ public class PageStatistiques extends JPanel {
     private DefaultTableModel tablecartonsrouges;
     private DefaultTableModel tablenote;
     private DefaultTableModel tablemin;
-    private HashMap<Integer,Player> playerHashMap;
+    private HashMap<Integer, Player> playerHashMap;
+    private PageStatistiquesEquipe pageStatistiquesEquipe;
+
     public PageStatistiques(MainSelectClient msc, JFrame fen) {
         Set<Stat> stats = null;
         playerHashMap = Effectif.getPlayerNameHashMap();
 
         try {
             stats = msc.getAllStats();
-            
-
             for (Stat s : stats) {
                 System.out.println(s.toString());
             }
@@ -37,8 +37,6 @@ public class PageStatistiques extends JPanel {
         JPanel panel = new JPanel(new BorderLayout());
         setBackground(Color.gray);
 
-        
-
         JTabbedPane onglets = new JTabbedPane();
 
         JPanel panneauMeilleursButeurs = new JPanel(new BorderLayout());
@@ -47,7 +45,7 @@ public class PageStatistiques extends JPanel {
         JTable tableauMeilleursButeurs = new JTable(modeleButeurs);
         JScrollPane defilementMeilleursButeurs = new JScrollPane(tableauMeilleursButeurs);
         panneauMeilleursButeurs.add(defilementMeilleursButeurs, BorderLayout.CENTER);
-        onglets.addTab("Meilleurs buteurs", panneauMeilleursButeurs);    
+        onglets.addTab("Meilleurs buteurs", panneauMeilleursButeurs);
 
         JPanel panneauMeilleursPasseurs = new JPanel(new BorderLayout());
         panneauMeilleursPasseurs.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
@@ -56,10 +54,10 @@ public class PageStatistiques extends JPanel {
         JScrollPane defilementMeilleursPasseurs = new JScrollPane(tableauMeilleursPasseurs);
         panneauMeilleursPasseurs.add(defilementMeilleursPasseurs, BorderLayout.CENTER);
         onglets.addTab("Meilleurs passeurs", panneauMeilleursPasseurs);
-        
+
         JPanel panelcartonsjaunes = new JPanel(new BorderLayout());
         panelcartonsjaunes.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        tablecartonsjaunes = new DefaultTableModel(new Object[]{"Joueur", "cartonsjaunes"}, 0);
+        tablecartonsjaunes = new DefaultTableModel(new Object[]{"Joueur", "Cartons jaunes"}, 0);
         JTable tableaucartonsjaunes = new JTable(tablecartonsjaunes);
         JScrollPane defilementcartonsjaunes = new JScrollPane(tableaucartonsjaunes);
         panelcartonsjaunes.add(defilementcartonsjaunes, BorderLayout.CENTER);
@@ -67,7 +65,7 @@ public class PageStatistiques extends JPanel {
 
         JPanel panelcartonsrouges = new JPanel(new BorderLayout());
         panelcartonsrouges.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        tablecartonsrouges = new DefaultTableModel(new Object[]{"Joueur", "cartonsjaunes"}, 0);
+        tablecartonsrouges = new DefaultTableModel(new Object[]{"Joueur", "Cartons rouges"}, 0);
         JTable tableaucartonsrouges = new JTable(tablecartonsrouges);
         JScrollPane defilementcartonsrouge = new JScrollPane(tableaucartonsrouges);
         panelcartonsrouges.add(defilementcartonsrouge, BorderLayout.CENTER);
@@ -75,7 +73,7 @@ public class PageStatistiques extends JPanel {
 
         JPanel panelnote = new JPanel(new BorderLayout());
         panelnote.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        tablenote = new DefaultTableModel(new Object[]{"Joueur", "note"}, 0);
+        tablenote = new DefaultTableModel(new Object[]{"Joueur", "Note"}, 0);
         JTable tableaunote = new JTable(tablenote);
         JScrollPane defilementnote = new JScrollPane(tableaunote);
         panelnote.add(defilementnote, BorderLayout.CENTER);
@@ -83,48 +81,104 @@ public class PageStatistiques extends JPanel {
 
         JPanel panelmin = new JPanel(new BorderLayout());
         panelmin.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        tablemin = new DefaultTableModel(new Object[]{"Joueur", "min"}, 0);
+        tablemin = new DefaultTableModel(new Object[]{"Joueur", "Minutes jouées"}, 0);
         JTable tableaumin = new JTable(tablemin);
         JScrollPane defilementmin = new JScrollPane(tableaumin);
         panelmin.add(defilementmin, BorderLayout.CENTER);
-        onglets.addTab("Minutes jouees", panelmin);
-        Bouton addStats = new Bouton("ajouter des statistiques");
-        panel.add(addStats, BorderLayout.SOUTH);
-       // MainInsertClient.sendRequest(new Stat((short)1,(short) 2,(short) 3,(short) 4,(short) 5,(short) 6, 14, 1), "INSERT_STATS");
+        onglets.addTab("Minutes jouées", panelmin);
 
-        //JPanel panneauStatsEquipe = new JPanel(new BorderLayout());
-        //panneauStatsEquipe.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        // Ajout du bouton pour choisir
+        JComboBox<String> choixStatistiques = new JComboBox<>(new String[]{"Statistiques des joueurs", "Statistiques de l'équipe"});
+        panel.add(choixStatistiques, BorderLayout.SOUTH);
 
-        // JLabel etiquetteStatsEquipe = new JLabel("Statistiques de l'équipe");
-        // etiquetteStatsEquipe.setFont(new Font("Arial", Font.BOLD, 16));
-        // etiquetteStatsEquipe.setBorder(new EmptyBorder(10, 10, 10, 10));
-        // panneauStatsEquipe.add(etiquetteStatsEquipe, BorderLayout.NORTH);
+        // Initialisation de la page des statistiques de l'équipe
+        pageStatistiquesEquipe = new PageStatistiquesEquipe(stats);
 
-        // JPanel panneauLabelsStats = new JPanel(new GridLayout(0, 2));
-        // JLabel labelMatchsJoues = new JLabel("Matchs joués : 20");
-        // JLabel labelButsPour = new JLabel("Buts pour : 45");
-        // JLabel labelButsContre = new JLabel("Buts contre : 30");
-        // JLabel labelCartonsJaunes = new JLabel("Cartons jaunes : 10");
-        // JLabel labelCartonsRouges = new JLabel("Cartons rouges : 2");
-        // JLabel labelSerie = new JLabel("Série en cours : VVNVNV");
-        // panneauLabelsStats.add(labelMatchsJoues);
-        // panneauLabelsStats.add(new JLabel());
-        // panneauLabelsStats.add(labelButsPour);
-        // panneauLabelsStats.add(new JLabel());
-        // panneauLabelsStats.add(labelButsContre);
-        // panneauLabelsStats.add(new JLabel());
-        // panneauLabelsStats.add(labelCartonsJaunes);
-        // panneauLabelsStats.add(new JLabel());
-        // panneauLabelsStats.add(labelCartonsRouges);
-        // panneauLabelsStats.add(new JLabel());
-        // panneauLabelsStats.add(labelSerie);
-        // panneauLabelsStats.add(new JLabel());
-        // panneauStatsEquipe.add(panneauLabelsStats, BorderLayout.CENTER);
-        // onglets.addTab("Statistiques de l'équipe", panneauStatsEquipe);
+        // Ajout de l'actionListener pour le choix des statistiques
+        choixStatistiques.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String choix = (String) choixStatistiques.getSelectedItem();
+                if (choix.equals("Statistiques des joueurs")) {
+                    // Afficher les statistiques des joueurs
+                    setVisible(true);
+                    pageStatistiquesEquipe.setVisible(false);
+                } else {
+                    // Afficher les statistiques de l'équipe
+                    setVisible(false);
+                    pageStatistiquesEquipe.setVisible(true);
+                }
+            }
+        });
+
+        // Ajout du bouton pour ajouter des statistiques
+        Bouton addStatsButton = new Bouton("Ajouter des statistiques");
+        panel.add(addStatsButton, BorderLayout.NORTH);
+
+        // ActionListener pour le bouton "Ajouter des statistiques"
+        addStatsButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Création d'une liste de noms de joueurs disponibles
+                String[] nomsJoueurs = new String[playerHashMap.size()];
+                int i = 0;
+                for (Player joueur : playerHashMap.values()) {
+                    nomsJoueurs[i++] = joueur.getPrenom() + " " + joueur.getNom();
+                }
+
+                // Affichage de la boîte de dialogue de sélection du joueur
+                String joueurSelectionne = (String) JOptionPane.showInputDialog(
+                        fen, "Sélectionnez le joueur :", "Sélection du joueur",
+                        JOptionPane.QUESTION_MESSAGE, null, nomsJoueurs, nomsJoueurs[0]);
+
+                // Si aucun joueur n'est sélectionné, ne rien faire
+                if (joueurSelectionne == null) {
+                    return;
+                }
+
+                // Récupération de l'ID du joueur sélectionné
+                int idJoueurSelectionne = 0;
+                int idMatchSelectionne = 1;
+                for (Player joueur : playerHashMap.values()) {
+                    if ((joueur.getPrenom() + " " + joueur.getNom()).equals(joueurSelectionne)) {
+                        idJoueurSelectionne = joueur.getId();
+                        break;
+                    }
+                }
+
+                // Demande des informations à l'utilisateur via des dialogues de saisie
+                short but = Short.parseShort(JOptionPane.showInputDialog("Entrez le nombre de buts:"));
+                short passeDecisive = Short.parseShort(JOptionPane.showInputDialog("Entrez le nombre de passes décisives:"));
+                short cartonsJaunes = Short.parseShort(JOptionPane.showInputDialog("Entrez le nombre de cartons jaunes:"));
+                short cartonsRouges = Short.parseShort(JOptionPane.showInputDialog("Entrez le nombre de cartons rouges:"));
+                short note = Short.parseShort(JOptionPane.showInputDialog("Entrez la note:"));
+                int minutesJouees = Integer.parseInt(JOptionPane.showInputDialog("Entrez le nombre de minutes jouées:"));
+
+                // Création de l'objet Stat avec les valeurs saisies
+                Stat nouvelleStat = new Stat();
+                nouvelleStat.setIdJoueurs((short) idJoueurSelectionne);
+                nouvelleStat.setButs(but);
+                nouvelleStat.setPassesDecisives(passeDecisive);
+                nouvelleStat.setCartonsJaunes(cartonsJaunes);
+                nouvelleStat.setCartonsRouges(cartonsRouges);
+                nouvelleStat.setNoteDuMatch(note);
+                nouvelleStat.setMinutesJouees((short) minutesJouees);
+                nouvelleStat.setIdMatchs((short)idMatchSelectionne);
+
+                // Envoyer la requête pour insérer la nouvelle statistique
+                MainInsertClient.sendRequest(nouvelleStat, "INSERT_STATS");
+
+                // Ajoute les informations saisies dans les tableaux correspondants
+                modeleButeurs.addRow(new Object[]{joueurSelectionne, but});
+                modelePasseurs.addRow(new Object[]{joueurSelectionne, passeDecisive});
+                tablecartonsjaunes.addRow(new Object[]{joueurSelectionne, cartonsJaunes});
+                tablecartonsrouges.addRow(new Object[]{joueurSelectionne, cartonsRouges});
+                tablenote.addRow(new Object[]{joueurSelectionne, note});
+                tablemin.addRow(new Object[]{joueurSelectionne, minutesJouees});
+            }
+        });
 
         panel.add(onglets);
-
-
 
         Buteurs(stats);
         Passeurs(stats);
@@ -132,60 +186,59 @@ public class PageStatistiques extends JPanel {
         CartonsRouges(stats);
         Notedumatch(stats);
         Minutesjouees(stats);
-    this.setLayout(new GridLayout(1,1));
+
+        this.setLayout(new GridLayout(1, 1));
         add(panel);
 
         setVisible(true);
-        //*addStats.addActionListener(e -> new AddEventFrame(fen));
     }
 
-    private void Buteurs(Set<Stat>stats) {
+    private void Buteurs(Set<Stat> stats) {
         modeleButeurs.setRowCount(0);
-        //stats.sort(Comparator.comparingInt(Stat::getButs).reversed());
         for (Stat stat : stats) {
             modeleButeurs.addRow(new Object[]{getNamesPlayer(stat.getIdJoueurs()), stat.getButs()});
         }
     }
 
-    private void Passeurs(Set<Stat>stats) {
+    private void Passeurs(Set<Stat> stats) {
         modelePasseurs.setRowCount(0);
         for (Stat stat : stats) {
             modelePasseurs.addRow(new Object[]{getNamesPlayer(stat.getIdJoueurs()), stat.getPassesDecisives()});
         }
     }
-    private void Cartonsjaunes(Set<Stat>stats) {
+
+    private void Cartonsjaunes(Set<Stat> stats) {
         tablecartonsjaunes.setRowCount(0);
         for (Stat stat : stats) {
             tablecartonsjaunes.addRow(new Object[]{getNamesPlayer(stat.getIdJoueurs()), stat.getCartonsJaunes()});
         }
     }
-    private void CartonsRouges(Set<Stat>stats) {
+
+   
+    private void CartonsRouges(Set<Stat> stats) {
         tablecartonsrouges.setRowCount(0);
         for (Stat stat : stats) {
             tablecartonsrouges.addRow(new Object[]{getNamesPlayer(stat.getIdJoueurs()), stat.getCartonsRouges()});
         }
     }
-    private void Notedumatch(Set<Stat>stats) {
-        tablemin.setRowCount(0);
+    
+    private void Notedumatch(Set<Stat> stats) {
+        tablenote.setRowCount(0);
         for (Stat stat : stats) {
             tablenote.addRow(new Object[]{getNamesPlayer(stat.getIdJoueurs()), stat.getNoteDuMatch()});
         }
     }
-    private void Minutesjouees(Set<Stat>stats) {
+    
+    private void Minutesjouees(Set<Stat> stats) {
         tablemin.setRowCount(0);
         for (Stat stat : stats) {
             tablemin.addRow(new Object[]{getNamesPlayer(stat.getIdJoueurs()), stat.getMinutesJouees()});
         }
     }
     
-
     private String getNamesPlayer(int id_joueur) {
         Player player = playerHashMap.get(id_joueur);
         return (player.getPrenom() + " " + player.getNom());
     }
-
-
+    }
     
-
-   
-}
