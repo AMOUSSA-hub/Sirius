@@ -24,6 +24,7 @@ import javax.swing.SpinnerDateModel;
 
 import java.text.ParseException;
 
+import edu.ezip.ing1.pds.business.dto.Game;
 import edu.ezip.ing1.pds.business.dto.Stat;
 import edu.ezip.ing1.pds.business.dto.TeamEvent;
 import edu.ezip.ing1.pds.client.MainInsertClient;
@@ -47,7 +48,7 @@ public class AddEventFrame extends JDialog {
     
         JPanel bodyPanel = new JPanel();
 
-        bodyPanel.setLayout(new GridLayout(4,1));
+        bodyPanel.setLayout(new GridLayout(5,1));
 
             //Label évènement
         JPanel labelFillPan = createFillAttributs("label");
@@ -64,7 +65,36 @@ public class AddEventFrame extends JDialog {
          typeEventList.setPreferredSize(new Dimension(200, 25));
          TypeFillPan.add(typeEventList);
          bodyPanel.add(TypeFillPan);
+         
 
+
+
+
+         //Panneau informations matchs
+        JPanel MatchFillPan = createFillAttributs("Informations Match");
+            //Adversaire
+            JPanel opponentNameFillPan = createFillAttributs("Adversaire");
+            JTextField opponentNameFill = new JTextField();        
+            opponentNameFill.setPreferredSize(new Dimension(200, 25));
+            opponentNameFillPan.add(opponentNameFill);
+            MatchFillPan.add(opponentNameFillPan);
+            
+            //Stade
+            JPanel arenaFillPan = createFillAttributs("Stade");
+            JTextField arenaFill = new JTextField();        
+            arenaFill.setPreferredSize(new Dimension(200, 25));
+            arenaFillPan.add(arenaFill);
+            MatchFillPan.add(arenaFillPan);
+
+            //Competition
+            JPanel championshipFillFillPan = createFillAttributs("Competition");
+            JTextField championshipFill = new JTextField();        
+            championshipFill.setPreferredSize(new Dimension(200, 25));
+            championshipFillFillPan.add(championshipFill);
+            MatchFillPan.add(championshipFillFillPan);
+            
+            MatchFillPan.setVisible(false);
+        bodyPanel.add(MatchFillPan);
 
          //Date Début évènement
          JPanel startingDateFillPan = createFillAttributs("Date DEBUT");
@@ -85,8 +115,22 @@ public class AddEventFrame extends JDialog {
           bodyPanel.add(endingDateFillPan);
 
          
-
+          typeEventList.addActionListener(e -> {
            
+        
+            String selectedType = (String) typeEventList.getSelectedItem();
+            if (selectedType != null) {
+                if (selectedType.equals(TeamEvent.Type.FRIENDY_GAME.type) || selectedType.equals(TeamEvent.Type.GAME.type)) {
+                    System.out.println("detected");
+                    MatchFillPan.setVisible(true);
+                } else {
+                    MatchFillPan.setVisible(false);
+                }
+
+                this.pack();
+            }
+        });
+   
 
             
             JPanel botPanel = new JPanel(new FlowLayout());
@@ -101,7 +145,14 @@ public class AddEventFrame extends JDialog {
                 Date endingDate = (java.util.Date)endingDateSpinner.getValue();
                 String label = labelEventFill.getText();
 
+
+               
                 boolean alreadyExist = false;
+                boolean isGame  = false;
+
+                if(((String) typeEventList.getSelectedItem()).equals(TeamEvent.Type.FRIENDY_GAME.type) || ((String) typeEventList.getSelectedItem()).equals(TeamEvent.Type.GAME.type)){
+                    isGame = true;
+                }
 
                 for (TeamEvent te :CalendarFrame.events){
 
@@ -111,9 +162,10 @@ public class AddEventFrame extends JDialog {
                     }
                 }
 
-                if( label.trim().equals("")){
-                    JOptionPane.showMessageDialog(null, "Veuillez renseigner le champs \"label\" de l'évènement.", "Erreur", JOptionPane.ERROR_MESSAGE);
+                if( label.trim().equals("") ||(isGame && (opponentNameFill.getText().trim().equals("") || arenaFill.getText().trim().equals("") || championshipFill.getText().trim().equals("") ))){
+                    JOptionPane.showMessageDialog(null, "Veullez renseigner tous les champs.", "Erreur", JOptionPane.ERROR_MESSAGE);
                 }
+
                 else if(startingDate.compareTo(endingDate) >= 0 ){
                     JOptionPane.showMessageDialog(null, "la date de début doit être strictement antérieur à celle de fin. ", "Erreur", JOptionPane.ERROR_MESSAGE);                  
 
@@ -124,6 +176,11 @@ public class AddEventFrame extends JDialog {
                     TeamEvent te = new TeamEvent(0,label ,typeEventList.getSelectedItem().toString(),startingDate,endingDate);
                     te.setId(MainInsertClient.sendRequest(te, "INSERT_EVENTS")); 
                     gte.addCaseEvent(te);
+
+                    if(isGame){
+                        Game g = new Game(0,opponentNameFill.getText(), arenaFill.getText(), championshipFill.getText());
+                    }
+    
                     this.dispose();
                 }
 
@@ -169,6 +226,7 @@ public class AddEventFrame extends JDialog {
          typeEventList.setPreferredSize(new Dimension(200, 25));
          TypeFillPan.add(typeEventList);
          bodyPanel.add(TypeFillPan);
+         
 
 
          //Date Début évènement
