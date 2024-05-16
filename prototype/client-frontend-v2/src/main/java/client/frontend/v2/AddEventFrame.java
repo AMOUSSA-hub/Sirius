@@ -176,6 +176,9 @@ public class AddEventFrame extends JDialog {
                     TeamEvent te = new TeamEvent(0,label ,typeEventList.getSelectedItem().toString(),startingDate,endingDate);
                     te.setId(MainInsertClient.sendRequest(te, "INSERT_EVENTS")); 
                     gte.addCaseEvent(te);
+                    gte.addEvent(te);
+                    gte.fillGrid();
+
 
                     if(isGame){
                         Game g = new Game(0,opponentNameFill.getText(), arenaFill.getText(), championshipFill.getText(), new java.sql.Timestamp(startingDate.getTime()),te.getId());
