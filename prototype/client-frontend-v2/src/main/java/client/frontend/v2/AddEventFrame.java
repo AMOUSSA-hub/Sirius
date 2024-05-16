@@ -178,7 +178,7 @@ public class AddEventFrame extends JDialog {
                     gte.addCaseEvent(te);
 
                     if(isGame){
-                        Game g = new Game(0,opponentNameFill.getText(), arenaFill.getText(), championshipFill.getText());
+                        Game g = new Game(0,opponentNameFill.getText(), arenaFill.getText(), championshipFill.getText(), new java.sql.Timestamp(startingDate.getTime()));
                     }
     
                     this.dispose();

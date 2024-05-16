@@ -5,6 +5,8 @@ import edu.ezip.commons.LoggingUtils;
 import edu.ezip.ing1.pds.business.dto.TeamEvent;
 import edu.ezip.ing1.pds.business.dto.TeamEvents;
 import edu.ezip.ing1.pds.business.dto.Stats;
+import edu.ezip.ing1.pds.business.dto.Game;
+import edu.ezip.ing1.pds.business.dto.Games;
 import edu.ezip.ing1.pds.business.dto.Stat;
 import edu.ezip.ing1.pds.client.commons.ClientRequest;
 import edu.ezip.ing1.pds.client.commons.ConfigLoader;
@@ -230,6 +232,40 @@ public class MainSelectClient {
         }
     
         return stat;
+    }
+
+    public Set<Game> getAllGames() throws IOException, InterruptedException, SQLException {
+        Set<Game> games = new HashSet<>();
+    
+        final ObjectMapper objectMapper = new ObjectMapper();
+        final String requestId = UUID.randomUUID().toString();
+        final Request request = new Request();
+        request.setRequestId(requestId);
+        request.setRequestOrder("SELECT_ALL_GAMES");
+        objectMapper.enable(SerializationFeature.WRAP_ROOT_VALUE);
+        final byte[] requestBytes = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsBytes(request);
+        LoggingUtils.logDataMultiLine(logger, Level.TRACE, requestBytes);
+        final SelectAllGamesRequest clientRequest = new SelectAllGamesRequest(
+            networkConfig,
+            birthdate++, request, null, requestBytes
+        );
+    
+        clientRequests.push(clientRequest);
+        clientRequest.join();
+        logger.debug("Thread {} complete.", clientRequest.getThreadName());
+    
+        final Games matchsResponse = (Games) clientRequest.getResult(); //ca c null je recupere le select mais il arrive pas a le recuperer jcrois
+        System.out.println("fuiezhfuizehefhzuifez + " + clientRequest.getResult().toString());
+        if (matchsResponse != null) { 
+            for (final Game m : matchsResponse.getGames()) {
+                games.add(m);
+                System.out.println(m.toString());
+            }
+        } else {
+            logger.error("match null. Impossible de recuperer les matchs.");
+        }
+    
+        return games;
     }
 
     public static String getReponseServeur(Socket socket) {

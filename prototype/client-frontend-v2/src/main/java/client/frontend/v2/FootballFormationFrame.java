@@ -2,13 +2,23 @@ package client.frontend.v2;
 
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
+
+import com.fasterxml.jackson.databind.deser.DataFormatReaders.Match;
+
+import edu.ezip.ing1.pds.business.dto.Game;
+import edu.ezip.ing1.pds.client.MainSelectClient;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.Arrays;
+import java.util.HashMap;
 
 
 class FootballFormationFrame extends JPanel {
@@ -16,13 +26,23 @@ class FootballFormationFrame extends JPanel {
     private JComboBox<String> formationComboBox;
     private JTextArea formationTextArea;
     private List<JButton> playerButtons;
-    private List<List<String>> availablePlayers;
-    private List<InfosJoueurs> listeInfosJoueurs = Effectif.listeInfosJoueurs;
+    private static List<List<String>> availablePlayers;
+    private static List<InfosJoueurs> listeInfosJoueurs = Effectif.listeInfosJoueurs;
     private JFrame frame;
-
-    public FootballFormationFrame(JFrame frame) {
+    private MainSelectClient msc;
+    private JButton select = new JButton("Select matchs");
+    private Set<Game> games;
+    private static HashMap<Integer,Game> matchHashMap = new HashMap<>();
+    public FootballFormationFrame(JFrame frame,MainSelectClient msc) {
         // Crée les composants
         this.frame = frame;
+        this.msc = msc;
+        try {
+            games = msc.getAllGames();
+            setMatch();
+        } catch (Exception e2) {
+            System.err.println(e2);
+        }
         fieldPanel = new JPanel();
         formationComboBox = new JComboBox<>(new String[]{"4-4-2", "4-3-3", "3-5-2", "5-3-2","5-4-1", "4-5-1","3-4-3"});
         formationTextArea = new JTextArea(10, 30);
@@ -42,7 +62,18 @@ class FootballFormationFrame extends JPanel {
         add(fieldPanel, BorderLayout.CENTER);
         add(new JScrollPane(formationTextArea), BorderLayout.SOUTH);
 
+        JPanel pan = new JPanel(new GridLayout(3,1));        
+        //pan.add(select);
+        setMatchs(pan);
+        select.addActionListener(new ActionListener() {
 
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+            
+        });
+        add(pan,BorderLayout.EAST);
         availablePlayers = new ArrayList<>();
         // Ajoutez les joueurs initiaux ici
 
@@ -55,10 +86,11 @@ class FootballFormationFrame extends JPanel {
         //String[] positionsArray = positions.toArray(new String[positions.size()]);
         //toCompo(positionsArray);
         refreshPlayersAvailable();
+        
     }
 
 
-    private void getPlayersAttributs() {
+    public static void getPlayersAttributs() {
         for(InfosJoueurs infosJoueurs : listeInfosJoueurs) {
             List<String> tmp = new ArrayList<>();
             tmp.add(infosJoueurs.getNom());
@@ -68,7 +100,7 @@ class FootballFormationFrame extends JPanel {
         }
     }
 
-    private void refreshPlayersAvailable(){
+    public static void refreshPlayersAvailable(){
         availablePlayers.clear();
         getPlayersAttributs();
     }
@@ -127,6 +159,22 @@ class FootballFormationFrame extends JPanel {
         fieldPanel.repaint();
         refreshPlayersAvailable();
         formationTextArea.setText("Formation sélectionnée : " + formation);
+    }
+
+    private void setMatchs(JPanel allMatch){
+        JPanel oneMatch;
+        for (Game game : this.games) {
+            oneMatch = new JPanel(new BorderLayout());
+            oneMatch.setPreferredSize(new Dimension(200, 75));
+            oneMatch.setBorder(BorderFactory.createLineBorder(Color.RED,3));
+            JLabel opponent = new JLabel(game.getOpponent());
+            opponent.setHorizontalAlignment(SwingConstants.CENTER);
+            oneMatch.add(opponent,BorderLayout.NORTH);
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+            String formattedDate = sdf.format(game.getMatchDay());
+            oneMatch.add(new JLabel(formattedDate),BorderLayout.WEST);
+            allMatch.add(oneMatch);
+        }
     }
 
     private String determinePoste(int i, int j,int nbPlayer) {
@@ -277,7 +325,19 @@ class FootballFormationFrame extends JPanel {
         button.putClientProperty("infosJoueurs", tmp);
         return button;
     }
+
+
+    private void setMatch(){
+        for(Game g : games) {
+            matchHashMap.put(g.getId(), g);
+        }
+    }
     
+    public static HashMap<Integer,Game> getMatchHashMap(){
+        return matchHashMap;
+    }
+
+
 
     private void openPlayerSelectionDialog(JButton button) {
         // Récupérer le poste associé au bouton

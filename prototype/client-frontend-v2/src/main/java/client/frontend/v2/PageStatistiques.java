@@ -21,6 +21,7 @@ public class PageStatistiques extends JPanel {
     private DefaultTableModel tablenote;
     private DefaultTableModel tablemin;
     private HashMap<Integer, Player> playerHashMap;
+    private HashMap<Integer, Game> matchHashMap;
     private PageStatistiquesEquipe pageStatistiquesEquipe;
     private Set<Stat> stats;
     private HashSet<Integer> joueursAvecStatistiques;
@@ -28,6 +29,7 @@ public class PageStatistiques extends JPanel {
     public PageStatistiques(MainSelectClient msc, JFrame fen) {
         stats = null;
         playerHashMap = Effectif.getPlayerNameHashMap();
+        matchHashMap = FootballFormationFrame.getMatchHashMap(); // la clé c'est l id du match et la valeur associé c le match de type Game
         joueursAvecStatistiques = new HashSet<>();
 
         try {

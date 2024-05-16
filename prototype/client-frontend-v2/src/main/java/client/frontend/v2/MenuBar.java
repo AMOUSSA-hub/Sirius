@@ -50,8 +50,24 @@ public class MenuBar extends JPanel  {
         accueil.addActionListener(e -> layout.show(container, "Accueil"));
         effectif.addActionListener(e -> layout.show(container, "Effectif"));
         ///formation.addActionListener(e -> layout.show(container, "Formation"));
-        upcomingMatch.addActionListener(e -> layout.show(container, "Matchs"));
-        stats.addActionListener(e -> layout.show(container, "Stats"));
+        upcomingMatch.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                layout.show(container, "Matchs");
+                FootballFormationFrame.refreshPlayersAvailable();
+            }
+            
+        });
+        stats.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                layout.show(container, "Stats");
+            }
+          
+            
+        });
         calendrier.addActionListener(e -> layout.show(container, "Calendrier"));
         quit.addActionListener(e -> System.exit(0));
     }

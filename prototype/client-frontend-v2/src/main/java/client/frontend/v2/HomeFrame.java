@@ -65,7 +65,7 @@ public class HomeFrame extends JFrame {
         contentPane.add(new JLabel(clubManager)); */
         contentPane.add("Effectif",new Effectif(this,msc));
         contentPane.add("Stats",new PageStatistiques(msc,this));
-        contentPane.add("Matchs",new FootballFormationFrame(this));
+        contentPane.add("Matchs",new FootballFormationFrame(this,msc));
         contentPane.add("Accueil",new Accueil(this));
         contentPane.add("Calendrier",calendarFrame);
 
