@@ -25,7 +25,7 @@ public class Game extends Data {
 
     @JsonCreator
     public Game(
-        @JsonProperty("id") int id,
+        @JsonProperty("id_match") int id,
         @JsonProperty("adversaire") String opponent,
         @JsonProperty("stade") String arena,
         @JsonProperty("competition") String championship,
@@ -116,6 +116,8 @@ public class Game extends Data {
     public void setId_evenement(int id_evenement) {
         this.id_evenement = id_evenement;
     }
+
+    
 
     @Override
     public String toString() {
