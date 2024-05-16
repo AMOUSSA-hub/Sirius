@@ -52,9 +52,10 @@ public class Effectif extends JPanel{
     List<List<Object>> listOfPlayersInformations;
     MainSelectClient msc;
     static GridInfoSquad gs;
+    JFrame fen;
     Effectif(JFrame fen,MainSelectClient select) {
         this.msc = select;
-
+        this.fen = fen;
         try {
             // Charger l'image depuis les ressources
             InputStream inputStream = getClass().getResourceAsStream("/downArrow.png");
@@ -200,7 +201,7 @@ public class Effectif extends JPanel{
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                AddPlayer joueur = new AddPlayer(null, "Ajouter un joueur ", true);
+                AddPlayer joueur = new AddPlayer(fen, "Ajouter un joueur ", true);
                 //UtilDateModel model = (UtilDateModel)joueur.dateContrat.getModel();
                 java.util.Date date = (java.util.Date)joueur.dateContratSpinner.getValue();
                 java.sql.Date sqlDate = new java.sql.Date(date.getTime());

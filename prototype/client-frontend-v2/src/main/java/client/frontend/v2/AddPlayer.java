@@ -2,6 +2,8 @@ package client.frontend.v2;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -56,6 +58,7 @@ public class AddPlayer extends JDialog {
 
   public AddPlayer(JFrame parent, String title, boolean modal){
     super(parent, title, modal);
+    setAlwaysOnTop(true);
     this.setSize(Page.WIDTH*3/5, Page.HEIGHT/2);
     this.setLocationRelativeTo(null);
     this.setResizable(false);
