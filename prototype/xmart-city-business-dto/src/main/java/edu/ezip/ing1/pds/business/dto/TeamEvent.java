@@ -20,7 +20,7 @@ public class TeamEvent extends Data {
         TRAINING("TRAINING"),
         GAME("GAME"),
         FRIENDY_GAME("FRIENDLY_GAME");
-        private String type;
+        public String type;
         
         private Type(final String type) {
             this.type= type;
