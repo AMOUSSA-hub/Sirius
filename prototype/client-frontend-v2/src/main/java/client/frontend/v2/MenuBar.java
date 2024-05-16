@@ -17,10 +17,11 @@ public class MenuBar extends JPanel  {
     int x = 0;
     MenuBarButton accueil = new MenuBarButton( "Accueil");
     MenuBarButton effectif = new MenuBarButton("Effectif");
-    MenuBarButton formation = new MenuBarButton("Formation");
-    MenuBarButton upcomingMatch = new MenuBarButton("Match a venir");
+    //MenuBarButton formation = new MenuBarButton("Formation");
+    MenuBarButton upcomingMatch = new MenuBarButton("Matchs");
     MenuBarButton stats = new MenuBarButton("Stats");
     MenuBarButton calendrier = new MenuBarButton("Calendrier");
+    MenuBarButton quit = new MenuBarButton("Quitter");
     
     MenuBar( CardLayout layout, Container container) {
        
@@ -30,18 +31,18 @@ public class MenuBar extends JPanel  {
 
         add(accueil);
         add(effectif);
-        add(formation);
+        //add(formation);
         add(upcomingMatch);
         add(stats);
         add(calendrier);
-
+        add(quit);
         accueil.addActionListener(e -> layout.show(container, "Accueil"));
         effectif.addActionListener(e -> layout.show(container, "Effectif"));
-        formation.addActionListener(e -> layout.show(container, "Formation"));
-        upcomingMatch.addActionListener(e -> layout.show(container, "Match a venir"));
+        ///formation.addActionListener(e -> layout.show(container, "Formation"));
+        upcomingMatch.addActionListener(e -> layout.show(container, "Matchs"));
         stats.addActionListener(e -> layout.show(container, "Stats"));
         calendrier.addActionListener(e -> layout.show(container, "Calendrier"));
-
+        quit.addActionListener(e -> System.exit(0));
     }
 
 
