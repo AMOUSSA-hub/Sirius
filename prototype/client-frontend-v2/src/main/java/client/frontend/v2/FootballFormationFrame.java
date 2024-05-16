@@ -33,6 +33,10 @@ class FootballFormationFrame extends JPanel {
     private JButton select = new JButton("Select matchs");
     public static Set<Game> games;
     private static HashMap<Integer,Game> matchHashMap = new HashMap<>();
+    public JPanel pan;
+
+
+
     public FootballFormationFrame(JFrame frame,MainSelectClient msc) {
         // Crée les composants
         this.frame = frame;
@@ -61,10 +65,10 @@ class FootballFormationFrame extends JPanel {
         add(formationComboBox, BorderLayout.NORTH);
         add(fieldPanel, BorderLayout.CENTER);
         add(new JScrollPane(formationTextArea), BorderLayout.SOUTH);
-
-        JPanel pan = new JPanel(new GridLayout(3,1));        
+        int taille = games.size();
+        pan = new JPanel(new GridLayout(taille,1));        
         //pan.add(select);
-        setMatchs(pan);
+        setMatchs(pan,games);
         select.addActionListener(new ActionListener() {
 
             @Override
@@ -73,7 +77,9 @@ class FootballFormationFrame extends JPanel {
             }
             
         });
-        add(pan,BorderLayout.EAST);
+        JScrollPane scrollPane = new JScrollPane(pan);
+        scrollPane.setPreferredSize(new Dimension(300, 1000));
+        add(scrollPane,BorderLayout.EAST);
         availablePlayers = new ArrayList<>();
         // Ajoutez les joueurs initiaux ici
 
@@ -86,9 +92,15 @@ class FootballFormationFrame extends JPanel {
         //String[] positionsArray = positions.toArray(new String[positions.size()]);
         //toCompo(positionsArray);
         refreshPlayersAvailable();
-        
+        remove(pan);
+        refreshMatch();
     }
 
+    public static void refreshMatch() {
+        //pan = new JPanel(new GridLayout(games.size(),1));
+        System.out.println(games.toString());
+        //setMatchs(pan,games);
+    }
 
     public static void getPlayersAttributs() {
         for(InfosJoueurs infosJoueurs : listeInfosJoueurs) {
@@ -97,6 +109,7 @@ class FootballFormationFrame extends JPanel {
             tmp.add(infosJoueurs.getPrenom());
             tmp.add(String.valueOf(infosJoueurs.getNumero()));
             availablePlayers.add(tmp);
+            
         }
     }
 
@@ -161,11 +174,11 @@ class FootballFormationFrame extends JPanel {
         formationTextArea.setText("Formation sélectionnée : " + formation);
     }
 
-    private void setMatchs(JPanel allMatch){
+    private static void setMatchs(JPanel allMatch, Set<Game> games){
         JPanel oneMatch;
-        for (Game game : this.games) {
+        for (Game game : games) {
             oneMatch = new JPanel(new BorderLayout());
-            oneMatch.setPreferredSize(new Dimension(200, 75));
+            oneMatch.setPreferredSize(new Dimension(280, 150));
             oneMatch.setBorder(BorderFactory.createLineBorder(Color.RED,3));
             JLabel opponent = new JLabel(game.getOpponent());
             opponent.setHorizontalAlignment(SwingConstants.CENTER);
@@ -334,6 +347,8 @@ class FootballFormationFrame extends JPanel {
     }
     
     public static HashMap<Integer,Game> getMatchHashMap(){
+        for (int i: matchHashMap.keySet())
+        System.out.println("irfjiefjiefji " + matchHashMap.get(i) + " i : " + i);
         return matchHashMap;
     }
 
