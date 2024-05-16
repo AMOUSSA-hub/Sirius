@@ -6,7 +6,9 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Set;
 import edu.ezip.ing1.pds.business.dto.*;
 
@@ -20,14 +22,18 @@ public class PageStatistiques extends JPanel {
     private DefaultTableModel tablemin;
     private HashMap<Integer, Player> playerHashMap;
     private PageStatistiquesEquipe pageStatistiquesEquipe;
+    private Set<Stat> stats;
+    private HashSet<Integer> joueursAvecStatistiques;
 
     public PageStatistiques(MainSelectClient msc, JFrame fen) {
-        Set<Stat> stats = null;
+        stats = null;
         playerHashMap = Effectif.getPlayerNameHashMap();
+        joueursAvecStatistiques = new HashSet<>();
 
         try {
             stats = msc.getAllStats();
             for (Stat s : stats) {
+                joueursAvecStatistiques.add((int) s.getIdJoueurs());
                 System.out.println(s.toString());
             }
         } catch (Exception e) {
@@ -45,7 +51,7 @@ public class PageStatistiques extends JPanel {
         JTable tableauMeilleursButeurs = new JTable(modeleButeurs);
         JScrollPane defilementMeilleursButeurs = new JScrollPane(tableauMeilleursButeurs);
         panneauMeilleursButeurs.add(defilementMeilleursButeurs, BorderLayout.CENTER);
-        onglets.addTab("Meilleurs buteurs", panneauMeilleursButeurs);
+        onglets.addTab("Buts", panneauMeilleursButeurs);
 
         JPanel panneauMeilleursPasseurs = new JPanel(new BorderLayout());
         panneauMeilleursPasseurs.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
@@ -53,7 +59,7 @@ public class PageStatistiques extends JPanel {
         JTable tableauMeilleursPasseurs = new JTable(modelePasseurs);
         JScrollPane defilementMeilleursPasseurs = new JScrollPane(tableauMeilleursPasseurs);
         panneauMeilleursPasseurs.add(defilementMeilleursPasseurs, BorderLayout.CENTER);
-        onglets.addTab("Meilleurs passeurs", panneauMeilleursPasseurs);
+        onglets.addTab("Passe decisives", panneauMeilleursPasseurs);
 
         JPanel panelcartonsjaunes = new JPanel(new BorderLayout());
         panelcartonsjaunes.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
@@ -100,7 +106,7 @@ public class PageStatistiques extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String choix = (String) choixStatistiques.getSelectedItem();
-                if  (choix.equals("Statistiques de l'équipe")){
+                if (choix.equals("Statistiques de l'équipe")) {
                     // Afficher les statistiques de l'équipe
                     pageStatistiquesEquipe.setVisible(true);
                 }
@@ -115,11 +121,13 @@ public class PageStatistiques extends JPanel {
         addStatsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Création d'une liste de noms de joueurs disponibles
-                String[] nomsJoueurs = new String[playerHashMap.size()];
-                int i = 0;
-                for (Player joueur : playerHashMap.values()) {
-                    nomsJoueurs[i++] = joueur.getPrenom() + " " + joueur.getNom();
+                // Récupérer les noms des joueurs sans statistiques
+                String[] nomsJoueurs = getPlayerNamesWithNoStats();
+
+                // Si aucun joueur sans statistiques n'est disponible, afficher un message et retourner
+                if (nomsJoueurs.length == 0) {
+                    JOptionPane.showMessageDialog(fen, "Tous les joueurs ont déjà des statistiques.", "Information", JOptionPane.INFORMATION_MESSAGE);
+                    return;
                 }
 
                 // Affichage de la boîte de dialogue de sélection du joueur
@@ -159,7 +167,7 @@ public class PageStatistiques extends JPanel {
                 nouvelleStat.setCartonsRouges(cartonsRouges);
                 nouvelleStat.setNoteDuMatch(note);
                 nouvelleStat.setMinutesJouees((short) minutesJouees);
-                nouvelleStat.setIdMatchs((short)idMatchSelectionne);
+                nouvelleStat.setIdMatchs((short) idMatchSelectionne);
 
                 // Envoyer la requête pour insérer la nouvelle statistique
                 MainInsertClient.sendRequest(nouvelleStat, "INSERT_STATS");
@@ -171,6 +179,12 @@ public class PageStatistiques extends JPanel {
                 tablecartonsrouges.addRow(new Object[]{joueurSelectionne, cartonsRouges});
                 tablenote.addRow(new Object[]{joueurSelectionne, note});
                 tablemin.addRow(new Object[]{joueurSelectionne, minutesJouees});
+
+                // Ajouter l'ID du joueur aux joueurs avec des statistiques
+                joueursAvecStatistiques.add(idJoueurSelectionne);
+
+                // Mettre à jour la liste des joueurs sans statistiques
+                updatePlayerListWithoutStats();
             }
         });
 
@@ -187,6 +201,44 @@ public class PageStatistiques extends JPanel {
         add(panel);
 
         setVisible(true);
+    }
+
+    // Mettre à jour la liste des joueurs sans statistiques après l'ajout de nouvelles statistiques
+    private void updatePlayerListWithoutStats() {
+        ArrayList<String> nomsJoueursSansStats = new ArrayList<>();
+        for (Player joueur : playerHashMap.values()) {
+            // Ajoutez uniquement les joueurs qui n'ont pas encore de statistiques et qui ne sont pas dans la liste des joueurs avec des statistiques
+            if (!joueursAvecStatistiques.contains(joueur.getId())) {
+                nomsJoueursSansStats.add(joueur.getPrenom() + " " + joueur.getNom());
+            }
+        }
+
+        // Trouver le JComboBox choixStatistiques
+        JComboBox<String> choixStatistiques = null;
+        Component[] components = this.getComponents();
+        for (Component component : components) {
+            if (component instanceof JComboBox) {
+                choixStatistiques = (JComboBox<String>) component;
+                break;
+            }
+        }
+
+        if (choixStatistiques != null) {
+            choixStatistiques.setModel(new DefaultComboBoxModel<>(nomsJoueursSansStats.toArray(new String[0])));
+        } else {
+            System.err.println("JComboBox choixStatistiques non trouvé !");
+        }
+    }
+
+    // Obtenir les noms des joueurs qui n'ont pas de statistiques
+    private String[] getPlayerNamesWithNoStats() {
+        ArrayList<String> nomsJoueursSansStats = new ArrayList<>();
+        for (Player joueur : playerHashMap.values()) {
+            if (!joueursAvecStatistiques.contains(joueur.getId())) {
+                nomsJoueursSansStats.add(joueur.getPrenom() + " " + joueur.getNom());
+            }
+        }
+        return nomsJoueursSansStats.toArray(new String[0]);
     }
 
     private void Buteurs(Set<Stat> stats) {
@@ -210,31 +262,29 @@ public class PageStatistiques extends JPanel {
         }
     }
 
-   
     private void CartonsRouges(Set<Stat> stats) {
         tablecartonsrouges.setRowCount(0);
         for (Stat stat : stats) {
             tablecartonsrouges.addRow(new Object[]{getNamesPlayer(stat.getIdJoueurs()), stat.getCartonsRouges()});
         }
     }
-    
+
     private void Notedumatch(Set<Stat> stats) {
         tablenote.setRowCount(0);
         for (Stat stat : stats) {
             tablenote.addRow(new Object[]{getNamesPlayer(stat.getIdJoueurs()), stat.getNoteDuMatch()});
         }
     }
-    
+
     private void Minutesjouees(Set<Stat> stats) {
         tablemin.setRowCount(0);
         for (Stat stat : stats) {
             tablemin.addRow(new Object[]{getNamesPlayer(stat.getIdJoueurs()), stat.getMinutesJouees()});
         }
     }
-    
+
     private String getNamesPlayer(int id_joueur) {
         Player player = playerHashMap.get(id_joueur);
         return (player.getPrenom() + " " + player.getNom());
     }
-    }
-    
+}
