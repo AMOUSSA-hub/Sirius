@@ -3,7 +3,10 @@ package client.frontend.v2;
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.io.Serial;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Set;
+import java.util.TreeSet;
 
 import javax.swing.JPanel;
 
@@ -12,6 +15,7 @@ import edu.ezip.ing1.pds.business.dto.TeamEvent;
 public class GridTeamEvent extends JPanel {
 
     GridLayout gl;
+    Set<TeamEvent> list;
 
 
 
@@ -21,16 +25,25 @@ public class GridTeamEvent extends JPanel {
         setLayout(gl);
         this.setBackground(Color.GRAY);
         System.out.println(list.size());
-
-        fillGrid(list);
+        this.list = list;
+        fillGrid();
         
         
 
     }
 
-    public void fillGrid(Set<TeamEvent> list){
+    public void fillGrid(){
 
-        for (TeamEvent teamEvent : list) {
+        removeAll();
+           TreeSet<TeamEvent> sortedSet = new TreeSet<>(new Comparator<TeamEvent>() {
+            @Override
+            public int compare(TeamEvent event1, TeamEvent event2) {
+                return event1.getDateDebut().compareTo(event2.getDateDebut());
+            }
+        });
+        sortedSet.addAll(this.list);
+
+        for (TeamEvent teamEvent : sortedSet) {
             this.addCaseEvent(teamEvent);
          }
              
@@ -40,7 +53,7 @@ public class GridTeamEvent extends JPanel {
 
     public void addCaseEvent(TeamEvent te){  
         gl.setColumns(gl.getColumns()+1);
-        this.add(new CaseEvent(te,this)) ;
+        this.add(new CaseEvent(te,this));
         this.revalidate();
         this.repaint();
       }
@@ -51,6 +64,11 @@ public class GridTeamEvent extends JPanel {
         remove(ca);
         this.revalidate();
         this.repaint();
+    }
+
+
+    public void addEvent(TeamEvent te){
+        this.list.add(te);
     }
 
     @Override
