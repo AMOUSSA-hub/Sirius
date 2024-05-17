@@ -176,8 +176,8 @@ public class AddEventFrame extends JDialog {
                     TeamEvent te = new TeamEvent(0,label ,typeEventList.getSelectedItem().toString(),startingDate,endingDate);
                     te.setId(MainInsertClient.sendRequest(te, "INSERT_EVENTS")); 
                     gte.addCaseEvent(te);
-                    gte.addEvent(te);
-                    gte.fillGrid();
+                    Mastermind.addEvent(te);
+                    gte.fillGrid(Mastermind.getEventsSet());
 
 
                     if(isGame){

@@ -33,7 +33,7 @@ public class PageStatistiques extends JPanel {
         joueursAvecStatistiques = new HashSet<>();
 
         try {
-            stats = msc.getAllStats();
+            stats = Mastermind.getStatsSet();
             for (Stat s : stats) {
                 joueursAvecStatistiques.add((int) s.getIdJoueurs());
                 System.out.println(s.toString());

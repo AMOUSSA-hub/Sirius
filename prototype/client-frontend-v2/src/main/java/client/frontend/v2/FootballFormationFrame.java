@@ -42,7 +42,7 @@ class FootballFormationFrame extends JPanel {
         this.frame = frame;
         this.msc = msc;
         try {
-            games = msc.getAllGames();
+            games = Mastermind.getGamesSet();
             setMatch();
         } catch (Exception e2) {
             System.err.println(e2);

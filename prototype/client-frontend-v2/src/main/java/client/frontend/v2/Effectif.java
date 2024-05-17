@@ -243,59 +243,11 @@ public class Effectif extends JPanel{
             
         });
     }
-/* 
-    private void titreBox(){
-        InfosJoueurs.addInfosBox("PHOTO", null, new Box(BoxLayout.Y_AXIS), titre);
-        InfosJoueurs.addInfosBox("JOUEUR", null, new Box(BoxLayout.Y_AXIS), titre);
-        InfosJoueurs.addInfosBox("AGE", null, new Box(BoxLayout.Y_AXIS), titre);
-        InfosJoueurs.addInfosBox("NATIONALITE", null, new Box(BoxLayout.Y_AXIS), titre);
-        InfosJoueurs.addInfosBox("CONTRAT", null, new Box(BoxLayout.Y_AXIS), titre);
-        InfosJoueurs.addInfosBox("SALAIRE", null, new Box(BoxLayout.Y_AXIS), titre);
-        InfosJoueurs.addInfosBox("POSTE", null, new Box(BoxLayout.Y_AXIS), titre);
-        InfosJoueurs.addInfosBox("TAILLE", "(en cm)", new Box(BoxLayout.Y_AXIS), titre);
-        InfosJoueurs.addInfosBox("NUMERO", null, new Box(BoxLayout.Y_AXIS), titre);
-        InfosJoueurs.addInfosBox("POIDS", "(en Kg)", new Box(BoxLayout.Y_AXIS), titre);
-        //add(titre).setBounds(0, addPlayer.getY() + addPlayer.height, WIDTH + 100, 100);
-        //titre.setBorder(BorderFactory.createLineBorder(Color.WHITE, 3));
-        JScrollPane pane = new JScrollPane(titre);
-        pane.getViewport().setBackground(fondTitre);
-        box.add(pane.getViewport());
-        //listeInfosJoueurs.add(pane);
-    } */
 
-/*     private void ensembleJoueurs(List<InfosJoueurs> listeJoueurs,Box box){ //Affiche la liste des joueurs du club 
-        int y = addPlayer.getY() + addPlayer.height;
-        hauteur_effectif = InfosJoueurs.HeightBox_Y + 3;
-        for (int i = 0 ; i < listeJoueurs.size(); i++){
-            box.add(listeJoueurs.get(i).getViewport());
-            if (hauteur_effectif < HEIGHT - (y+50)) hauteur_effectif += InfosJoueurs.HeightBox_Y;
-            else hauteur_effectif = HEIGHT -(y+50);
-            
-        }
-        scrollPane.setViewportView(box);
-        scrollPane.getViewport().setBackground(bg);  
-        scrollPane.getViewport().setForeground(Color.yellow);
-        this.add(scrollPane);
-        scrollPane.getVerticalScrollBar().setBackground(bg);
-        scrollPane.getVerticalScrollBar().setUI(new BasicScrollBarUI() {
-            @Override
-            protected void configureScrollBarColors() {
-            this.thumbColor = Color.BLACK;
-            this.scrollBarWidth = 30;
-            }});
-        int scrollBarSize = ((Integer)UIManager.get("ScrollBar.width")).intValue();
-        scrollPane.setBounds(0,y, WIDTH + scrollBarSize  ,hauteur_effectif);
-        
-    } */
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-/*         int x = 150;
-        g.setColor(Color.YELLOW);       
-        g.drawLine(x, addPlayer.getY() + addPlayer.height, x,HEIGHT); */
-        
-
  
     }   
 
@@ -303,7 +255,7 @@ public class Effectif extends JPanel{
     public List<InfosJoueurs> selectBDD(GridInfoSquad gs){
         List<InfosJoueurs> liste = new ArrayList<>();
         try {
-            listOfPlayersInformations = msc.selectAllPlayers();
+            listOfPlayersInformations = Mastermind.getPlayersList();
             for (List<Object> playerInformation : listOfPlayersInformations) {
                System.out.println(playerInformation.toString()); 
                int id = (int)playerInformation.get(11);
@@ -314,7 +266,6 @@ public class Effectif extends JPanel{
 
             }
             return liste;
-            //ensembleJoueurs(listeInfosJoueurs, box);
         }catch(Exception execp) {
             System.err.println(execp);
         }
