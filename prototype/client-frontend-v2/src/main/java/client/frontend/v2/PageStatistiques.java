@@ -37,6 +37,7 @@ public class PageStatistiques extends JPanel {
 
         try {
             stats = msc.getAllStats();
+            FootballFormationFrame.stats = stats;
             for (Stat s : stats) {
                 joueursAvecStatistiques.add((int) s.getIdJoueurs());
                 System.out.println(s.toString());
