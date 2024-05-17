@@ -10,6 +10,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 
+import javax.sound.midi.Soundbank;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -33,12 +34,6 @@ public class AddEventFrame extends JDialog {
 
 
 
-
-
-
-
-
-    
 
 
     public AddEventFrame(JFrame fen, GridTeamEvent gte){
@@ -175,7 +170,7 @@ public class AddEventFrame extends JDialog {
                     
                     TeamEvent te = new TeamEvent(0,label ,typeEventList.getSelectedItem().toString(),startingDate,endingDate);
                     te.setId(MainInsertClient.sendRequest(te, "INSERT_EVENTS")); 
-                    gte.addCaseEvent(te);
+                    //gte.addCaseEvent(te);
                     Mastermind.addEvent(te);
                     gte.fillGrid(Mastermind.getEventsSet());
 
@@ -185,11 +180,13 @@ public class AddEventFrame extends JDialog {
                         int res = MainInsertClient.sendRequest(g, "INSERT_MATCH");
                         if (res != -1) {
                             g.setId(res);
+                            Mastermind.addGame(g);
                             FootballFormationFrame.games.add(g);
                             FootballFormationFrame.refreshMatch();
                         }
                     }
-    
+                    JOptionPane.showMessageDialog(null, "Evènement créé avec succès !", "Validation", JOptionPane.INFORMATION_MESSAGE);   
+
                     this.dispose();
                 }
 
@@ -212,11 +209,11 @@ public class AddEventFrame extends JDialog {
     public AddEventFrame(JFrame fen, GridTeamEvent gte,TeamEvent te){
         super(fen,"Modifier un évènement",true);
 
-
+    Game related_game = new Game();
     
         JPanel bodyPanel = new JPanel();
 
-        bodyPanel.setLayout(new GridLayout(4,1));
+        bodyPanel.setLayout(new GridLayout(5,1));
 
             //Label évènement
         JPanel labelFillPan = createFillAttributs("label");
@@ -231,11 +228,51 @@ public class AddEventFrame extends JDialog {
          JPanel TypeFillPan = createFillAttributs("Type");
          String [] allTypeEvent = TeamEvent.getAllTypeEvent();
          JComboBox<String> typeEventList = new JComboBox<String>(allTypeEvent);
+         typeEventList.setEnabled(false);
          typeEventList.setSelectedItem(te.getType());
          typeEventList.setPreferredSize(new Dimension(200, 25));
          TypeFillPan.add(typeEventList);
          bodyPanel.add(TypeFillPan);
-         
+        System.out.println("type d'évènement :" + te.getId());
+         if( te.getType().equals(TeamEvent.Type.GAME.type) ||te.getType().equals(TeamEvent.Type.FRIENDY_GAME.type)){
+            System.out.println(Mastermind.getGamesSet().size());
+            for (Game g :Mastermind.getGamesSet()) {
+//System.out.println("E: "+ g.getId_evenement()); 
+                // if(g.getId_evenement() == te.getId()){
+                //     related_game = g;
+                // }
+                
+            }
+            
+            
+            //Panneau informations matchs
+            JPanel MatchFillPan = createFillAttributs("Informations Match");
+                    //Adversaire
+                    JPanel opponentNameFillPan = createFillAttributs("Adversaire");
+                    JTextField opponentNameFill = new JTextField();
+                    opponentNameFill.setText(related_game.getOpponent());       
+                    opponentNameFill.setPreferredSize(new Dimension(200, 25));
+                    opponentNameFillPan.add(opponentNameFill);
+                    MatchFillPan.add(opponentNameFillPan);
+                    
+                    //Stade
+                    JPanel arenaFillPan = createFillAttributs("Stade");
+                    JTextField arenaFill = new JTextField();
+                    arenaFill.setText(related_game.getArena());        
+                    arenaFill.setPreferredSize(new Dimension(200, 25));
+                    arenaFillPan.add(arenaFill);
+                    MatchFillPan.add(arenaFillPan);
+
+                    //Competition
+                    JPanel championshipFillFillPan = createFillAttributs("Competition");
+                    JTextField championshipFill = new JTextField();
+                    championshipFill.setText(related_game.getChampionship());        
+                    championshipFill.setPreferredSize(new Dimension(200, 25));
+                    championshipFillFillPan.add(championshipFill);
+                    MatchFillPan.add(championshipFillFillPan);
+                    
+                    bodyPanel.add(MatchFillPan);
+        }
 
 
          //Date Début évènement
@@ -277,21 +314,25 @@ public class AddEventFrame extends JDialog {
 
 
                 if( label.trim().equals("")){
-                    JOptionPane.showMessageDialog(null, "Veuillez renseigner le champs \"label\" de l'évènement.", "Erreur", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Veuillez renseigner tous les champs.", "Erreur", JOptionPane.ERROR_MESSAGE);
                 }
                 else if(startingDate.compareTo(endingDate) >= 0 ){
                     JOptionPane.showMessageDialog(null, "la date de début doit être strictement antérieur à celle de fin. ", "Erreur", JOptionPane.ERROR_MESSAGE);                  
 
                 }else{
                    
-                    TeamEvent editedEvent = new TeamEvent(0,label ,typeEventList.getSelectedItem().toString(),startingDate,endingDate);
+                    TeamEvent editedEvent = new TeamEvent(te.getId(),label ,typeEventList.getSelectedItem().toString(),startingDate,endingDate);
                     HashMap<String,Object> differencies =editedEvent.getDifferencies(te);
 
                     if(!differencies.isEmpty()){
                     MainInsertClient.updateRequest(te, differencies, "UPDATE_EVENT");
-                    gte.addCaseEvent(te);
+                    Mastermind.getEventsSet().remove(te);
+                    Mastermind.getEventsSet().add(editedEvent);
+                    gte.fillGrid(Mastermind.getEventsSet());
                     JOptionPane.showMessageDialog(null, "Evènement mis à jour!", "Validation", JOptionPane.INFORMATION_MESSAGE);   
                     }
+
+
                     this.dispose();
                     
                 }

@@ -2,6 +2,7 @@ package client.frontend.v2;
 
 import java.awt.Color;
 import java.awt.GridLayout;
+import java.awt.List;
 import java.io.Serial;
 import java.util.Collections;
 import java.util.Comparator;
@@ -24,7 +25,6 @@ public class GridTeamEvent extends JPanel {
         gl = new GridLayout(1,1, 20,20);
         setLayout(gl);
         this.setBackground(Color.GRAY);
-        System.out.println(list.size());
         
         fillGrid(list);
         
@@ -42,7 +42,7 @@ public class GridTeamEvent extends JPanel {
             }
         });
         sortedSet.addAll(list);
-
+        System.out.println("AVENEMENT: "+sortedSet);
         for (TeamEvent teamEvent : sortedSet) {
             this.addCaseEvent(teamEvent);
          }
