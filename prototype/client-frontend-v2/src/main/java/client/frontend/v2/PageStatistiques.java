@@ -179,6 +179,8 @@ addStatsButton.addActionListener(new ActionListener() {
         // Récupérer les noms des joueurs sans statistiques
         String[] nomsJoueurs = getPlayerNamesWithNoStats();
 
+
+
         // Si aucun joueur sans statistiques n'est disponible, afficher un message et retourner
         if (nomsJoueurs.length == 0) {
             JOptionPane.showMessageDialog(fen, "Tous les joueurs ont déjà des statistiques.", "Information", JOptionPane.INFORMATION_MESSAGE);
@@ -212,6 +214,8 @@ addStatsButton.addActionListener(new ActionListener() {
         short note = Short.parseShort(JOptionPane.showInputDialog("Entrez la note:"));
         int minutesJouees = Integer.parseInt(JOptionPane.showInputDialog("Entrez le nombre de minutes jouées:"));
 
+
+
         // Vérification que l'utilisateur a bien sélectionné un match
         if (idMatchSelectionneGlobal == 0) {
             JOptionPane.showMessageDialog(fen, "Veuillez sélectionner un match d'abord.", "Erreur", JOptionPane.ERROR_MESSAGE);
@@ -230,9 +234,25 @@ addStatsButton.addActionListener(new ActionListener() {
         nouvelleStat.setIdMatchs((short) idMatchSelectionneGlobal);
 
         // Envoyer la requête pour insérer la nouvelle statistique
-        MainInsertClient.sendRequest(nouvelleStat, "INSERT_STATS");
-
+        //MainInsertClient.sendRequest(nouvelleStat, "INSERT_STATS");
+        HashMap<String,Object> hashMap = new HashMap<>();
+        hashMap.put("buts", nouvelleStat.getButs());
+        hashMap.put("passesdecisives", nouvelleStat.getPassesDecisives());
+        hashMap.put("cartonsjaunes", nouvelleStat.getCartonsJaunes());
+        hashMap.put("cartonsrouges", nouvelleStat.getCartonsRouges());
+        hashMap.put("notedumatch", nouvelleStat.getNoteDuMatch());
+        hashMap.put("minutesjouees", nouvelleStat.getMinutesJouees());
+        MainInsertClient.updateRequestStats(nouvelleStat, hashMap, "UPDATE_STATS");
         // Ajoute les informations saisies dans les tableaux correspondants
+        System.out.println("iefjifjeije + "+ tableauMeilleursButeurs.getSelectedRow());
+
+        removeRow(modeleButeurs, joueurSelectionne);
+        removeRow(modelePasseurs, joueurSelectionne);
+        removeRow(tablecartonsjaunes, joueurSelectionne);
+        removeRow(tablecartonsrouges, joueurSelectionne);
+        removeRow(tablenote, joueurSelectionne);
+        removeRow(tablemin, joueurSelectionne);
+
         modeleButeurs.addRow(new Object[]{joueurSelectionne, but});
         modelePasseurs.addRow(new Object[]{joueurSelectionne, passeDecisive});
         tablecartonsjaunes.addRow(new Object[]{joueurSelectionne, cartonsJaunes});
@@ -271,6 +291,19 @@ private String[] getMatchNames() {
     return nomsMatchs.toArray(new String[0]);
 }
 
+private int findRowByName(DefaultTableModel model, String name) {
+    for (int i = 0; i < model.getRowCount(); i++) {
+        if (name.equals(model.getValueAt(i, 0))) {
+            return i;  // Retourne l'index de la ligne trouvée
+        }
+    }
+    return -1;  // Retourne -1 si le nom n'est pas trouvé
+}
+
+private void removeRow(DefaultTableModel model,String name){
+    model.removeRow(findRowByName(model, name));
+}
+
 
     // Mettre à jour la liste des joueurs sans statistiques après l'ajout de nouvelles statistiques
     private void updatePlayerListWithoutStats() {
@@ -303,9 +336,8 @@ private String[] getMatchNames() {
     private String[] getPlayerNamesWithNoStats() {
         ArrayList<String> nomsJoueursSansStats = new ArrayList<>();
         for (Player joueur : playerHashMap.values()) {
-            if (!joueursAvecStatistiques.contains(joueur.getId())) {
                 nomsJoueursSansStats.add(joueur.getPrenom() + " " + joueur.getNom());
-            }
+            
         }
         return nomsJoueursSansStats.toArray(new String[0]);
     }
