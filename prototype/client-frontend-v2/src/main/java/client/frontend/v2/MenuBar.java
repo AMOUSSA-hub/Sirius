@@ -56,7 +56,7 @@ public class MenuBar extends JPanel  {
             public void actionPerformed(ActionEvent e) {
                 layout.show(container, "Matchs");
                 FootballFormationFrame.refreshPlayersAvailable();
-                FootballFormationFrame.refreshMatch();
+                //FootballFormationFrame.refreshMatch();
             }
             
         });

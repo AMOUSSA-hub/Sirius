@@ -185,8 +185,8 @@ public class AddEventFrame extends JDialog {
                         int res = MainInsertClient.sendRequest(g, "INSERT_MATCH");
                         if (res != -1) {
                             g.setId(res);
-                            FootballFormationFrame.games.add(g);
-                            FootballFormationFrame.refreshMatch();
+                            //FootballFormationFrame.games.add(g);
+                            //FootballFormationFrame.refreshMatch();
                         }
                     }
     

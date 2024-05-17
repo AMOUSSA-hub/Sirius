@@ -41,7 +41,7 @@ class FootballFormationFrame extends JPanel {
     private JFrame frame;
     private MainSelectClient msc;
     private JButton select = new JButton("Select matchs");
-    public static Set<Game> games;
+    public Set<Game> games;
     private static HashMap<Integer,Game> matchHashMap = new HashMap<>();
     public JPanel pan;
     public JPanel pane;
@@ -110,7 +110,7 @@ class FootballFormationFrame extends JPanel {
 
         refreshPlayersAvailable();
         remove(pan);
-        refreshMatch();
+        //refreshMatch();
     }
 
 
@@ -123,12 +123,6 @@ class FootballFormationFrame extends JPanel {
     
 
 
-
-    public static void refreshMatch() {
-        //pan = new JPanel(new GridLayout(games.size(),1));
-        System.out.println(games.toString());
-        //setMatchs(pan,games);
-    }
 
     public static void getPlayersAttributs() {
         for(InfosJoueurs infosJoueurs : listeInfosJoueurs) {
@@ -160,41 +154,58 @@ class FootballFormationFrame extends JPanel {
         goalkeeperPanel.add(goalkeeperButton, BorderLayout.CENTER);
         JLabel goalkeeperLabel = new JLabel("Nom");
         goalkeeperLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        goalkeeperPanel.add(goalkeeperLabel, BorderLayout.SOUTH);
+        goalkeeperPanel.add(goalkeeperLabel, BorderLayout.EAST);
         keeper.add(goalkeeperPanel);
         keeper.setBackground(new Color(34, 139, 34)); // Couleur verte pour le terrain
         fieldPanel.add(keeper);
         playerButtons.add(goalkeeperButton);
-
+   /*      try {
+            games = msc.getAllGames();
+            setMatch();
+            sortGamesByDate();
+        } catch (Exception e2) {
+            System.err.println(e2);
+        }
+        int taille = games.size();
+        System.out.println(games.toString());
+        pan = new JPanel(new GridLayout(taille,1));
+        pane = new JPanel(new GridLayout(1,taille));
+        setMatchs(pan, pane, games);
+        JScrollPane scrollPane = new JScrollPane(pan);
+        JScrollPane scrollPane2 = new JScrollPane(pane);
+        scrollPane.setPreferredSize(new Dimension(300,1000));
+        scrollPane2.setPreferredSize(new Dimension(100,250));
+        add(scrollPane,BorderLayout.EAST);
+        add(scrollPane2,BorderLayout.SOUTH); */
         // Exemple de disposition pour différentes formations
         switch (formation) {
             case "4-4-2":
                 addPlayersToField(new int[]{4, 4, 2});
-                addSubstitutePlayersToField(new int[]{7});
+                //addSubstitutePlayersToField(new int[]{7});
                 break;
             case "4-3-3":
                 addPlayersToField(new int[]{4, 3, 3});
-                addSubstitutePlayersToField(new int[]{7});
+                //addSubstitutePlayersToField(new int[]{7});
                 break;
             case "3-5-2":
                 addPlayersToField(new int[]{3, 5, 2});
-                addSubstitutePlayersToField(new int[]{7});
+                //addSubstitutePlayersToField(new int[]{7});
                 break;
             case "5-3-2":
                 addPlayersToField(new int[]{5, 3, 2});
-                addSubstitutePlayersToField(new int[]{7});
+                //addSubstitutePlayersToField(new int[]{7});
                 break;
             case "5-4-1":
                 addPlayersToField(new int[]{5, 4, 1});
-                addSubstitutePlayersToField(new int[]{7});
+                //addSubstitutePlayersToField(new int[]{7});
                 break;
             case "4-5-1":
                 addPlayersToField(new int[]{4, 5, 1});
-                addSubstitutePlayersToField(new int[]{7});
+                //addSubstitutePlayersToField(new int[]{7});
                 break;
             case "3-4-3":
                 addPlayersToField(new int[]{3, 4, 3});
-                addSubstitutePlayersToField(new int[]{7});
+                //addSubstitutePlayersToField(new int[]{7});
                 break;
         }
 
@@ -260,7 +271,6 @@ class FootballFormationFrame extends JPanel {
                             }
                         }  
                         if (buttonsTmp.size() >= 11) {
-                            
                             MainInsertClient.deleteRequest(game, "DELETE_STATS");
                             for(JButton button : buttonsTmp){
                                 List<String> liste = (List<String>)button.getClientProperty("infosJoueurs");
