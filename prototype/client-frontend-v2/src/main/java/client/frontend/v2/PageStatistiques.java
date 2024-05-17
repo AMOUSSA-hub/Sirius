@@ -173,6 +173,7 @@ selectMatchButton.addActionListener(new ActionListener() {
 
 
         // ActionListener pour le bouton "Ajouter des statistiques"
+// ActionListener pour le bouton "Ajouter des statistiques"
 addStatsButton.addActionListener(new ActionListener() {
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -183,7 +184,7 @@ addStatsButton.addActionListener(new ActionListener() {
 
         // Si aucun joueur sans statistiques n'est disponible, afficher un message et retourner
         if (nomsJoueurs.length == 0) {
-            JOptionPane.showMessageDialog(fen, "Tous les joueurs ont déjà des statistiques.", "Information", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(fen, "Tous les joueurs ont déjà des statistiques pour ce match.", "Information", JOptionPane.INFORMATION_MESSAGE);
             return;
         }
 
@@ -207,6 +208,7 @@ addStatsButton.addActionListener(new ActionListener() {
         }
 
         // Demande des informations à l'utilisateur via des dialogues de saisie
+        
         short but = Short.parseShort(JOptionPane.showInputDialog("Entrez le nombre de buts:"));
         short passeDecisive = Short.parseShort(JOptionPane.showInputDialog("Entrez le nombre de passes décisives:"));
         short cartonsJaunes = Short.parseShort(JOptionPane.showInputDialog("Entrez le nombre de cartons jaunes:"));
@@ -221,6 +223,7 @@ addStatsButton.addActionListener(new ActionListener() {
             JOptionPane.showMessageDialog(fen, "Veuillez sélectionner un match d'abord.", "Erreur", JOptionPane.ERROR_MESSAGE);
             return;
         }
+        
 
         // Création de l'objet Stat avec les valeurs saisies
         Stat nouvelleStat = new Stat();
@@ -404,5 +407,22 @@ private void removeRow(DefaultTableModel model,String name){
         Player player = playerHashMap.get(id_joueur);
         return (player.getPrenom() + " " + player.getNom());
     }
+    // Méthode pour obtenir les noms des joueurs sans statistiques pour le match sélectionné
+private String[] getPlayerNamesWithNoStatsForMatch(int matchId) {
+    ArrayList<String> nomsJoueursSansStats = new ArrayList<>();
+    Set<Stat> statsForMatch = filterStatsByMatchId(stats, matchId);
+
+    HashSet<Integer> joueursAvecStatsPourMatch = new HashSet<>();
+    for (Stat stat : statsForMatch) {
+        joueursAvecStatsPourMatch.add((int) stat.getIdJoueurs());
+    }
+
+    for (Player joueur : playerHashMap.values()) {
+        if (!joueursAvecStatsPourMatch.contains(joueur.getId())) {
+            nomsJoueursSansStats.add(joueur.getPrenom() + " " + joueur.getNom());
+        }
+    }
+    return nomsJoueursSansStats.toArray(new String[0]);
+}
     
 }
