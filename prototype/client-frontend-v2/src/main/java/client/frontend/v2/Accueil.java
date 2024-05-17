@@ -31,27 +31,21 @@ public class Accueil extends JPanel {
         timeLabel.setFont(new Font("Arial", Font.BOLD, 36));
 
         // Création du label pour afficher le message personnalisé
-        messageLabel = new JLabel("Moissy FC", SwingConstants.CENTER);
+        messageLabel = new JLabel("Bienvenue au Moissy FC", SwingConstants.CENTER);
         messageLabel.setFont(new Font("Arial", Font.PLAIN, 18));
-
-        // Création du JLabel avec le texte "TEST"
-        JLabel testLabel = new JLabel("TEST");
-        testLabel.setFont(new Font("Arial", Font.BOLD, 18));
 
         // Panel pour afficher l'image avec une bordure
         JPanel imagePanel = new JPanel(new BorderLayout());
-        //imagePanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Ajout d'une bordure
         imagePanel.add(new JLabel(new ImageIcon(logoImage)), BorderLayout.CENTER);
-        imagePanel.add(timeLabel,BorderLayout.SOUTH);
-        // Panel pour afficher le texte "TEST" à gauche de l'image
-        JPanel leftPanel = new JPanel(new BorderLayout());
-        leftPanel.add(testLabel, BorderLayout.NORTH);
-        //leftPanel.add(imagePanel, BorderLayout.CENTER);
+        imagePanel.add(timeLabel, BorderLayout.SOUTH);
 
-        // Ajout des composants au JPanel principal
-        add(leftPanel, BorderLayout.WEST);
-        add(imagePanel, BorderLayout.CENTER);
-        add(messageLabel, BorderLayout.SOUTH);
+        // Panel pour afficher le message et l'heure
+        JPanel centerPanel = new JPanel(new BorderLayout());
+        centerPanel.add(imagePanel, BorderLayout.CENTER);
+        centerPanel.add(messageLabel, BorderLayout.SOUTH);
+
+        // Ajout du panel central à la fenêtre
+        add(centerPanel, BorderLayout.CENTER);
 
         // Mise à jour de l'heure initiale
         updateTime();
@@ -59,6 +53,7 @@ public class Accueil extends JPanel {
         // Planification de la mise à jour de l'heure toutes les secondes
         Timer timer = new Timer(1000, e -> updateTime());
         timer.start();
+
         frame.add(this);
     }
 

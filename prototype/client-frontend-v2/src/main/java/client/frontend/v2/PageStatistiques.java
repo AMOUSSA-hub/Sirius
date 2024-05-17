@@ -23,14 +23,17 @@ public class PageStatistiques extends JPanel {
     private HashMap<Integer, Player> playerHashMap;
     private HashMap<Integer, Game> matchHashMap;
     private PageStatistiquesEquipe pageStatistiquesEquipe;
-    private Set<Stat> stats;
+    public static Set<Stat> stats;
     private HashSet<Integer> joueursAvecStatistiques;
+    private int idMatchSelectionneGlobal; // Variable d'instance pour stocker l'ID du match sélectionné
 
     public PageStatistiques(MainSelectClient msc, JFrame fen) {
         stats = null;
         playerHashMap = Effectif.getPlayerNameHashMap();
-        matchHashMap = FootballFormationFrame.getMatchHashMap(); // la clé c'est l id du match et la valeur associé c le match de type Game
+        matchHashMap = FootballFormationFrame.getMatchHashMap(); // la clé c'est l id du match et la valeur associé c'est le match de type Game
+        System.out.println("blallaalalallalalalallalaaaaaaaaaaaa " + matchHashMap.toString());
         joueursAvecStatistiques = new HashSet<>();
+        idMatchSelectionneGlobal = 0; // Initialisation de l'ID du match sélectionné à 0
 
         try {
             stats = msc.getAllStats();
@@ -115,95 +118,158 @@ public class PageStatistiques extends JPanel {
             }
         });
 
+        // Ajout du bouton pour sélectionner un match
+        Bouton selectMatchButton = new Bouton("Sélectionner un match");
+        panel.add(selectMatchButton, BorderLayout.WEST);
+
         // Ajout du bouton pour ajouter des statistiques
         Bouton addStatsButton = new Bouton("Ajouter des statistiques");
         panel.add(addStatsButton, BorderLayout.NORTH);
 
-        // ActionListener pour le bouton "Ajouter des statistiques"
-        addStatsButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // Récupérer les noms des joueurs sans statistiques
-                String[] nomsJoueurs = getPlayerNamesWithNoStats();
+        // ActionListener pour le bouton "Sélectionner un match"
+        // ActionListener pour le bouton "Sélectionner un match"
+// ActionListener pour le bouton "Sélectionner un match"
+selectMatchButton.addActionListener(new ActionListener() {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        // Récupérer les noms des matchs disponibles
+        String[] nomsMatchs = getMatchNames();
 
-                // Si aucun joueur sans statistiques n'est disponible, afficher un message et retourner
-                if (nomsJoueurs.length == 0) {
-                    JOptionPane.showMessageDialog(fen, "Tous les joueurs ont déjà des statistiques.", "Information", JOptionPane.INFORMATION_MESSAGE);
-                    return;
-                }
+        // Affichage de la boîte de dialogue de sélection du match
+        String matchSelectionne = (String) JOptionPane.showInputDialog(
+                fen, "Sélectionnez le match :", "Sélection du match",
+                JOptionPane.QUESTION_MESSAGE, null, nomsMatchs, nomsMatchs[0]);
 
-                // Affichage de la boîte de dialogue de sélection du joueur
-                String joueurSelectionne = (String) JOptionPane.showInputDialog(
-                        fen, "Sélectionnez le joueur :", "Sélection du joueur",
-                        JOptionPane.QUESTION_MESSAGE, null, nomsJoueurs, nomsJoueurs[0]);
+        // Si aucun match n'est sélectionné, ne rien faire
+        if (matchSelectionne == null) {
+            return;
+        }
 
-                // Si aucun joueur n'est sélectionné, ne rien faire
-                if (joueurSelectionne == null) {
-                    return;
-                }
-
-                // Récupération de l'ID du joueur sélectionné
-                int idJoueurSelectionne = 0;
-                int idMatchSelectionne = 1;
-                for (Player joueur : playerHashMap.values()) {
-                    if ((joueur.getPrenom() + " " + joueur.getNom()).equals(joueurSelectionne)) {
-                        idJoueurSelectionne = joueur.getId();
-                        break;
-                    }
-                }
-
-                // Demande des informations à l'utilisateur via des dialogues de saisie
-                short but = Short.parseShort(JOptionPane.showInputDialog("Entrez le nombre de buts:"));
-                short passeDecisive = Short.parseShort(JOptionPane.showInputDialog("Entrez le nombre de passes décisives:"));
-                short cartonsJaunes = Short.parseShort(JOptionPane.showInputDialog("Entrez le nombre de cartons jaunes:"));
-                short cartonsRouges = Short.parseShort(JOptionPane.showInputDialog("Entrez le nombre de cartons rouges:"));
-                short note = Short.parseShort(JOptionPane.showInputDialog("Entrez la note:"));
-                int minutesJouees = Integer.parseInt(JOptionPane.showInputDialog("Entrez le nombre de minutes jouées:"));
-
-                // Création de l'objet Stat avec les valeurs saisies
-                Stat nouvelleStat = new Stat();
-                nouvelleStat.setIdJoueurs((short) idJoueurSelectionne);
-                nouvelleStat.setButs(but);
-                nouvelleStat.setPassesDecisives(passeDecisive);
-                nouvelleStat.setCartonsJaunes(cartonsJaunes);
-                nouvelleStat.setCartonsRouges(cartonsRouges);
-                nouvelleStat.setNoteDuMatch(note);
-                nouvelleStat.setMinutesJouees((short) minutesJouees);
-                nouvelleStat.setIdMatchs((short) idMatchSelectionne);
-
-                // Envoyer la requête pour insérer la nouvelle statistique
-                MainInsertClient.sendRequest(nouvelleStat, "INSERT_STATS");
-
-                // Ajoute les informations saisies dans les tableaux correspondants
-                modeleButeurs.addRow(new Object[]{joueurSelectionne, but});
-                modelePasseurs.addRow(new Object[]{joueurSelectionne, passeDecisive});
-                tablecartonsjaunes.addRow(new Object[]{joueurSelectionne, cartonsJaunes});
-                tablecartonsrouges.addRow(new Object[]{joueurSelectionne, cartonsRouges});
-                tablenote.addRow(new Object[]{joueurSelectionne, note});
-                tablemin.addRow(new Object[]{joueurSelectionne, minutesJouees});
-
-                // Ajouter l'ID du joueur aux joueurs avec des statistiques
-                joueursAvecStatistiques.add(idJoueurSelectionne);
-
-                // Mettre à jour la liste des joueurs sans statistiques
-                updatePlayerListWithoutStats();
+        // Récupération de l'ID du match sélectionné
+        int idMatchSelectionne = 0;
+        for (Game match : matchHashMap.values()) {
+            if (match.getOpponent().equals(matchSelectionne)) {
+                idMatchSelectionne = match.getId_Match();
+                break;
             }
-        });
+        }
+
+        // Enregistrer l'ID du match sélectionné dans une variable d'instance
+        idMatchSelectionneGlobal = idMatchSelectionne;
+
+        // Afficher un message de confirmation
+        JOptionPane.showMessageDialog(fen, "Match sélectionné : " + matchSelectionne, "Information", JOptionPane.INFORMATION_MESSAGE);
+
+        // Mettre à jour les statistiques en fonction du match sélectionné
+        Buteurs(stats,idMatchSelectionne);
+        Passeurs(stats, idMatchSelectionne);
+        Cartonsjaunes(stats, idMatchSelectionne);
+        CartonsRouges(stats, idMatchSelectionne);
+        Notedumatch(stats, idMatchSelectionne);
+        Minutesjouees(stats, idMatchSelectionne);
+    }
+});
+
+
+        // ActionListener pour le bouton "Ajouter des statistiques"
+addStatsButton.addActionListener(new ActionListener() {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        // Récupérer les noms des joueurs sans statistiques
+        String[] nomsJoueurs = getPlayerNamesWithNoStats();
+
+        // Si aucun joueur sans statistiques n'est disponible, afficher un message et retourner
+        if (nomsJoueurs.length == 0) {
+            JOptionPane.showMessageDialog(fen, "Tous les joueurs ont déjà des statistiques.", "Information", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+
+        // Affichage de la boîte de dialogue de sélection du joueur
+        String joueurSelectionne = (String) JOptionPane.showInputDialog(
+                fen, "Sélectionnez le joueur :", "Sélection du joueur",
+                JOptionPane.QUESTION_MESSAGE, null, nomsJoueurs, nomsJoueurs[0]);
+
+        // Si aucun joueur n'est sélectionné, ne rien faire
+        if (joueurSelectionne == null) {
+            return;
+        }
+
+        // Récupération de l'ID du joueur sélectionné
+        int idJoueurSelectionne = 0;
+        for (Player joueur : playerHashMap.values()) {
+            if ((joueur.getPrenom() + " " + joueur.getNom()).equals(joueurSelectionne)) {
+                idJoueurSelectionne = joueur.getId();
+                break;
+            }
+        }
+
+        // Demande des informations à l'utilisateur via des dialogues de saisie
+        short but = Short.parseShort(JOptionPane.showInputDialog("Entrez le nombre de buts:"));
+        short passeDecisive = Short.parseShort(JOptionPane.showInputDialog("Entrez le nombre de passes décisives:"));
+        short cartonsJaunes = Short.parseShort(JOptionPane.showInputDialog("Entrez le nombre de cartons jaunes:"));
+        short cartonsRouges = Short.parseShort(JOptionPane.showInputDialog("Entrez le nombre de cartons rouges:"));
+        short note = Short.parseShort(JOptionPane.showInputDialog("Entrez la note:"));
+        int minutesJouees = Integer.parseInt(JOptionPane.showInputDialog("Entrez le nombre de minutes jouées:"));
+
+        // Vérification que l'utilisateur a bien sélectionné un match
+        if (idMatchSelectionneGlobal == 0) {
+            JOptionPane.showMessageDialog(fen, "Veuillez sélectionner un match d'abord.", "Erreur", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Création de l'objet Stat avec les valeurs saisies
+        Stat nouvelleStat = new Stat();
+        nouvelleStat.setIdJoueurs((short) idJoueurSelectionne);
+        nouvelleStat.setButs(but);
+        nouvelleStat.setPassesDecisives(passeDecisive);
+        nouvelleStat.setCartonsJaunes(cartonsJaunes);
+        nouvelleStat.setCartonsRouges(cartonsRouges);
+        nouvelleStat.setNoteDuMatch(note);
+        nouvelleStat.setMinutesJouees((short) minutesJouees);
+        nouvelleStat.setIdMatchs((short) idMatchSelectionneGlobal);
+
+        // Envoyer la requête pour insérer la nouvelle statistique
+        MainInsertClient.sendRequest(nouvelleStat, "INSERT_STATS");
+
+        // Ajoute les informations saisies dans les tableaux correspondants
+        modeleButeurs.addRow(new Object[]{joueurSelectionne, but});
+        modelePasseurs.addRow(new Object[]{joueurSelectionne, passeDecisive});
+        tablecartonsjaunes.addRow(new Object[]{joueurSelectionne, cartonsJaunes});
+        tablecartonsrouges.addRow(new Object[]{joueurSelectionne, cartonsRouges});
+        tablenote.addRow(new Object[]{joueurSelectionne, note});
+        tablemin.addRow(new Object[]{joueurSelectionne, minutesJouees});
+
+        // Ajouter l'ID du joueur aux joueurs avec des statistiques
+        joueursAvecStatistiques.add(idJoueurSelectionne);
+
+        // Mettre à jour la liste des joueurs sans statistiques
+        updatePlayerListWithoutStats();
+    }
+});
 
         panel.add(onglets);
 
-        Buteurs(stats);
-        Passeurs(stats);
-        Cartonsjaunes(stats);
-        CartonsRouges(stats);
-        Notedumatch(stats);
-        Minutesjouees(stats);
+        Buteurs(stats, idMatchSelectionneGlobal);
+        Passeurs(stats,idMatchSelectionneGlobal);
+        Cartonsjaunes(stats,idMatchSelectionneGlobal);
+        CartonsRouges(stats,idMatchSelectionneGlobal);
+        Notedumatch(stats,idMatchSelectionneGlobal);
+        Minutesjouees(stats,idMatchSelectionneGlobal);
 
         this.setLayout(new GridLayout(1, 1));
         add(panel);
 
         setVisible(true);
     }
+// Méthode pour obtenir les noms de tous les matchs
+private String[] getMatchNames() {
+    ArrayList<String> nomsMatchs = new ArrayList<>();
+    for (Game match : matchHashMap.values()) {
+        nomsMatchs.add(match.getOpponent());
+    }
+    return nomsMatchs.toArray(new String[0]);
+}
+
 
     // Mettre à jour la liste des joueurs sans statistiques après l'ajout de nouvelles statistiques
     private void updatePlayerListWithoutStats() {
@@ -242,51 +308,68 @@ public class PageStatistiques extends JPanel {
         }
         return nomsJoueursSansStats.toArray(new String[0]);
     }
-
-    private void Buteurs(Set<Stat> stats) {
-        modeleButeurs.setRowCount(0);
+    private Set<Stat> filterStatsByMatchId(Set<Stat> stats, int matchId) {
+        Set<Stat> filteredStats = new HashSet<>();
         for (Stat stat : stats) {
+            if (stat.getIdMatchs() == matchId) {
+                filteredStats.add(stat);
+            }
+        }
+        return filteredStats;
+    }
+
+    private void Buteurs(Set<Stat> stats, int matchId) {
+        modeleButeurs.setRowCount(0);
+        Set<Stat> filteredStats = filterStatsByMatchId(stats, matchId);
+        for (Stat stat : filteredStats) {
             modeleButeurs.addRow(new Object[]{getNamesPlayer(stat.getIdJoueurs()), stat.getButs()});
         }
     }
-
-    private void Passeurs(Set<Stat> stats) {
+    
+    private void Passeurs(Set<Stat> stats, int matchId) {
         modelePasseurs.setRowCount(0);
-        for (Stat stat : stats) {
+        Set<Stat> filteredStats = filterStatsByMatchId(stats, matchId);
+        for (Stat stat : filteredStats) {
             modelePasseurs.addRow(new Object[]{getNamesPlayer(stat.getIdJoueurs()), stat.getPassesDecisives()});
         }
     }
-
-    private void Cartonsjaunes(Set<Stat> stats) {
+    
+    private void Cartonsjaunes(Set<Stat> stats, int matchId) {
         tablecartonsjaunes.setRowCount(0);
-        for (Stat stat : stats) {
+        Set<Stat> filteredStats = filterStatsByMatchId(stats, matchId);
+        for (Stat stat : filteredStats) {
             tablecartonsjaunes.addRow(new Object[]{getNamesPlayer(stat.getIdJoueurs()), stat.getCartonsJaunes()});
         }
     }
-
-    private void CartonsRouges(Set<Stat> stats) {
+    
+    private void CartonsRouges(Set<Stat> stats, int matchId) {
         tablecartonsrouges.setRowCount(0);
-        for (Stat stat : stats) {
+        Set<Stat> filteredStats = filterStatsByMatchId(stats, matchId);
+        for (Stat stat : filteredStats) {
             tablecartonsrouges.addRow(new Object[]{getNamesPlayer(stat.getIdJoueurs()), stat.getCartonsRouges()});
         }
     }
-
-    private void Notedumatch(Set<Stat> stats) {
+    
+    private void Notedumatch(Set<Stat> stats, int matchId) {
         tablenote.setRowCount(0);
-        for (Stat stat : stats) {
+        Set<Stat> filteredStats = filterStatsByMatchId(stats, matchId);
+        for (Stat stat : filteredStats) {
             tablenote.addRow(new Object[]{getNamesPlayer(stat.getIdJoueurs()), stat.getNoteDuMatch()});
         }
     }
-
-    private void Minutesjouees(Set<Stat> stats) {
+    
+    private void Minutesjouees(Set<Stat> stats, int matchId) {
         tablemin.setRowCount(0);
-        for (Stat stat : stats) {
+        Set<Stat> filteredStats = filterStatsByMatchId(stats, matchId);
+        for (Stat stat : filteredStats) {
             tablemin.addRow(new Object[]{getNamesPlayer(stat.getIdJoueurs()), stat.getMinutesJouees()});
         }
     }
+    
 
     private String getNamesPlayer(int id_joueur) {
         Player player = playerHashMap.get(id_joueur);
         return (player.getPrenom() + " " + player.getNom());
     }
+    
 }
