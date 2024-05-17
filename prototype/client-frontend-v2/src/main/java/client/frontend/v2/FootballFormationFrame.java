@@ -55,7 +55,7 @@ class FootballFormationFrame extends JPanel {
         this.msc = msc;
         playerHashMap = Effectif.playerNameHashMap;
         try {
-            games = msc.getAllGames();
+            games = Mastermind.getGamesSet();
             setMatch();
             sortGamesByDate();
         } catch (Exception e2) {

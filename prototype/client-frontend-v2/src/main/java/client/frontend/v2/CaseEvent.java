@@ -69,6 +69,7 @@ public class CaseEvent  extends JPanel {
            System.out.println( "Evenement: "+event.getLabel()+" id: "+event.getId()+" supprime");
 
            if(MainInsertClient.deleteRequest(event, "DELETE_EVENT") == 1){
+            Mastermind.removeEvent(event);
                 ((GridTeamEvent)this.getParent()).removeCaseEvent(this);
            }
 

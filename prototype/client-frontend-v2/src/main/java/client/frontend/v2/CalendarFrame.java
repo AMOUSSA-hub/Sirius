@@ -42,7 +42,7 @@ public class CalendarFrame extends JPanel {
     JButton refreshBUttonEvent = new JButton("récupérer les évènements");
 
     try{
-        this.events = msc.getAllEvents();   
+        this.events = Mastermind.getEventsSet();   
     }catch(Exception ex){
         System.err.println(ex);
     }
