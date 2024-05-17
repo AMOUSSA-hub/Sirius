@@ -1,0 +1,1 @@
+cd C:\Users\amous\OneDrive\Documents\ING1\Doc Sirius\Sirius\prototype && mvn install && cd C:\Users\amous\OneDrive\Documents\ING1\Doc Sirius\Sirius\prototype\client-frontend-v2 && mvn install exec:java
