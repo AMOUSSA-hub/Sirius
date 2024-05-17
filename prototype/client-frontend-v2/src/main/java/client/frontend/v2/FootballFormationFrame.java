@@ -1,5 +1,7 @@
 package client.frontend.v2;
 
+import java.util.Comparator;
+import java.util.Date;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -8,17 +10,25 @@ import javax.swing.border.EmptyBorder;
 import com.fasterxml.jackson.databind.deser.DataFormatReaders.Match;
 
 import edu.ezip.ing1.pds.business.dto.Game;
+import edu.ezip.ing1.pds.business.dto.Player;
+import edu.ezip.ing1.pds.business.dto.Stat;
+import edu.ezip.ing1.pds.client.MainInsertClient;
 import edu.ezip.ing1.pds.client.MainSelectClient;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 
 
 class FootballFormationFrame extends JPanel {
@@ -34,16 +44,20 @@ class FootballFormationFrame extends JPanel {
     public static Set<Game> games;
     private static HashMap<Integer,Game> matchHashMap = new HashMap<>();
     public JPanel pan;
-
-
-
+    public JPanel pane;
+    public static Set<Stat> stats;
+    private HashMap<Integer, Player> playerHashMap;
+    LocalDateTime localDateTime = LocalDateTime.now();
+    List<JButton> buttonsPlayers = new ArrayList<>();
     public FootballFormationFrame(JFrame frame,MainSelectClient msc) {
         // Crée les composants
         this.frame = frame;
         this.msc = msc;
+        playerHashMap = Effectif.playerNameHashMap;
         try {
             games = Mastermind.getGamesSet();
             setMatch();
+            sortGamesByDate();
         } catch (Exception e2) {
             System.err.println(e2);
         }
@@ -66,24 +80,26 @@ class FootballFormationFrame extends JPanel {
         add(fieldPanel, BorderLayout.CENTER);
         add(new JScrollPane(formationTextArea), BorderLayout.SOUTH);
         int taille = games.size();
-        pan = new JPanel(new GridLayout(taille,1));        
+        pan = new JPanel(new GridLayout(taille,1));
+        pane = new JPanel(new GridLayout(1,taille));
         //pan.add(select);
-        setMatchs(pan,games);
+        setMatchs(pan,pane,games);
         select.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                
             }
             
         });
         JScrollPane scrollPane = new JScrollPane(pan);
-        scrollPane.setPreferredSize(new Dimension(300, 1000));
+        JScrollPane scrollPane2 = new JScrollPane(pane);
+        scrollPane.setPreferredSize(new Dimension(300,1000));
+        scrollPane2.setPreferredSize(new Dimension(100,250));
         add(scrollPane,BorderLayout.EAST);
+        add(scrollPane2,BorderLayout.SOUTH);
         availablePlayers = new ArrayList<>();
-        // Ajoutez les joueurs initiaux ici
-
-        // Ajoutez d'autres joueurs de la même manière...
+    
 
         // Affiche la formation par défaut
         updateFormation("4-3-3");
@@ -91,10 +107,22 @@ class FootballFormationFrame extends JPanel {
         List<String> positions = Arrays.asList("DG", "DC", "DC", "DD", "MC", "MC", "MC", "AG", "BU", "AD");
         //String[] positionsArray = positions.toArray(new String[positions.size()]);
         //toCompo(positionsArray);
+
         refreshPlayersAvailable();
         remove(pan);
         refreshMatch();
     }
+
+
+
+    private void sortGamesByDate() {
+        List<Game> gameList = new ArrayList<>(games);
+        Collections.sort(gameList, new GameDateComparator());
+        games = new LinkedHashSet<>(gameList); // Si vous avez besoin de réassigner à 'games' en tant que Set
+    }
+    
+
+
 
     public static void refreshMatch() {
         //pan = new JPanel(new GridLayout(games.size(),1));
@@ -108,6 +136,7 @@ class FootballFormationFrame extends JPanel {
             tmp.add(infosJoueurs.getNom());
             tmp.add(infosJoueurs.getPrenom());
             tmp.add(String.valueOf(infosJoueurs.getNumero()));
+            tmp.add(String.valueOf(infosJoueurs.getId()));
             availablePlayers.add(tmp);
             
         }
@@ -120,12 +149,13 @@ class FootballFormationFrame extends JPanel {
 
     private void updateFormation(String formation) {
         fieldPanel.removeAll();
-
+        buttonsPlayers = new ArrayList<>();
         // Ajoute le gardien
         JPanel keeper = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
         JPanel goalkeeperPanel = new JPanel(new BorderLayout());
         goalkeeperPanel.setOpaque(false);
         JButton goalkeeperButton = createPlayerButton("Gardien","G");
+        buttonsPlayers.add(goalkeeperButton);
         goalkeeperButton.setBackground(Color.YELLOW);
         goalkeeperPanel.add(goalkeeperButton, BorderLayout.CENTER);
         JLabel goalkeeperLabel = new JLabel("Nom");
@@ -174,19 +204,83 @@ class FootballFormationFrame extends JPanel {
         formationTextArea.setText("Formation sélectionnée : " + formation);
     }
 
-    private static void setMatchs(JPanel allMatch, Set<Game> games){
+    private void setMatchs(JPanel allMatchFuture,JPanel allMatchPast, Set<Game> games){
         JPanel oneMatch;
         for (Game game : games) {
+            JButton button = new JButton("Voir formation");
             oneMatch = new JPanel(new BorderLayout());
             oneMatch.setPreferredSize(new Dimension(280, 150));
             oneMatch.setBorder(BorderFactory.createLineBorder(Color.RED,3));
             JLabel opponent = new JLabel(game.getOpponent());
             opponent.setHorizontalAlignment(SwingConstants.CENTER);
             oneMatch.add(opponent,BorderLayout.NORTH);
+            oneMatch.add(button,BorderLayout.SOUTH);
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
             String formattedDate = sdf.format(game.getMatchDay());
             oneMatch.add(new JLabel(formattedDate),BorderLayout.WEST);
-            allMatch.add(oneMatch);
+            ZonedDateTime zonedDateTime = localDateTime.atZone(ZoneId.systemDefault());
+            Date date = Date.from(zonedDateTime.toInstant());
+            if(game.getMatchDay().before(date)){
+                button.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        JDialog dialog = new JDialog(frame, "Sélectionner un joueur", true);
+                        dialog.setLayout(new BorderLayout());
+                        dialog.setSize(400, 300);
+                        DefaultListModel<String> playerListModel = new DefaultListModel<>();
+                        for (Stat stat : stats) {
+                            if (stat.getIdMatchs() == game.getId_Match()) {
+                                Player p = playerHashMap.get(stat.getIdJoueurs());
+                                playerListModel.addElement(p.getPrenom() + " " + p.getNom() + " #" + p.getNumero());
+                            }
+                        }
+                        JList<String> playerList = new JList<>(playerListModel);
+                        playerList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+                        // Ajouter un bouton pour sélectionner le joueur
+                        //JButton selectButton = new JButton("Sélectionner");
+                        dialog.add(new JScrollPane(playerList), BorderLayout.CENTER);
+                        //dialog.add(selectButton, BorderLayout.SOUTH);
+                        dialog.setLocationRelativeTo(null);
+                        dialog.setVisible(true);
+                    }
+                    });
+                allMatchPast.add(oneMatch);
+            }
+            else {
+                button.setText("Soumettre la compo");
+                button.addActionListener(new ActionListener() {
+                
+					@Override
+					public void actionPerformed(ActionEvent e) {
+                        int i = 0;
+                        List<JButton> buttonsTmp = new ArrayList<>();
+                        for(JButton button : buttonsPlayers){
+                            if (!((List<String>)button.getClientProperty("infosJoueurs")).isEmpty()) {
+                                buttonsTmp.add(button);
+                            }
+                        }  
+                        if (buttonsTmp.size() >= 11) {
+                            
+                            MainInsertClient.deleteRequest(game, "DELETE_STATS");
+                            for(JButton button : buttonsTmp){
+                                List<String> liste = (List<String>)button.getClientProperty("infosJoueurs");
+                                Stat stat = new Stat();
+                                stat.setIdJoueurs(Integer.parseInt(liste.get(3)));
+                                stat.setIdMatchs(game.getId_Match());
+                                i += MainInsertClient.sendRequest(stat, "INSERT_STATS");
+                          }
+                        }else{JOptionPane.showMessageDialog(null,"Pas assez de joueur !");}
+                        if (i == buttonsTmp.size() && i!=0) {
+                            JOptionPane.showMessageDialog(null,"Votre compo a ete enregistrée !");
+                        }else{
+                            JOptionPane.showMessageDialog(null, "Une erreur est survenue !");
+                        }
+					}
+                    
+                });
+                allMatchFuture.add(oneMatch);
+            }
+
         }
     }
 
@@ -275,12 +369,13 @@ class FootballFormationFrame extends JPanel {
         for (int i = 0; i < lines.length; i++) {
             JPanel linePanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 10));
             linePanel.setOpaque(false); // Rendre le panneau transparent
-    
+            
             for (int j = 0; j < lines[i]; j++) {
                 JPanel playerPanel = new JPanel();
                 playerPanel.setOpaque(false);
                 String poste = determinePoste(i, j,lines[i]); // Déterminez le poste du joueur
                 JButton playerButton = createPlayerButton("Joueur", poste);
+                buttonsPlayers.add(playerButton);
                 System.out.println(poste);
                 //playerButton.setPreferredSize(new Dimension(100, 100)); // Taille fixe pour le bouton
                 playerPanel.add(playerButton, BorderLayout.CENTER);
@@ -336,6 +431,7 @@ class FootballFormationFrame extends JPanel {
         List<String> tmp = new ArrayList<>(); 
         button.putClientProperty("poste", poste);
         button.putClientProperty("infosJoueurs", tmp);
+        button.putClientProperty("id_joueurs", -1);
         return button;
     }
 
@@ -460,3 +556,7 @@ class RoundButton extends JButton {
     }
 
 }
+
+
+
+
