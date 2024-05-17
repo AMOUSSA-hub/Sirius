@@ -31,6 +31,7 @@ public class HomeFrame extends JFrame {
 
     public HomeFrame(){
         MainSelectClient msc = new MainSelectClient();
+        Mastermind.updateData(msc);
         CalendarFrame calendarFrame = new CalendarFrame(msc,this);
         //PageStatistiques pageStatistiques = 
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
