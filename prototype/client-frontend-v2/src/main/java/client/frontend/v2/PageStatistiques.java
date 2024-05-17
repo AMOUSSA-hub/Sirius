@@ -123,11 +123,9 @@ public class PageStatistiques extends JPanel {
         panel.add(selectMatchButton, BorderLayout.WEST);
 
         // Ajout du bouton pour ajouter des statistiques
-        Bouton addStatsButton = new Bouton("Ajouter des statistiques");
+        Bouton addStatsButton = new Bouton("Modification des statistiques");
         panel.add(addStatsButton, BorderLayout.NORTH);
 
-        // ActionListener pour le bouton "Sélectionner un match"
-        // ActionListener pour le bouton "Sélectionner un match"
 // ActionListener pour le bouton "Sélectionner un match"
 selectMatchButton.addActionListener(new ActionListener() {
     @Override
@@ -179,8 +177,6 @@ addStatsButton.addActionListener(new ActionListener() {
         // Récupérer les noms des joueurs sans statistiques
         String[] nomsJoueurs = getPlayerNamesWithNoStats();
 
-
-
         // Si aucun joueur sans statistiques n'est disponible, afficher un message et retourner
         if (nomsJoueurs.length == 0) {
             JOptionPane.showMessageDialog(fen, "Tous les joueurs ont déjà des statistiques pour ce match.", "Information", JOptionPane.INFORMATION_MESSAGE);
@@ -207,7 +203,6 @@ addStatsButton.addActionListener(new ActionListener() {
         }
 
         // Demande des informations à l'utilisateur via des dialogues de saisie
-        
         short but = Short.parseShort(JOptionPane.showInputDialog("Entrez le nombre de buts:"));
         short passeDecisive = Short.parseShort(JOptionPane.showInputDialog("Entrez le nombre de passes décisives:"));
         short cartonsJaunes = Short.parseShort(JOptionPane.showInputDialog("Entrez le nombre de cartons jaunes:"));
@@ -215,14 +210,37 @@ addStatsButton.addActionListener(new ActionListener() {
         short note = Short.parseShort(JOptionPane.showInputDialog("Entrez la note:"));
         int minutesJouees = Integer.parseInt(JOptionPane.showInputDialog("Entrez le nombre de minutes jouées:"));
 
-
+        // Vérification des valeurs saisies
+        if (but < 0 || but > 10) {
+            JOptionPane.showMessageDialog(fen, "Le nombre de buts doit être compris entre 0 et 10.", "Erreur", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        if (passeDecisive < 0 || passeDecisive > 10) {
+            JOptionPane.showMessageDialog(fen, "Le nombre de passes décisives doit être compris entre 0 et 10.", "Erreur", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        if (cartonsJaunes < 0 || cartonsJaunes > 3) {
+            JOptionPane.showMessageDialog(fen, "Le nombre de cartons jaunes doit être compris entre 0 et 3.", "Erreur", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        if (cartonsRouges < 0 || cartonsRouges > 1) {
+            JOptionPane.showMessageDialog(fen, "Le nombre de cartons rouges doit être compris entre 0 et 1.", "Erreur", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        if (note < 0 || note > 10) {
+            JOptionPane.showMessageDialog(fen, "La note doit être comprise entre 0 et 10.", "Erreur", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        if (minutesJouees < 0 || minutesJouees > 120) {
+            JOptionPane.showMessageDialog(fen, "Le nombre de minutes jouées doit être compris entre 0 et 120.", "Erreur", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
 
         // Vérification que l'utilisateur a bien sélectionné un match
         if (idMatchSelectionneGlobal == 0) {
             JOptionPane.showMessageDialog(fen, "Veuillez sélectionner un match d'abord.", "Erreur", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        
 
         // Création de l'objet Stat avec les valeurs saisies
         Stat nouvelleStat = new Stat();
@@ -236,8 +254,7 @@ addStatsButton.addActionListener(new ActionListener() {
         nouvelleStat.setIdMatchs((short) idMatchSelectionneGlobal);
 
         // Envoyer la requête pour insérer la nouvelle statistique
-        //MainInsertClient.sendRequest(nouvelleStat, "INSERT_STATS");
-        HashMap<String,Object> hashMap = new HashMap<>();
+        HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("buts", nouvelleStat.getButs());
         hashMap.put("passesdecisives", nouvelleStat.getPassesDecisives());
         hashMap.put("cartonsjaunes", nouvelleStat.getCartonsJaunes());
@@ -245,9 +262,8 @@ addStatsButton.addActionListener(new ActionListener() {
         hashMap.put("notedumatch", nouvelleStat.getNoteDuMatch());
         hashMap.put("minutesjouees", nouvelleStat.getMinutesJouees());
         MainInsertClient.updateRequestStats(nouvelleStat, hashMap, "UPDATE_STATS");
-        // Ajoute les informations saisies dans les tableaux correspondants
-        System.out.println("iefjifjeije + "+ tableauMeilleursButeurs.getSelectedRow());
 
+        // Ajoute les informations saisies dans les tableaux correspondants
         removeRow(modeleButeurs, joueurSelectionne);
         removeRow(modelePasseurs, joueurSelectionne);
         removeRow(tablecartonsjaunes, joueurSelectionne);

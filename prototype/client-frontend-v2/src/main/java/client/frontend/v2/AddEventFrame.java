@@ -180,9 +180,8 @@ public class AddEventFrame extends JDialog {
                         int res = MainInsertClient.sendRequest(g, "INSERT_MATCH");
                         if (res != -1) {
                             g.setId(res);
-                            Mastermind.addGame(g);
-                            FootballFormationFrame.games.add(g);
-                            FootballFormationFrame.refreshMatch();
+                            //FootballFormationFrame.games.add(g);
+                            //FootballFormationFrame.refreshMatch();
                         }
                     }
                     JOptionPane.showMessageDialog(null, "Evènement créé avec succès !", "Validation", JOptionPane.INFORMATION_MESSAGE);   
