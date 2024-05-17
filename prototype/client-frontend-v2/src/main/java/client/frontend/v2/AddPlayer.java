@@ -86,7 +86,6 @@ public class AddPlayer extends JDialog {
     nomLabel = new JLabel("Nom :");
     panNom.add(nomLabel);
     panNom.add(nom);
-    
 
 
     //Le prenom 
