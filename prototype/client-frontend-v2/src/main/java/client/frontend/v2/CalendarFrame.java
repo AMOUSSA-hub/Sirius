@@ -54,12 +54,12 @@ public class CalendarFrame extends JPanel {
 
     
 
-    labelDate.addActionListener(e -> {
-        String date = new DatePick(this).Set_Picked_Date();
-        if (!date.equals("")) {
-            labelDate.setText(date);
-        }
-    });
+    // labelDate.addActionListener(e -> {
+    //     String date = new DatePick(this).Set_Picked_Date();
+    //     if (!date.equals("")) {
+    //         labelDate.setText(date);
+    //     }
+    // });
 
 
     addEventButton.addActionListener(e -> new AddEventFrame(fen,gte));
@@ -106,7 +106,7 @@ gbc.fill = GridBagConstraints.BOTH;
 gbc.anchor = GridBagConstraints.CENTER;
 gbc.weightx = 1.0;
 gbc.weighty = 1.0;
-gbc.insets = new Insets(1, 1, 100, 1);
+gbc.insets = new Insets(1, 1, 50, 1);
 this.add(jp,gbc);
 
 

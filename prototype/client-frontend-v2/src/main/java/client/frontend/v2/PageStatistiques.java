@@ -36,8 +36,7 @@ public class PageStatistiques extends JPanel {
         idMatchSelectionneGlobal = 0; // Initialisation de l'ID du match sélectionné à 0
 
         try {
-            stats = msc.getAllStats();
-            FootballFormationFrame.stats = stats;
+            stats = Mastermind.getStatsSet();
             for (Stat s : stats) {
                 joueursAvecStatistiques.add((int) s.getIdJoueurs());
                 System.out.println(s.toString());

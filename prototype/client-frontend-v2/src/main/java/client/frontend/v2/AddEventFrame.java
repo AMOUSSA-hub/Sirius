@@ -209,11 +209,10 @@ public class AddEventFrame extends JDialog {
     public AddEventFrame(JFrame fen, GridTeamEvent gte,TeamEvent te){
         super(fen,"Modifier un évènement",true);
 
-    Game related_game = new Game();
     
         JPanel bodyPanel = new JPanel();
 
-        bodyPanel.setLayout(new GridLayout(5,1));
+        bodyPanel.setLayout(new GridLayout(4,1));
 
             //Label évènement
         JPanel labelFillPan = createFillAttributs("label");
@@ -233,47 +232,7 @@ public class AddEventFrame extends JDialog {
          typeEventList.setPreferredSize(new Dimension(200, 25));
          TypeFillPan.add(typeEventList);
          bodyPanel.add(TypeFillPan);
-        System.out.println("type d'évènement :" + te.getId());
-         if( te.getType().equals(TeamEvent.Type.GAME.type) ||te.getType().equals(TeamEvent.Type.FRIENDY_GAME.type)){
-            System.out.println(Mastermind.getGamesSet().size());
-            for (Game g :Mastermind.getGamesSet()) {
-//System.out.println("E: "+ g.getId_evenement()); 
-                // if(g.getId_evenement() == te.getId()){
-                //     related_game = g;
-                // }
-                
-            }
-            
-            
-            //Panneau informations matchs
-            JPanel MatchFillPan = createFillAttributs("Informations Match");
-                    //Adversaire
-                    JPanel opponentNameFillPan = createFillAttributs("Adversaire");
-                    JTextField opponentNameFill = new JTextField();
-                    opponentNameFill.setText(related_game.getOpponent());       
-                    opponentNameFill.setPreferredSize(new Dimension(200, 25));
-                    opponentNameFillPan.add(opponentNameFill);
-                    MatchFillPan.add(opponentNameFillPan);
-                    
-                    //Stade
-                    JPanel arenaFillPan = createFillAttributs("Stade");
-                    JTextField arenaFill = new JTextField();
-                    arenaFill.setText(related_game.getArena());        
-                    arenaFill.setPreferredSize(new Dimension(200, 25));
-                    arenaFillPan.add(arenaFill);
-                    MatchFillPan.add(arenaFillPan);
-
-                    //Competition
-                    JPanel championshipFillFillPan = createFillAttributs("Competition");
-                    JTextField championshipFill = new JTextField();
-                    championshipFill.setText(related_game.getChampionship());        
-                    championshipFill.setPreferredSize(new Dimension(200, 25));
-                    championshipFillFillPan.add(championshipFill);
-                    MatchFillPan.add(championshipFillFillPan);
-                    
-                    bodyPanel.add(MatchFillPan);
-        }
-
+        
 
          //Date Début évènement
          JPanel startingDateFillPan = createFillAttributs("Date DEBUT");

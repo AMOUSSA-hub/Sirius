@@ -44,7 +44,13 @@ public class CaseEvent  extends JPanel {
         JLabel titleEvent = new JLabel(event.getLabel().toUpperCase(),SwingConstants.CENTER);
         JLabel dateEvent = new JLabel("<html><center>du <br> "+dateFormatter.format(event.getDateDebut(),new StringBuffer(),new FieldPosition(null))+" <br> au <br>"+dateFormatter.format(event.getDateFin(),new StringBuffer(),new FieldPosition(null))+"<center><html>",SwingConstants.CENTER);
         dateEvent.setHorizontalAlignment(SwingConstants.CENTER);
-        JLabel typeEvent = new JLabel(event.getType(),SwingConstants.CENTER);
+
+        JLabel typeEvent= null; 
+
+        if(event.getType().equals(TeamEvent.Type.FRIENDY_GAME.type)){ typeEvent = new JLabel("MATCH AMICAL",SwingConstants.CENTER);}
+        if(event.getType().equals(TeamEvent.Type.GAME.type)){ typeEvent = new JLabel("MATCH",SwingConstants.CENTER);}
+        if(event.getType().equals(TeamEvent.Type.TRAINING.type)){ typeEvent = new JLabel("ENTRAINEMENT",SwingConstants.CENTER);}
+
 
         JButton editButton = new JButton("modifier");
         JButton deleteButton = new JButton("supprimer");

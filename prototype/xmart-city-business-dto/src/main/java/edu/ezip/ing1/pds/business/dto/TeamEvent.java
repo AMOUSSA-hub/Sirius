@@ -58,6 +58,7 @@ public class TeamEvent extends Data {
         this.type = type;
         this.date_debut = date_debut;
         this.date_fin = date_fin;
+        System.out.println("DATE DEBUT "+date_debut.toString());
     }
 
 
