@@ -11,13 +11,11 @@ public class SelectClientTest {
     @Test
     public void selectPlayerTest() {
         try {
-            // Appel de la méthode à tester
             List<List<Object>> playersInformation = MainSelectClient.selectAllPlayers();
             
             assertNotNull(playersInformation, "La liste des joueurs ne doit pas être null");
             assertFalse(playersInformation.isEmpty(), "La liste des joueurs ne doit pas être vide");
             
-            // Vérification des propriétés du premier joueur dans la liste
             List<Object> firstPlayer = playersInformation.get(0);
             assertNotNull(firstPlayer, "Le premier joueur ne doit pas être null");
             assertEquals("Louis", firstPlayer.get(0), "Le prénom du joueur doit être 'John'");

@@ -14,14 +14,12 @@ public class GetAllEventsTest {
     @Test
     public void testGetAllEvents() {
         try {
-            // Appel de la méthode à tester
             MainSelectClient selectClient = new MainSelectClient();
             Set<TeamEvent> events = selectClient.getAllEvents();
             
             assertNotNull(events, "La liste des événements ne doit pas être null");
             assertFalse(events.isEmpty(), "La liste des événements ne doit pas être vide");
             
-            // Vous pouvez ajouter d'autres assertions pour tester les propriétés des événements si nécessaire
         } catch (IOException | InterruptedException | SQLException e) {
             fail("Une exception s'est produite : " + e.getMessage());
         }
