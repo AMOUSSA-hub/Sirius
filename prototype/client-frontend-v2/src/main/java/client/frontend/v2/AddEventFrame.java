@@ -7,7 +7,7 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
+import java.sql.Timestamp;
 import java.util.HashMap;
 
 import javax.sound.midi.Soundbank;
@@ -22,6 +22,7 @@ import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerDateModel;
+
 
 import java.text.ParseException;
 
@@ -136,8 +137,8 @@ public class AddEventFrame extends JDialog {
 
             submit.addActionListener( e->{
 
-                Date startingDate = (java.util.Date)startingDateSpinner.getValue();
-                Date endingDate = (java.util.Date)endingDateSpinner.getValue();
+                Timestamp startingDate = new Timestamp(((java.util.Date)startingDateSpinner.getValue()).getTime()); 
+                Timestamp endingDate = new Timestamp(((java.util.Date)endingDateSpinner.getValue()).getTime()); 
                 String label = labelEventFill.getText();
 
 
@@ -266,8 +267,8 @@ public class AddEventFrame extends JDialog {
 
             submit.addActionListener( e->{
 
-                Date startingDate = (java.util.Date)startingDateSpinner.getValue();
-                Date endingDate = (java.util.Date)endingDateSpinner.getValue();
+                Timestamp startingDate = new Timestamp(((java.util.Date)startingDateSpinner.getValue()).getTime()); 
+                Timestamp endingDate = new Timestamp(((java.util.Date)endingDateSpinner.getValue()).getTime()); 
                 String label = labelEventFill.getText();
 
 

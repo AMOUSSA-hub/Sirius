@@ -42,7 +42,6 @@ public class GridTeamEvent extends JPanel {
             }
         });
         sortedSet.addAll(list);
-        System.out.println("AVENEMENT: "+sortedSet);
         for (TeamEvent teamEvent : list) {
             this.addCaseEvent(teamEvent);
          }

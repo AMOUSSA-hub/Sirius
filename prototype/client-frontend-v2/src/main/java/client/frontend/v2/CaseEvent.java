@@ -7,6 +7,7 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridLayout;
+import java.sql.Timestamp;
 import java.text.DateFormatSymbols;
 import java.text.FieldPosition;
 import java.text.SimpleDateFormat;
@@ -25,7 +26,7 @@ public class CaseEvent  extends JPanel {
         this.setBackground(Color.WHITE);
         setLayout(new BorderLayout());
 
-        SimpleDateFormat dateFormatter = new SimpleDateFormat("EEEE dd MMMM 'à' HH'h'mm", new DateFormatSymbols() {
+        SimpleDateFormat dateFormatter = new SimpleDateFormat("EEEE dd MMMM YYYY 'à' HH'h'mm", new DateFormatSymbols() {
             @Override
             public String[] getWeekdays() {
                 return new String[]{"", "Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"};
@@ -42,7 +43,7 @@ public class CaseEvent  extends JPanel {
         
 
         JLabel titleEvent = new JLabel(event.getLabel().toUpperCase(),SwingConstants.CENTER);
-        JLabel dateEvent = new JLabel("<html><center>du <br> "+dateFormatter.format(event.getDateDebut(),new StringBuffer(),new FieldPosition(null))+" <br> au <br>"+dateFormatter.format(event.getDateFin(),new StringBuffer(),new FieldPosition(null))+"<center><html>",SwingConstants.CENTER);
+        JLabel dateEvent = new JLabel("<html><center>du <br> "+dateFormatter.format(event.getDateDebut().getTime() ,new StringBuffer(),new FieldPosition(null))+" <br> au <br>"+dateFormatter.format(new Timestamp(event.getDateFin().getTime()),new StringBuffer(),new FieldPosition(null))+"<center><html>",SwingConstants.CENTER);
         dateEvent.setHorizontalAlignment(SwingConstants.CENTER);
 
         JLabel typeEvent= null; 
@@ -77,14 +78,15 @@ public class CaseEvent  extends JPanel {
            if(MainInsertClient.deleteRequest(event, "DELETE_EVENT") == 1){
             Mastermind.removeEvent(event);
                 ((GridTeamEvent)this.getParent()).removeCaseEvent(this);
+                JOptionPane.showMessageDialog(null, "L'évènement a bien été supprimé", "Supression réussi", JOptionPane.INFORMATION_MESSAGE);
+
            }
 
            else{
             JOptionPane.showMessageDialog(null, "Erreur du côté du serveur !", "Erreur", JOptionPane.ERROR_MESSAGE);
            }
 
-           JOptionPane.showMessageDialog(null, "Erreur du côté du serveur !", "Erreur", JOptionPane.INFORMATION_MESSAGE);
-
+          
         }
         });
 

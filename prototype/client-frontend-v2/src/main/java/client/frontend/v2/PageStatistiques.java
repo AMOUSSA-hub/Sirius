@@ -14,12 +14,12 @@ import edu.ezip.ing1.pds.business.dto.*;
 
 public class PageStatistiques extends JPanel {
 
-    private DefaultTableModel modeleButeurs;
-    private DefaultTableModel modelePasseurs;
-    private DefaultTableModel tablecartonsjaunes;
-    private DefaultTableModel tablecartonsrouges;
-    private DefaultTableModel tablenote;
-    private DefaultTableModel tablemin;
+    private StatsTableModel modeleButeurs;
+    private StatsTableModel modelePasseurs;
+    private StatsTableModel tablecartonsjaunes;
+    private StatsTableModel tablecartonsrouges;
+    private StatsTableModel tablenote;
+    private StatsTableModel tablemin;
     private HashMap<Integer, Player> playerHashMap;
     private HashMap<Integer, Game> matchHashMap;
     private PageStatistiquesEquipe pageStatistiquesEquipe;
@@ -52,7 +52,7 @@ public class PageStatistiques extends JPanel {
 
         JPanel panneauMeilleursButeurs = new JPanel(new BorderLayout());
         panneauMeilleursButeurs.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        modeleButeurs = new DefaultTableModel(new Object[]{"Joueur", "Buts"}, 0);
+        modeleButeurs = new StatsTableModel(new Object[]{"Joueur", "Buts"}, 0);
         JTable tableauMeilleursButeurs = new JTable(modeleButeurs);
         JScrollPane defilementMeilleursButeurs = new JScrollPane(tableauMeilleursButeurs);
         panneauMeilleursButeurs.add(defilementMeilleursButeurs, BorderLayout.CENTER);
@@ -60,7 +60,7 @@ public class PageStatistiques extends JPanel {
 
         JPanel panneauMeilleursPasseurs = new JPanel(new BorderLayout());
         panneauMeilleursPasseurs.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        modelePasseurs = new DefaultTableModel(new Object[]{"Joueur", "Passes decisives"}, 0);
+        modelePasseurs = new StatsTableModel(new Object[]{"Joueur", "Passes decisives"}, 0);
         JTable tableauMeilleursPasseurs = new JTable(modelePasseurs);
         JScrollPane defilementMeilleursPasseurs = new JScrollPane(tableauMeilleursPasseurs);
         panneauMeilleursPasseurs.add(defilementMeilleursPasseurs, BorderLayout.CENTER);
@@ -68,7 +68,7 @@ public class PageStatistiques extends JPanel {
 
         JPanel panelcartonsjaunes = new JPanel(new BorderLayout());
         panelcartonsjaunes.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        tablecartonsjaunes = new DefaultTableModel(new Object[]{"Joueur", "Cartons jaunes"}, 0);
+        tablecartonsjaunes = new StatsTableModel(new Object[]{"Joueur", "Cartons jaunes"}, 0);
         JTable tableaucartonsjaunes = new JTable(tablecartonsjaunes);
         JScrollPane defilementcartonsjaunes = new JScrollPane(tableaucartonsjaunes);
         panelcartonsjaunes.add(defilementcartonsjaunes, BorderLayout.CENTER);
@@ -76,7 +76,7 @@ public class PageStatistiques extends JPanel {
 
         JPanel panelcartonsrouges = new JPanel(new BorderLayout());
         panelcartonsrouges.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        tablecartonsrouges = new DefaultTableModel(new Object[]{"Joueur", "Cartons rouges"}, 0);
+        tablecartonsrouges = new StatsTableModel(new Object[]{"Joueur", "Cartons rouges"}, 0);
         JTable tableaucartonsrouges = new JTable(tablecartonsrouges);
         JScrollPane defilementcartonsrouge = new JScrollPane(tableaucartonsrouges);
         panelcartonsrouges.add(defilementcartonsrouge, BorderLayout.CENTER);
@@ -84,7 +84,7 @@ public class PageStatistiques extends JPanel {
 
         JPanel panelnote = new JPanel(new BorderLayout());
         panelnote.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        tablenote = new DefaultTableModel(new Object[]{"Joueur", "Note"}, 0);
+        tablenote = new StatsTableModel(new Object[]{"Joueur", "Note"}, 0);
         JTable tableaunote = new JTable(tablenote);
         JScrollPane defilementnote = new JScrollPane(tableaunote);
         panelnote.add(defilementnote, BorderLayout.CENTER);
@@ -92,7 +92,7 @@ public class PageStatistiques extends JPanel {
 
         JPanel panelmin = new JPanel(new BorderLayout());
         panelmin.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        tablemin = new DefaultTableModel(new Object[]{"Joueur", "Minutes jouées"}, 0);
+        tablemin = new StatsTableModel(new Object[]{"Joueur", "Minutes jouées"}, 0);
         JTable tableaumin = new JTable(tablemin);
         JScrollPane defilementmin = new JScrollPane(tableaumin);
         panelmin.add(defilementmin, BorderLayout.CENTER);

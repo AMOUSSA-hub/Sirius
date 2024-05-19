@@ -3,7 +3,7 @@ package edu.ezip.ing1.pds.business.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonRootName;
 
-import java.util.Date;
+import java.sql.Timestamp;
 import java.util.HashMap;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,7 +13,7 @@ import java.lang.reflect.Field;
 @JsonRootName(value = "event")
 public class TeamEvent extends Data {
     private String label,type;
-    Date date_debut, date_fin;
+    Timestamp date_debut, date_fin;
 
 
     public enum Type {
@@ -52,7 +52,7 @@ public class TeamEvent extends Data {
 
     public TeamEvent(){}
     
-    public TeamEvent(int id,String label,String type, Date date_debut,Date date_fin ){
+    public TeamEvent(int id,String label,String type, Timestamp date_debut,Timestamp date_fin ){
         this.id  = id;
         this.label = label;
         this.type = type;
@@ -94,12 +94,12 @@ public class TeamEvent extends Data {
     }
 
     @JsonProperty("date_debut")
-    public void setDateDebut(Date date_debut) {
+    public void setDateDebut(Timestamp date_debut) {
         this.date_debut = date_debut;
     }
 
     @JsonProperty("date_fin")
-    public void setDateFin(Date date_fin) {
+    public void setDateFin(Timestamp date_fin) {
         this.date_fin = date_fin;
     }
 
@@ -116,11 +116,11 @@ public class TeamEvent extends Data {
         return type;
     }
     
-    public Date getDateDebut() {
+    public Timestamp getDateDebut() {
         return date_debut;
     }
     
-    public Date getDateFin() {
+    public Timestamp getDateFin() {
         return date_fin;
     }
 
