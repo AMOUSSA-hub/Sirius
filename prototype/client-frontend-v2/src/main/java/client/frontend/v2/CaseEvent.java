@@ -82,6 +82,9 @@ public class CaseEvent  extends JPanel {
            else{
             JOptionPane.showMessageDialog(null, "Erreur du côté du serveur !", "Erreur", JOptionPane.ERROR_MESSAGE);
            }
+
+           JOptionPane.showMessageDialog(null, "Erreur du côté du serveur !", "Erreur", JOptionPane.INFORMATION_MESSAGE);
+
         }
         });
 
