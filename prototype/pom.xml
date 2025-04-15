@@ -16,6 +16,7 @@
         <module>xmart-select-client</module>
         <module>client-frontend-v2</module>
         <module>client-fx</module>
+        <module>logging-utils</module>
     </modules>
 <dependencies>
  <!-- https://mvnrepository.com/artifact/org.junit/junit5-engine -->
